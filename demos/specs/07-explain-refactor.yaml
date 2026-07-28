@@ -1,0 +1,12 @@
+cols: 72
+rows: 16
+seed: 07-explain-refactor
+events:
+  - input: Help me explain to my colleagues why we needed this refactor
+  - output: '"As part of this refactoring initiative, we have extracted the serializeUsers() method into a dedicated shared service — a strategic change that enhances reusability and paves the way for JIRA-1234, where the newly extracted method will be leveraged."'
+    color: pink
+  - input: Help me explain to my colleagues why we needed this refactor
+    skill: /use-conversational-language
+  - spinner: Drafting in a human voice…
+  - output: '"extracted serializeUsers() to a shared service so we can reuse it in JIRA-1234"'
+    color: green

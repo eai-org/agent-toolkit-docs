@@ -1,0 +1,48 @@
+---
+import DemoPlayer from '../DemoPlayer.astro';
+const clone = 'git clone https://github.com/eai-org/agent-toolkit.git && cd agent-toolkit && ./install.sh';
+---
+<section class="text-center px-6 pt-14 pb-16">
+  <div class="mb-8">
+    <DemoPlayer cast="01-hero-voice" cols={72} rows={15}
+      label="use-conversational-language turning a stiff AI reply into a human one" />
+  </div>
+  <h1 class="font-mono text-4xl font-extrabold">
+    agent-toolkit<span class="cursor" aria-hidden="true"></span>
+  </h1>
+  <p class="text-muted max-w-[520px] mx-auto mt-3 mb-4">
+    Minimalistic skills and rules for AI coding agents that assist your daily work in any
+    software engineering project
+  </p>
+  <div class="flex justify-center gap-2 mb-6 font-mono text-[12px] font-bold">
+    <span class="chip text-green">Project-agnostic</span>
+    <span class="chip text-blue">Works with any agent</span>
+    <span class="chip text-orange">MIT</span>
+  </div>
+  <div id="install" class="bg-panel border border-border rounded-card max-w-[600px] mx-auto px-4 py-2.5 text-left font-mono text-[13px]">
+    <div class="flex justify-between items-center">
+      <span class="text-muted"># install with one command</span>
+      <button class="copy-btn text-muted border border-border rounded px-1.5 text-[11px]" data-copy={clone}>copy</button>
+    </div>
+    <div class="text-green overflow-x-auto whitespace-nowrap">{clone}</div>
+  </div>
+  <a class="more-link inline-block mt-3" href="https://github.com/eai-org/agent-toolkit#how-to-install-the-skills">
+    Other ways to install &rarr;
+  </a>
+  <p class="mt-5 text-[15px]">
+    <span class="text-orange" aria-hidden="true">★</span>
+    This toolkit is entirely open source and free to use.
+    <a class="text-blue underline" href="https://github.com/eai-org/agent-toolkit">Give us a star on GitHub</a>
+    to support us.
+  </p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy-btn').forEach((btn) =>
+    btn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(btn.dataset.copy!);
+      btn.textContent = 'copied';
+      setTimeout(() => (btn.textContent = 'copy'), 1500);
+    }),
+  );
+</script>

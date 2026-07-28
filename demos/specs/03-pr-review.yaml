@@ -1,0 +1,18 @@
+cols: 72
+rows: 18
+seed: 03-pr-review
+events:
+  - input: https://github.com/project/repo/pull/1234
+    skill: /fetch-pr-review
+  - spinner: Fetching comments…
+  - output: Saved to 1234-users.PR-REVIEW.md
+  - input: /clear
+  - input: 1234-users.PR-REVIEW.md
+    skill: /refine-pr-review
+  - spinner: Reading 12 comments…
+  - output: 'Comment 3/12: "serializeUsers should live in the service layer"'
+  - options:
+      - text: address
+        recommended: true
+      - text: address partially
+      - text: push back

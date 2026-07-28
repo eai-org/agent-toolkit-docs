@@ -1,0 +1,13 @@
+cols: 72
+rows: 10
+seed: 04-fresh-eyes
+events:
+  - input: ''
+    skill: /fresh-eyes-review
+  - spinner: Spawning one subagent to review the changes with a clean context…
+  - output: 'The subagent returned with 3 new findings: 1 major and 2 minor'
+  - options:
+      - text: Address all of them
+        recommended: true
+      - text: Address only the major issue
+      - text: Chat about this

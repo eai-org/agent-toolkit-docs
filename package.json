@@ -1,0 +1,29 @@
+{
+  "name": "agent-toolkit-docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "demos": "tsx scripts/compile-demos.ts",
+    "llms": "tsx scripts/generate-llms.ts",
+    "card": "tsx scripts/generate-card.ts",
+    "prebuild": "npm run demos && npm run llms && npm run card",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^5.18.2",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "asciinema-player": "^3.17.0",
+    "tsx": "^4.23.1",
+    "vitest": "^3.2.7",
+    "yaml": "^2.9.0"
+  }
+}

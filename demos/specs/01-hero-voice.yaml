@@ -1,0 +1,13 @@
+cols: 72
+rows: 15
+seed: 01-hero-voice
+events:
+  - input: Draft an answer for my colleague
+  - output: '"Thank you for this valuable feedback! You are absolutely right about the code duplication. I have carefully refactored the implementation by extracting the shared logic into a dedicated helper method, ensuring improved maintainability and adherence to the DRY principle."'
+    color: pink
+  - input: Draft an answer for my colleague
+    skill: /use-conversational-language
+  - spinner: Drafting in a human voice…
+    duration: 1.6
+  - output: '"good catch, I extracted the duplicate code to a shared method"'
+    color: green

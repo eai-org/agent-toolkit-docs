@@ -1,0 +1,18 @@
+cols: 72
+rows: 17
+seed: 06-self-improve
+events:
+  - input: Some of the methods you generated are not called outside the service, change them to private
+  - output: Done, buildHeader() and formatRow() are now private
+  - input: ''
+    skill: /self-improve
+  - spinner: Capturing the lesson…
+  - output: 'Suggested addition to docs/coding-standards.md:'
+  - output: + Keep helper methods private unless they are used outside the class.
+    diff: true
+  - options:
+      - text: Apply the diff
+        recommended: true
+      - text: Edit it first
+      - text: Choose another location
+      - text: Chat about this

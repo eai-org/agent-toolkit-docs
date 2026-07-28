@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0D1117"/>
+  <text x="565" y="310" text-anchor="middle" font-family="ui-monospace, Menlo, DejaVu Sans Mono, monospace" font-size="90" font-weight="bold" fill="#E6EDF3">agent-toolkit</text>
+  <rect x="935" y="235" width="30" height="86" fill="#3FB950"/>
+  <text x="600" y="408" text-anchor="middle" font-family="ui-monospace, Menlo, DejaVu Sans Mono, monospace" font-size="32" fill="#8B949E">Minimalistic skills and rules for AI coding agents that</text>
+  <text x="600" y="456" text-anchor="middle" font-family="ui-monospace, Menlo, DejaVu Sans Mono, monospace" font-size="32" fill="#8B949E">assist your daily work in any software engineering project</text>
+</svg>

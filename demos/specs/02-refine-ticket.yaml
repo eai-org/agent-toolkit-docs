@@ -1,0 +1,12 @@
+cols: 72
+rows: 9
+seed: 02-refine-ticket
+events:
+  - input: 1234-users.TICKET.md
+    skill: /refine-ticket
+  - spinner: Reading the ticket and the code…
+  - output: Should deleted users stay in the export?
+  - options:
+      - text: exclude them
+        recommended: true
+      - text: include, flagged

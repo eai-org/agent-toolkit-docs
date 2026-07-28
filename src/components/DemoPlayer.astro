@@ -1,0 +1,61 @@
+---
+import TerminalWindow from './TerminalWindow.astro';
+interface Props { cast: string; cols: number; rows: number; label: string }
+const { cast, cols, rows, label } = Astro.props;
+const src = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/demos/${cast}.cast`;
+// pre-mount placeholder matching the player's rendered box, so mounting causes no layout shift
+const ratio = (cols / rows / 2.564).toFixed(3);
+---
+<TerminalWindow class="max-w-demo mx-auto">
+  <div class="demo font-mono text-[13px]" style={`aspect-ratio: ${ratio}`} data-cast={src}
+    data-cols={cols} data-rows={rows} role="img" aria-label={label}></div>
+</TerminalWindow>
+
+<script>
+  import type { Player } from 'asciinema-player';
+  import 'asciinema-player/dist/bundle/asciinema-player.css';
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const players = new WeakMap<HTMLElement, Player>();
+
+  const mountObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        mountObserver.unobserve(entry.target);
+        void mount(entry.target as HTMLElement);
+      }
+    },
+    { rootMargin: '200px' },
+  );
+
+  // a demo runs only while it sits in the middle band of the viewport, so it starts where the
+  // visitor can see it and offscreen players stop burning frames
+  const playObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        const player = players.get(entry.target as HTMLElement);
+        void (entry.isIntersecting ? player?.play() : player?.pause());
+      }
+    },
+    { rootMargin: '-15% 0px -15% 0px' },
+  );
+
+  async function mount(el: HTMLElement) {
+    const { create } = await import('asciinema-player');
+    const player = create(el.dataset.cast!, el, {
+      cols: Number(el.dataset.cols),
+      rows: Number(el.dataset.rows),
+      poster: 'npt:0:0.5',
+      fit: 'width',
+      loop: !reduced,
+      terminalFontFamily: 'ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace',
+      theme: 'agent-toolkit',
+    });
+    el.style.aspectRatio = '';
+    if (reduced) return;
+    players.set(el, player);
+    playObserver.observe(el);
+  }
+  document.querySelectorAll<HTMLElement>('.demo').forEach((el) => mountObserver.observe(el));
+</script>

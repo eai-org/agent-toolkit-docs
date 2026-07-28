@@ -1,0 +1,13 @@
+cols: 72
+rows: 11
+seed: 05-context-checkup
+events:
+  - input: ''
+    skill: /context-checkup
+  - spinner: Measuring what auto-loads…
+  - output: '18.4k tokens at startup. Top cost: the unused "jira" MCP server (6.2k)'
+  - options:
+      - text: Disable it in this project
+        recommended: true
+      - text: Keep it
+      - text: Show the full report

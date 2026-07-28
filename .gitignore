@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+public/demos/
+public/llms.txt
+public/social-card.png
+*.DS_STORE

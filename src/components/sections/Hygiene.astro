@@ -1,0 +1,11 @@
+---
+import Section from '../Section.astro';
+import DemoPlayer from '../DemoPlayer.astro';
+---
+<Section kicker="Context & memory hygiene" color="blue" heading="Your context is often cluttered before you even type">
+  <ul class="bullets mb-4">
+    <li><b class="sk">context-checkup</b> <span class="text-muted">audits everything that auto-loads at startup (governing docs, skills, MCP servers), measures the token cost and proposes lean, reversible trims</span></li>
+    <li><b class="sk">memory-doctor</b> <span class="text-muted">drains the agent's auto-memory block by block, relocating each entry to a home you control or archiving it. You confirm every action</span></li>
+  </ul>
+  <DemoPlayer cast="05-context-checkup" cols={72} rows={11} label="context-checkup proposing a trim" />
+</Section>

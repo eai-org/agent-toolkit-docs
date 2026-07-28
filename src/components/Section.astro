@@ -1,0 +1,21 @@
+---
+interface Props {
+  kicker: string;
+  color: 'green' | 'blue' | 'orange' | 'purple' | 'pink';
+  heading?: string;
+  center?: boolean;
+  id?: string;
+}
+const { kicker, color, heading, center = false, id } = Astro.props;
+const kickerColor = {
+  green: 'text-green', blue: 'text-blue', orange: 'text-orange',
+  purple: 'text-purple', pink: 'text-pink',
+}[color];
+---
+<section id={id} class:list={['border-t border-border py-14 px-6', center && 'text-center']}>
+  <div class="max-w-page mx-auto">
+    <div class:list={['kicker', kickerColor]}>{kicker}</div>
+    {heading && <h2 class="text-2xl font-bold mb-3">{heading}</h2>}
+    <slot />
+  </div>
+</section>

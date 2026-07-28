@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>agent-toolkit</title>
+<meta name="description" content="Minimalistic, project agnostic skills and rules for AI coding agents.">
+<!--
+  REFERENCE DOCUMENT FOR SITE GENERATION
+  This file is a faithful HTML conversion of the conference deck for agent-toolkit.
+  It carries two things: (1) the design tokens and components of the visual identity
+  (GitHub dark, terminal green, monospace accents) and (2) the full content, one
+  <section> per slide. Use it as the single source of truth for both style and copy
+  when generating the real website. Image files referenced below ship alongside:
+    screenshot-repo.png  (GitHub repo header)
+    screenshot-ucl.png   (use-conversational-language + self-improve session)
+-->
+<style>
+  :root {
+    /* design tokens, mirror of the deck palette */
+    --bg: #0D1117;        /* page background */
+    --panel: #161B22;     /* cards, terminals, quote bars */
+    --panel-2: #1C2128;   /* chips */
+    --border: #30363D;    /* all hairline borders */
+    --text: #E6EDF3;      /* primary text */
+    --muted: #8B949E;     /* secondary text */
+    --green: #3FB950;     /* primary accent: skills, success, CTAs */
+    --blue: #58A6FF;      /* hygiene block, links */
+    --orange: #D29922;    /* review block */
+    --purple: #BC8CFF;    /* authoring block */
+    --pink: #F97583;      /* rules block, warnings */
+    --mono: "Courier New", ui-monospace, monospace;
+    --sans: Arial, Helvetica, sans-serif;
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.55;
+  }
+  main { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  .kicker {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: var(--green);
+    margin: 0 0 8px;
+  }
+  h1, h2 { margin: 0 0 20px; font-weight: bold; }
+  h1 { font-family: var(--mono); font-size: 56px; }
+  h2 { font-size: 32px; }
+  ul { margin: 0; padding-left: 22px; }
+  li { margin: 8px 0; }
+  li b { color: var(--text); }
+  li span.detail { color: var(--muted); }
+  a { color: var(--blue); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+  /* components */
+  .chip {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--green);
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+    margin: 4px 6px 4px 0;
+  }
+  .chip.blue { color: var(--blue); }
+  .chip.pink { color: var(--pink); }
+  .chip.orange { color: var(--orange); }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+  }
+  .quote {
+    margin: 24px 0 0;
+    font-style: italic;
+    color: var(--green);
+  }
+  .quote.blue { color: var(--blue); }
+  .quote.purple { color: var(--purple); }
+  .quote.orange { color: var(--orange); }
+  .terminal {
+    font-family: var(--mono);
+    font-size: 14px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin: 12px 0;
+  }
+  .terminal .comment { color: var(--muted); }
+  .terminal .cmd { color: var(--green); }
+  .terminal .cmd.blue { color: var(--blue); }
+  .terminal .cmd.purple { color: var(--purple); }
+  .dots { margin-bottom: 10px; }
+  .dots i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 6px; }
+  .dots i:nth-child(1) { background: var(--pink); }
+  .dots i:nth-child(2) { background: var(--orange); }
+  .dots i:nth-child(3) { background: var(--green); }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 700px) { .cols { grid-template-columns: 1fr; } h1 { font-size: 38px; } }
+  .flow {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+    font-family: var(--mono); font-size: 14px; margin: 20px 0;
+  }
+  .flow .stage {
+    border: 1.5px solid var(--green); border-radius: var(--radius);
+    padding: 12px 18px; text-align: center; background: var(--panel);
+  }
+  .flow .stage.plan { border-color: var(--blue); }
+  .flow .stage.act { border-color: var(--orange); }
+  .flow .stage b { display: block; font-size: 17px; }
+  .flow .file { color: var(--muted); font-size: 12px; }
+  .flow .arrow { color: var(--muted); font-size: 20px; }
+  img.shot { max-width: 100%; border: 1px solid var(--border); border-radius: var(--radius); }
+  figure { margin: 20px 0; }
+  figcaption { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 8px; }
+  table { border-collapse: collapse; width: 100%; }
+  td { padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  td.rule { font-family: var(--mono); font-weight: bold; color: var(--pink); white-space: nowrap; }
+  footer { text-align: center; padding: 40px 0; color: var(--muted); font-family: var(--mono); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+
+  <!-- Slide 1: title / hero -->
+  <section id="hero" style="text-align:center;">
+    <div class="terminal" style="max-width:560px; margin:0 auto 36px; text-align:left;">
+      <div class="dots"><i></i><i></i><i></i></div>
+      <div><span class="comment">$ </span><span class="cmd">/refine-ticket</span> 1234-users-overview.TICKET.md</div>
+      <div><span class="comment">&gt; </span><span class="cmd blue">never guess, ask</span> <span class="cmd">_</span></div>
+    </div>
+    <h1>agent-toolkit</h1>
+    <p style="color:var(--muted); font-size:19px;">Minimalistic, project agnostic skills and rules for AI coding agents</p>
+    <p>
+      <span class="chip">project agnostic</span>
+      <span class="chip blue">agent agnostic</span>
+      <span class="chip orange">MIT</span>
+    </p>
+    <p><b>Francesco Borzì</b> &nbsp; <a href="https://github.com/eai-org/agent-toolkit">github.com/eai-org/agent-toolkit</a></p>
+  </section>
+
+  <!-- Slide 2: about -->
+  <section id="about">
+    <p class="kicker">$ whoami</p>
+    <h2>Francesco Borzì</h2>
+    <ul>
+      <li><b>Freelance software engineer</b> <span class="detail">based in the Netherlands</span></li>
+      <li><b>Multiple clients, teams and codebases</b> <span class="detail">frontend, backend, E2E, CI</span></li>
+      <li><b>Open source maintainer</b> <span class="detail">AzerothCore and more</span></li>
+      <li><b>Writer at Engineering in the Age of AI</b> <span class="detail"><a href="https://medium.com/engineering-in-the-age-of-ai">medium.com/engineering-in-the-age-of-ai</a></span></li>
+    </ul>
+  </section>
+
+  <!-- Slide 3: problem -->
+  <section id="problem">
+    <p class="kicker" style="color:var(--pink);">The problem</p>
+    <h2>Every project is a different world</h2>
+    <ul>
+      <li><b>Multiple projects</b> <span class="detail">different tech stacks, trackers, conventions</span></li>
+      <li><b>Teams differ in AI adoption</b> <span class="detail">fully agentic, chat only, and every hybrid in between</span></li>
+      <li><b>Project specific setups do not travel</b> <span class="detail">what works in one repo breaks in the next</span></li>
+      <li><b>I need workflows that work anywhere</b> <span class="detail">solo or in any team</span></li>
+    </ul>
+    <p class="quote panel">"I needed a workflow that works just as well solo as it does with any team."</p>
+  </section>
+
+  <!-- Slide 4: the answer -->
+  <section id="answer">
+    <p class="kicker">The answer</p>
+    <h2>agent-toolkit</h2>
+    <div class="cols">
+      <ul>
+        <li><b>Generic skills and rules</b> <span class="detail">small, single purpose, composable</span></li>
+        <li><b>Project agnostic</b> <span class="detail">any codebase, any tracker</span></li>
+        <li><b>Agent agnostic</b> <span class="detail">Claude Code, OpenCode, Copilot, ...</span></li>
+        <li><b>Open source and evolving</b> <span class="detail">MIT, improved every day</span></li>
+      </ul>
+      <figure>
+        <img class="shot" src="screenshot-repo.png" alt="The agent-toolkit repository on GitHub">
+        <figcaption>github.com/eai-org/agent-toolkit</figcaption>
+      </figure>
+    </div>
+    <p>
+      <span class="chip">/fetch-ticket</span><span class="chip">/refine-ticket</span><span class="chip">/self-improve</span><span class="chip">/memory-doctor</span><span class="chip">/context-checkup</span>
+    </p>
+  </section>
+
+  <!-- Slide 5: principles -->
+  <section id="principles">
+    <p class="kicker">Principles</p>
+    <h2>Four ideas behind every skill</h2>
+    <div class="cols">
+      <div class="panel"><b>Keep the context lean</b><br><span class="detail">Stay in the Smart Zone. A full window makes a dumb agent.</span></div>
+      <div class="panel"><b>Offload to files, pick up fresh</b><br><span class="detail">Write results to .md files. A clean session continues the work.</span></div>
+      <div class="panel"><b>Human in the loop</b><br><span class="detail">Never guess, ask. The agent recommends, you decide.</span></div>
+      <div class="panel"><b>Learn from mistakes</b><br><span class="detail">Every correction becomes a durable lesson in a skill or doc.</span></div>
+    </div>
+  </section>
+
+  <!-- Slide 6: context-checkup -->
+  <section id="context-checkup">
+    <p class="kicker" style="color:var(--blue);">Context &amp; memory hygiene</p>
+    <h2>Know what auto loads <span class="chip blue">/context-checkup</span></h2>
+    <ul>
+      <li><b>Audits everything that auto loads at startup</b> <span class="detail">CLAUDE.md chain, skill descriptions, MCP servers</span></li>
+      <li><b>Rough token cost per source</b> <span class="detail">measure, never guess</span></li>
+      <li><b>Lean, reversible trims, ranked by payoff</b> <span class="detail">nothing changes without your approval</span></li>
+    </ul>
+    <p class="quote blue panel">"Your context is often cluttered before you even type."</p>
+  </section>
+
+  <!-- Slide 7: memory-doctor -->
+  <section id="memory-doctor">
+    <p class="kicker" style="color:var(--blue);">Context &amp; memory hygiene</p>
+    <h2>Drain the agent memory <span class="chip" style="color:var(--purple);">/memory-doctor</span></h2>
+    <ul>
+      <li><b>Auto memory piles up unseen</b> <span class="detail">facts you never review, in every session context</span></li>
+      <li><b>Block by block: relocate, archive or keep</b> <span class="detail">you confirm every single action</span></li>
+      <li><b>Promote lessons to homes you control</b> <span class="detail">project docs, skills and rules, shared with the whole team</span></li>
+    </ul>
+    <p class="quote purple panel">"Memory is an inbox, not a filing cabinet. Nothing should stay in it."</p>
+  </section>
+
+  <!-- Slide 8: RPA overview -->
+  <section id="rpa">
+    <p class="kicker">Task workflow</p>
+    <h2>Refine, Plan, Act</h2>
+    <div class="flow">
+      <span class="chip" style="color:var(--muted);">TICKET.md</span>
+      <span class="arrow">&#8594;</span>
+      <span class="stage"><b style="color:var(--green);">Refine</b><i class="detail">the WHAT</i><span class="file">REQUIREMENTS.md</span></span>
+      <span class="arrow">&#8594;</span>
+      <span class="stage plan"><b style="color:var(--blue);">Plan</b><i class="detail">the HOW</i><span class="file">PLAN.md</span></span>
+      <span class="arrow">&#8594;</span>
+      <span class="stage act"><b style="color:var(--orange);">Act</b><i class="detail">the BUILD</i><span class="file">code + checks</span></span>
+    </div>
+    <ul>
+      <li>Each phase runs in a fresh session</li>
+      <li>Each phase produces a reviewable artifact</li>
+      <li>Mistakes get caught before any code is written</li>
+    </ul>
+    <p class="quote panel">"The thinking is saved separately from the code."</p>
+  </section>
+
+  <!-- Slide 9: fetch-ticket -->
+  <section id="fetch-ticket">
+    <p class="kicker">Task workflow &middot; step 0</p>
+    <h2>Every task starts with a ticket <span class="chip">/fetch-ticket</span></h2>
+    <ul>
+      <li><b>Any tracker</b> <span class="detail">Jira, GitHub, Azure DevOps, via the matching MCP</span></li>
+      <li><b>Grabs everything</b> <span class="detail">fields, comments, attachments, Figma design frames</span></li>
+      <li><b>Self contained TICKET.md</b> <span class="detail">saved in the planning directory, e.g. .agents/plans/1234-slug/</span></li>
+      <li><b>Fetch only</b> <span class="detail">no analysis, no planning, read only on the tracker</span></li>
+    </ul>
+    <div class="terminal"><span class="comment">$ </span><span class="cmd">/fetch-ticket</span> https://yourproject.atlassian.net/browse/XX-1234</div>
+  </section>
+
+  <!-- Slide 10: refine-ticket -->
+  <section id="refine-ticket">
+    <p class="kicker">Task workflow &middot; refine</p>
+    <h2>Define the WHAT <span class="chip">/refine-ticket</span></h2>
+    <ul>
+      <li><b>Validates the ticket against the real codebase</b> <span class="detail">stale, ambiguous or contradicted requirements surface here</span></li>
+      <li><b>Grills you, one question at a time</b> <span class="detail">always with a recommended answer</span></li>
+      <li><b>Never guess, ask</b> <span class="detail">code answerable questions go to the code, the rest to you</span></li>
+      <li><b>Output: REQUIREMENTS.md</b> <span class="detail">self contained, ready for a fresh session</span></li>
+    </ul>
+    <p class="quote panel">Talk to it like a colleague: steer, push back, brainstorm.</p>
+  </section>
+
+  <!-- Slide 11: create-implementation-plan -->
+  <section id="plan">
+    <p class="kicker">Task workflow &middot; plan</p>
+    <h2>Define the HOW <span class="chip">/create-implementation-plan</span></h2>
+    <ul>
+      <li><b>Settles the technical decisions</b> <span class="detail">reuse vs build, which API, which tests, file structure</span></li>
+      <li><b>Docs outrank prior art</b> <span class="detail">existing code may predate the rule</span></li>
+      <li><b>Output: a self contained PLAN.md</b> <span class="detail">all the thinking, so the executor re derives nothing</span></li>
+      <li><b>A fresh session executes it</b> <span class="detail">then runs format, lint, test and build</span></li>
+    </ul>
+    <p class="quote panel">Bad output is cheap to throw away when the thinking is preserved.</p>
+  </section>
+
+  <!-- Slide 12: why RPA works -->
+  <section id="why-rpa">
+    <p class="kicker">Task workflow</p>
+    <h2>Why this works</h2>
+    <ul>
+      <li><b>Higher quality code</b> <span class="detail">especially as task complexity grows</span></li>
+      <li><b>Early review</b> <span class="detail">wrong assumptions die in REQUIREMENTS.md, not in the diff</span></li>
+      <li><b>Parallelism</b> <span class="detail">N refine and plan sessions at once, they only write .md files</span></li>
+      <li><b>Fits any team</b> <span class="detail">artifacts are plain markdown anyone can read, share or hand off</span></li>
+      <li><b>Fresh eyes verification</b> <span class="detail">another agent validates each artifact, no attachment to the output</span></li>
+    </ul>
+    <p><span class="chip blue">/create-manual-test-instructions</span> <span class="detail" style="font-style:italic;">bonus: derive QA manual test steps from the same artifacts</span></p>
+  </section>
+
+  <!-- Slide 13: authoring -->
+  <section id="authoring">
+    <p class="kicker" style="color:var(--purple);">Skill &amp; doc authoring</p>
+    <h2>Skills that write skills</h2>
+    <ul>
+      <li><b>compact-skill-creator + compact-docs-writer</b> <span class="detail">least text possible, zero information lost</span></li>
+      <li><b>self-improve</b> <span class="detail">corrected the agent? persist the lesson into the governing skill or doc</span></li>
+      <li><b>Suggest, never apply</b> <span class="detail">every change is a diff you approve</span></li>
+      <li><b>A rule closes the loop</b> <span class="detail">self-improve-on-correction offers this automatically</span></li>
+    </ul>
+    <p class="quote purple panel">"My agents improve literally every day."</p>
+  </section>
+
+  <!-- Slide 14: review, their code -->
+  <section id="review-their-code">
+    <p class="kicker" style="color:var(--orange);">Review assistants</p>
+    <h2>Reviewing their code</h2>
+    <ul>
+      <li><b>review-ticket</b> <span class="detail">triage a ticket before anyone picks it up, only high value questions</span></li>
+      <li><b>review-code-assistant</b> <span class="detail">local review pass over a PR or branch, you decide what to post</span></li>
+      <li><b>fresh-eyes-review</b> <span class="detail">a fresh context catches what the authoring context reads past</span></li>
+      <li><b>check-ticket-implementation</b> <span class="detail">how much of a ticket is already done, requirement by requirement</span></li>
+    </ul>
+    <p class="quote orange panel">The agent has the convention docs open and reads big files fast.</p>
+  </section>
+
+  <!-- Slide 15: review, your PRs -->
+  <section id="review-your-prs">
+    <p class="kicker" style="color:var(--orange);">Review assistants</p>
+    <h2>Handling reviews on your PRs</h2>
+    <ul>
+      <li><b>fetch-pr-review</b> <span class="detail">every reviewer comment into one self contained file</span></li>
+      <li><b>refine-pr-review</b> <span class="detail">triage together, comment by comment: address, partial or push back</span></li>
+      <li><b>Accepted changes become a REQUIREMENTS.md</b> <span class="detail">and flow straight back into the RPA pipeline</span></li>
+      <li><b>use-conversational-language</b> <span class="detail">replies sound like a colleague typed them, not an AI</span></li>
+    </ul>
+    <p class="quote orange panel">"fixed", "good catch, thanks", "I would keep this as is because X, wdyt?"</p>
+  </section>
+
+  <!-- Slide 16: voice skill in action -->
+  <section id="voice-skill">
+    <p class="kicker" style="color:var(--orange);">Review assistants</p>
+    <h2>The voice skill in action <span class="chip blue">/use-conversational-language</span></h2>
+    <figure>
+      <img class="shot" src="screenshot-ucl.png" alt="A real session: the skill drafts a PR reply, the author rewrites it, then self-improve captures the lesson">
+      <figcaption>draft a reply in a human voice &#8594; edit it my way &#8594; /self-improve persists the lesson</figcaption>
+    </figure>
+  </section>
+
+  <!-- Slide 17: rules -->
+  <section id="rules">
+    <p class="kicker" style="color:var(--pink);">Opinionated rules</p>
+    <h2>Always on, so always opt in</h2>
+    <table>
+      <tr><td class="rule">git-read-only-by-default</td><td>no git writes without an explicit instruction</td></tr>
+      <tr><td class="rule">no-ai-attribution</td><td>no AI co author trailers, your work carries your name</td></tr>
+      <tr><td class="rule">no-nonsense-comments</td><td>prefer no comment over a low value one</td></tr>
+      <tr><td class="rule">write-realistic-texts</td><td>human facing texts sound human</td></tr>
+      <tr><td class="rule">self-improve-on-correction</td><td>every correction becomes a durable lesson</td></tr>
+    </table>
+  </section>
+
+  <!-- Slide 18: vs superpowers -->
+  <section id="philosophy">
+    <p class="kicker">Philosophy</p>
+    <h2>agent-toolkit vs superpowers</h2>
+    <div class="cols">
+      <div class="panel">
+        <p style="font-family:var(--mono); font-weight:bold; color:var(--muted);">superpowers</p>
+        <ul>
+          <li>a whole methodology</li>
+          <li>skills auto activate before any task</li>
+          <li>the agent drives</li>
+          <li>pulls you in at its checkpoints</li>
+          <li>fuller context, less to remember</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <p style="font-family:var(--mono); font-weight:bold; color:var(--green);">agent-toolkit</p>
+        <ul>
+          <li>take the pieces you need</li>
+          <li>primarily user invoked</li>
+          <li>you drive, the agent assists</li>
+          <li>human in the loop by design</li>
+          <li>lean context, predictable behavior</li>
+        </ul>
+      </div>
+    </div>
+    <p class="quote panel">The trade off: you always know what the agent loaded and why, but you must know your toolkit.</p>
+  </section>
+
+  <!-- Slide 19: get it -->
+  <section id="install">
+    <p class="kicker">Get it</p>
+    <h2>One command away</h2>
+    <div class="terminal">
+      <div class="comment"># quick install (symlinks, all agents wired via ~/.agents)</div>
+      <div class="cmd">git clone https://github.com/eai-org/agent-toolkit.git &amp;&amp; cd agent-toolkit &amp;&amp; ./install.sh</div>
+    </div>
+    <div class="terminal">
+      <div class="comment"># or via agentwheel / skills.sh</div>
+      <div class="cmd blue">npx agentwheel install github:eai-org/agent-toolkit --adapter claude</div>
+    </div>
+    <div class="terminal">
+      <div class="comment"># or as a Claude Code plugin</div>
+      <div class="cmd purple">/plugin marketplace add eai-org/agent-toolkit</div>
+    </div>
+    <p style="font-style:italic;">MIT licensed. Take everything, or just the pieces that fit your setup.</p>
+  </section>
+
+  <!-- Slide 20: credits -->
+  <section id="credits" style="border-bottom:none;">
+    <p class="kicker">Credits &amp; thanks</p>
+    <h2>Standing on friendly shoulders</h2>
+    <ul>
+      <li><b>Matt Pocock (AI Hero)</b> <span class="detail">the grilling technique</span></li>
+      <li><b>Ras Mic</b> <span class="detail">making agents learn from their own mistakes</span></li>
+      <li><b>Boris Tane</b> <span class="detail">workflow inspiration behind RPA</span></li>
+      <li><b>Giuseppe Ronca</b> <span class="detail">agentwheel, the skill package manager</span></li>
+      <li><b>Dex Horthy</b> <span class="detail">Smart Zone vs Dumb Zone framing</span></li>
+    </ul>
+    <p class="panel" style="border-color:var(--green);"><b style="color:var(--green);">Questions?</b> &nbsp; <a href="https://github.com/eai-org/agent-toolkit">github.com/eai-org/agent-toolkit</a> &nbsp;&middot;&nbsp; <a href="https://medium.com/engineering-in-the-age-of-ai">medium.com/engineering-in-the-age-of-ai</a></p>
+  </section>
+
+</main>
+<footer>agent-toolkit &middot; MIT</footer>
+</body>
+</html>

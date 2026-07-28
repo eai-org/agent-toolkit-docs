@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0D1117;
+  --color-panel: #161B22;
+  --color-panel2: #1C2128;
+  --color-border: #30363D;
+  --color-text: #E6EDF3;
+  --color-muted: #8B949E;
+  --color-green: #3FB950;
+  --color-blue: #58A6FF;
+  --color-orange: #D29922;
+  --color-purple: #BC8CFF;
+  --color-pink: #F97583;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --radius-card: 10px;
+  --container-page: 60rem;
+  --container-demo: 39rem;
+}
+
+body { @apply bg-bg text-text font-sans; }
+:focus-visible { outline: 2px solid var(--color-green); outline-offset: 2px; }
+
+.kicker { @apply font-mono text-[11px] font-bold uppercase tracking-[0.18em] mb-2; }
+.bullets { @apply list-disc pl-5 space-y-1.5; }
+.bullets .sk { @apply font-mono text-[0.92em] font-bold; }
+.more-link { @apply font-mono text-[13px] text-blue no-underline hover:underline; }
+
+.chip { @apply bg-panel2 border border-border rounded-md px-2.5 py-0.5; }
+.cursor { @apply inline-block w-[10px] h-[1em] bg-green align-middle ml-1.5 animate-blink; }
+@keyframes blink { 50% { opacity: 0; } }
+@utility animate-blink { animation: blink 1.1s steps(1) infinite; }
+@media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+
+.stage { @apply flex flex-col bg-panel border-[1.5px] rounded-card px-3 py-2 text-[13px]; }
+.stage > span { @apply text-muted text-[12px] leading-snug mt-1; }
+.stage .file { @apply font-mono text-[11px]; }
+.arrow { @apply text-muted self-center text-sm max-md:hidden; }
+
+/* double class beats the player's own .ap-player default, whatever the load order */
+.ap-player.asciinema-player-theme-agent-toolkit {
+  --term-color-background: var(--color-panel);
+  --term-color-foreground: var(--color-text);
+}

@@ -1,0 +1,17 @@
+---
+import Section from '../Section.astro';
+import DemoPlayer from '../DemoPlayer.astro';
+---
+<Section kicker="Review assistants" color="orange" heading="Help on both sides of the code review">
+  <p class="text-muted">
+    Code review is still a key part of most teams' workflow. These skills assist in both
+    directions: when <b>others leave feedback on your PRs</b>, and when <b>you review someone
+    else's code</b>.
+  </p>
+  <ul class="bullets my-4">
+    <li><b class="sk">fetch-pr-review</b> <span class="text-muted">downloads all the comments your PR received into a self-contained document that refine-pr-review can consume</span></li>
+    <li><b class="sk">refine-pr-review</b> <span class="text-muted">assists you in triaging the feedback, comment by comment: address, partial or push back</span></li>
+    <li><b class="sk">review-code-assistant</b> <span class="text-muted">reviews someone else's PR locally (works for self-review too), suggesting human-voiced comments and explanations. <b>You</b> decide what to post</span></li>
+  </ul>
+  <DemoPlayer cast="03-pr-review" cols={72} rows={18} label="fetch-pr-review and refine-pr-review triaging comments" />
+</Section>
