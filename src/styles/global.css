@@ -16,6 +16,8 @@
   --font-sans: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --radius-card: 10px;
   --container-page: 60rem;
+  /* wider than the page column: the nav has to fit the six group links too */
+  --container-nav: 88rem;
   --container-demo: 39rem;
 }
 

@@ -4,15 +4,35 @@ try {
   const r = await fetch('https://api.github.com/repos/eai-org/agent-toolkit');
   if (r.ok) stars = `★ ${((await r.json()).stargazers_count as number).toLocaleString('en-US')}`;
 } catch { /* offline build: no count */ }
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const groups = [
+  { slug: 'task-workflow', label: 'Task workflow' },
+  { slug: 'pr-review-assistants', label: 'PR review assistants' },
+  { slug: 'fresh-eyes-review', label: 'Fresh eyes review' },
+  { slug: 'context-hygiene', label: 'Context hygiene' },
+  { slug: 'skills-docs-authoring', label: 'Skills & docs authoring' },
+  { slug: 'conversational-language', label: 'Conversational language' },
+];
+const here = Astro.url.pathname.replace(/\/$/, '');
 ---
 <nav class="sticky top-0 z-10 bg-bg/90 backdrop-blur border-b border-border">
-  <div class="max-w-page mx-auto flex items-center justify-between px-6 py-3">
+  <div class="max-w-nav mx-auto flex flex-wrap items-center gap-x-4 gap-y-2 px-6 py-3">
     <a href={import.meta.env.BASE_URL} class="font-mono font-bold text-green no-underline">agent-toolkit</a>
-    <div class="flex items-center gap-4">
+    <div class="order-last w-full flex items-center gap-1.5 overflow-x-auto min-[88rem]:order-none min-[88rem]:w-auto">
+      {groups.map(({ slug, label }, i) => (
+        <>
+          {i > 0 && <span class="text-border select-none" aria-hidden="true">&middot;</span>}
+          <a href={`${base}/${slug}/`} aria-current={here === `${base}/${slug}` ? 'page' : undefined}
+            class:list={['font-mono text-[13px] no-underline whitespace-nowrap hover:text-green',
+              here === `${base}/${slug}` ? 'text-green' : 'text-muted']}>{label}</a>
+        </>
+      ))}
+    </div>
+    <div class="flex items-center gap-4 ml-auto">
       <a href="https://github.com/eai-org/agent-toolkit" class="font-mono text-[13px] text-text no-underline hover:text-green">
         GitHub{stars && <span class="text-muted"> {stars}</span>}
       </a>
-      <a href="#install" class="font-mono text-[13px] font-bold text-bg bg-green rounded-md px-3 py-1 no-underline">Install</a>
+      <a href={`${base}/#install`} class="font-mono text-[13px] font-bold text-bg bg-green rounded-md px-3 py-1 no-underline">Install</a>
     </div>
   </div>
 </nav>

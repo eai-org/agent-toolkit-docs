@@ -12,6 +12,10 @@ const base: DemoSpec = {
 };
 
 const lines = (cast: string) => cast.trimEnd().split('\n');
+const endGap = (cast: string) => {
+  const times = lines(cast).slice(1).map((l) => JSON.parse(l)[0] as number);
+  return times[times.length - 1] - times[times.length - 2];
+};
 
 describe('compileSpec', () => {
   test('emits a valid v2 header', () => {
@@ -66,6 +70,15 @@ describe('compileSpec', () => {
     const cast = compileSpec(base);
     expect(cast).toContain('❯');
     expect(cast).toContain('(recommended)');
+  });
+
+  test('holds the finished frame for at least 3 seconds before looping', () => {
+    expect(endGap(compileSpec(base))).toBeGreaterThanOrEqual(3);
+  });
+
+  test('the end hold grows with the number of printed lines', () => {
+    const heavy: DemoSpec = { ...base, events: [...base.events, ...base.events, ...base.events] };
+    expect(endGap(compileSpec(heavy))).toBeGreaterThan(endGap(compileSpec(base)));
   });
 
   test('diff output uses the blended green background', () => {

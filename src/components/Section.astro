@@ -5,8 +5,9 @@ interface Props {
   heading?: string;
   center?: boolean;
   id?: string;
+  as?: 'h1' | 'h2';
 }
-const { kicker, color, heading, center = false, id } = Astro.props;
+const { kicker, color, heading, center = false, id, as: Heading = 'h2' } = Astro.props;
 const kickerColor = {
   green: 'text-green', blue: 'text-blue', orange: 'text-orange',
   purple: 'text-purple', pink: 'text-pink',
@@ -15,7 +16,7 @@ const kickerColor = {
 <section id={id} class:list={['border-t border-border py-14 px-6', center && 'text-center']}>
   <div class="max-w-page mx-auto">
     <div class:list={['kicker', kickerColor]}>{kicker}</div>
-    {heading && <h2 class="text-2xl font-bold mb-3">{heading}</h2>}
+    {heading && <Heading class="text-2xl font-bold mb-3">{heading}</Heading>}
     <slot />
   </div>
 </section>

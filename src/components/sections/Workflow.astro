@@ -1,8 +1,11 @@
 ---
 import Section from '../Section.astro';
 import DemoPlayer from '../DemoPlayer.astro';
+interface Props { page?: boolean }
+const { page = false } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
-<Section kicker="Task workflow" color="green" heading="Refine, Plan, Act">
+<Section kicker="Task workflow" color="green" heading="Refine, Plan, Act" as={page ? 'h1' : 'h2'}>
   <p class="text-muted">A development workflow suitable for any kind of project</p>
   <div class="grid items-stretch gap-1.5 my-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr]">
     <div class="stage border-border"><b class="text-muted">Ticket</b><span>download <b class="file">TICKET.md</b> from your tracking board or create it manually</span></div>
@@ -13,8 +16,12 @@ import DemoPlayer from '../DemoPlayer.astro';
     <span class="arrow">&rarr;</span>
     <div class="stage border-orange"><b class="text-orange">Act</b><span>executes the plan, writing code and running checks</span></div>
   </div>
-  <DemoPlayer cast="02-refine-ticket" cols={72} rows={9} label="refine-ticket asking a grilling question" />
-  <p class="mt-4"><a class="more-link" target="_blank" rel="noopener"
-    href="https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e">
-    Read more about the task workflow &rarr;</a></p>
+  {page && <DemoPlayer cast="02-refine-ticket" cols={72} rows={9} label="refine-ticket asking a grilling question" />}
+  {page ? (
+    <p class="mt-4"><a class="more-link" target="_blank" rel="noopener"
+      href="https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e">
+      Read more about the task workflow &rarr;</a></p>
+  ) : (
+    <p class="mt-4"><a class="more-link" href={`${base}/task-workflow/`}>More about the task workflow &rarr;</a></p>
+  )}
 </Section>

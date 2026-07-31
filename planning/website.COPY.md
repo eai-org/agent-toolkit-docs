@@ -1,16 +1,26 @@
-# COPY: agent-toolkit website — homepage (approved)
+# COPY: agent-toolkit website (approved)
 
-Homepage copy approved by Francesco in the copy session of 2026-07-27, including the block order.
-This is the authoritative text for the build; `website.DESIGN.md` holds layout/visuals,
-`website.DECISIONS.md` the tech and scope. **v1 is a one-page site**: the homepage is the whole
-site, group pages may come later. Bullet items render as the deck pattern: **bold lead** followed
-by a muted detail span (no literal dash between them). Skill names in bullets are mono. Demo
-lines: `>` input box, `✻` muted spinner, `⏺` agent output; numbered options with `❯` on the
-highlighted one and `(recommended)` in green. In voice demos the `⏺` is pink for the stiff AI
-reply and green for the human one.
+Copy approved by Francesco in the copy session of 2026-07-27, including the block order; the page
+metadata and internal link labels of §5-§10 approved 2026-07-31, the nav labels and the §5-§8
+page URLs and titles 2026-08-01. This is the authoritative text
+for the build; `website.DESIGN.md` holds layout/visuals, `website.DECISIONS.md` the tech and
+scope. The site is the homepage plus one page per skill group (§5-§10, no `/rules` page yet):
+each group page repeats its homepage block in the standard shell, adds the demo the homepage
+block omits, and renders its heading as the page h1. Bullet items render as the deck pattern:
+**bold lead** followed by a muted detail span (no literal dash between them). Skill names in
+bullets are mono. Demo lines: `>` input box, `✻` muted spinner, `⏺` agent output; numbered
+options with `❯` on the highlighted one and `(recommended)` in green. In voice demos the `⏺` is
+pink for the stiff AI reply and green for the human one.
 
-Sections 6, 7, 8 and 10 have no footer link for now; their "Read more …" links return if group
-pages are added later.
+## 0. Nav (every page)
+
+- Wordmark (mono green, links home): agent-toolkit
+- One link per group page, in order, separated by hairline middots: Task workflow
+  (`/task-workflow`), PR review assistants (`/pr-review-assistants`), Fresh eyes review
+  (`/fresh-eyes-review`), Context hygiene (`/context-hygiene`), Skills & docs authoring
+  (`/skills-docs-authoring`), Conversational language (`/conversational-language`)
+- GitHub, with the star count appended (`★ 1,284`), to the repo
+- Install button, to the hero install terminal
 
 ## 1. Hero (centered)
 
@@ -34,7 +44,8 @@ Demo window (traffic-light dots, two exchanges):
 - Install terminal (copy button): comment `# install with one command`, command
   `git clone https://github.com/eai-org/agent-toolkit.git && cd agent-toolkit && ./install.sh`
 - Below it, mono blue link: `Other ways to install →` — to the README install section on GitHub.
-  (The sticky nav's install button anchors here; the standalone "Get it" section was dropped.)
+  (The sticky nav's install button anchors here from every page; the standalone "Get it" section
+  was dropped.)
 - Star line (below the install link, orange ★): This toolkit is entirely open source and free to
   use. [Give us a star on GitHub](https://github.com/eai-org/agent-toolkit) to support us.
 
@@ -92,7 +103,7 @@ Demo window (traffic-light dots, two exchanges):
   - **Refine** (green): defines the **WHAT** and outputs **REQUIREMENTS.md**
   - **Plan** (blue): defines the **HOW** and outputs **PLAN.md** with the implementation steps
   - **Act** (orange): executes the plan, writing code and running checks
-- Demo:
+- Demo (page only):
 
 ```
 > /refine-ticket 1234-users.TICKET.md
@@ -102,7 +113,10 @@ Demo window (traffic-light dots, two exchanges):
     2. include, flagged
 ```
 
-- Footer link (`target="_blank"`): [Read more about the task workflow →](https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e)
+- Homepage footer link: [More about the task workflow →](/task-workflow)
+- Page `/task-workflow` — title `Task workflow · agent-toolkit`; meta description `A development
+  workflow suitable for any kind of project`; footer link (`target="_blank"`) in place of the
+  internal one: [Read more about the task workflow →](https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e)
 
 ## 6. Review assistants (orange)
 
@@ -117,7 +131,7 @@ Demo window (traffic-light dots, two exchanges):
   partial or push back
 - **review-code-assistant** reviews someone else's PR locally (works for self-review too),
   suggesting human-voiced comments and explanations. **You** decide what to post
-- Demo (two steps with /clear between):
+- Demo (page only, two steps with /clear between):
 
 ```
 > /fetch-pr-review https://github.com/project/repo/pull/1234
@@ -132,7 +146,11 @@ Demo window (traffic-light dots, two exchanges):
     3. push back
 ```
 
-- No footer link for now.
+- Homepage footer link: [More about the review assistants →](/pr-review-assistants)
+- Page `/pr-review-assistants` — title `PR review assistants · agent-toolkit`; meta description
+  `Code review is still a key part of most teams' workflow. These skills assist in both
+  directions: when others leave feedback on your PRs, and when you review someone else's code.`;
+  no footer link.
 
 ## 7. Fresh eyes review (orange)
 
@@ -142,7 +160,7 @@ Demo window (traffic-light dots, two exchanges):
   a clean context, seeing only the changeset and a minimal description, catches surprisingly
   more regressions and issues than the session that wrote the code.
 - No bullet list.
-- Demo:
+- Demo (page only):
 
 ```
 > /fresh-eyes-review
@@ -153,7 +171,11 @@ Demo window (traffic-light dots, two exchanges):
     3. Chat about this
 ```
 
-- No footer link for now.
+- Homepage footer link: [More about the fresh eyes review →](/fresh-eyes-review)
+- Page `/fresh-eyes-review` — title `Fresh eyes review · agent-toolkit`; meta description
+  `A fresh perspective works for AI just like it does for humans: a sub-agent with a clean
+  context, seeing only the changeset and a minimal description, catches surprisingly more
+  regressions and issues than the session that wrote the code.`; no footer link.
 
 ## 8. Context & memory hygiene (blue)
 
@@ -163,7 +185,7 @@ Demo window (traffic-light dots, two exchanges):
   servers), measures the token cost and proposes lean, reversible trims
 - **memory-doctor** drains the agent's auto-memory block by block, relocating each entry to a
   home you control or archiving it. You confirm every action
-- Demo:
+- Demo (page only):
 
 ```
 > /context-checkup
@@ -174,7 +196,9 @@ Demo window (traffic-light dots, two exchanges):
     3. Show the full report
 ```
 
-- No footer link for now.
+- Homepage footer link: [More about context & memory hygiene →](/context-hygiene)
+- Page `/context-hygiene` — title `Context hygiene · agent-toolkit`; meta description `Your
+  context is often cluttered before you even type`; no footer link.
 
 ## 9. Skill & doc authoring (purple)
 
@@ -185,8 +209,8 @@ Demo window (traffic-light dots, two exchanges):
   best practices for effective skills
 - **self-improve** when the agent makes a mistake or doesn't behave the way you want, this skill
   captures the lesson so it won't repeat the same mistake again
-- Demo (correction → lesson; the addition renders as a git diff line, green `+` on faint green
-  background):
+- Demo (page only, correction → lesson; the addition renders as a git diff line, green `+` on
+  faint green background):
 
 ```
 > Some of the methods you generated are not called outside the service, change them to private
@@ -201,8 +225,11 @@ Demo window (traffic-light dots, two exchanges):
     4. Chat about this
 ```
 
-- Footer link (`target="_blank"`, same article as the Learn-from-mistakes pane in Principles,
-  accepted overlap): [Read more about the authoring skills →](https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd)
+- Homepage footer link: [More about the authoring skills →](/skills-docs-authoring)
+- Page `/skills-docs-authoring` — title `Skills & docs authoring · agent-toolkit`; meta
+  description `Create and continuously improve the skills and docs your agents rely on`; footer
+  link (`target="_blank"`, same article as the Learn-from-mistakes pane in Principles, accepted
+  overlap) in place of the internal one: [Read more about the authoring skills →](https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd)
 
 ## 10. Conversational voice (blue)
 
@@ -213,7 +240,7 @@ Demo window (traffic-light dots, two exchanges):
   sophisticated AI prose full of — em dashes — and fancy terms
 - **write-realistic-texts** opt-in rule that applies the human voice automatically whenever a
   text is meant for other humans (code comments, PR replies, chat messages…)
-- Demo (two exchanges, pink/green ⏺ like the hero):
+- Demo (page only, two exchanges, pink/green ⏺ like the hero):
 
 ```
 > Help me explain to my colleagues why we needed this refactor
@@ -225,7 +252,10 @@ Demo window (traffic-light dots, two exchanges):
 ⏺ (green) "extracted serializeUsers() to a shared service so we can reuse it in JIRA-1234"
 ```
 
-- No footer link for now.
+- Homepage footer link: [More about the conversational voice →](/conversational-language)
+- Page `/conversational-language` — title `Conversational language · agent-toolkit`; meta
+  description `Texts that sound like a real human typed them` (the intro ends with a colon, so the
+  heading serves as the description); no footer link.
 
 ## 11. Opinionated rules (pink)
 

@@ -1,8 +1,11 @@
 ---
 import Section from '../Section.astro';
 import DemoPlayer from '../DemoPlayer.astro';
+interface Props { page?: boolean }
+const { page = false } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
-<Section kicker="Review assistants" color="orange" heading="Help on both sides of the code review">
+<Section kicker="Review assistants" color="orange" heading="Help on both sides of the code review" as={page ? 'h1' : 'h2'}>
   <p class="text-muted">
     Code review is still a key part of most teams' workflow. These skills assist in both
     directions: when <b>others leave feedback on your PRs</b>, and when <b>you review someone
@@ -13,5 +16,8 @@ import DemoPlayer from '../DemoPlayer.astro';
     <li><b class="sk">refine-pr-review</b> <span class="text-muted">assists you in triaging the feedback, comment by comment: address, partial or push back</span></li>
     <li><b class="sk">review-code-assistant</b> <span class="text-muted">reviews someone else's PR locally (works for self-review too), suggesting human-voiced comments and explanations. <b>You</b> decide what to post</span></li>
   </ul>
-  <DemoPlayer cast="03-pr-review" cols={72} rows={18} label="fetch-pr-review and refine-pr-review triaging comments" />
+  {page && <DemoPlayer cast="03-pr-review" cols={72} rows={18} label="fetch-pr-review and refine-pr-review triaging comments" />}
+  {!page && (
+    <p class="mt-4"><a class="more-link" href={`${base}/pr-review-assistants/`}>More about the review assistants &rarr;</a></p>
+  )}
 </Section>

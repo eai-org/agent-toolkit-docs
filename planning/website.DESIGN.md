@@ -45,7 +45,8 @@ Demos depict a Claude Code-like agent app, never a bash shell (no `$` prompts):
   the only git-style diff is the self-improve demo's suggested addition (green `+` line).
 - Rendered by asciinema-player from generated casts (per DECISIONS), capped at 624px
   (`--container-demo`) so terminal text stays ~14px; each loops while in view (GIF-like),
-  paused offscreen. `prefers-reduced-motion`: static first frame until play.
+  paused offscreen, holding its finished frame for at least 3s (longer the more it printed)
+  before restarting. `prefers-reduced-motion`: static first frame until play.
 
 ## Layout system
 
@@ -55,15 +56,18 @@ Demos depict a Claude Code-like agent app, never a bash shell (no `$` prompts):
   optional panel/quote → optional demo → mono `more →` link. Never long prose.
 - Only grids: the deck's own — principles panels (2-col, pillar 5 spanning), comparison (2-col).
   Both stack on mobile like the deck's `.cols`.
-- Nav: sticky minimal bar — mono green wordmark, GitHub link with star count, green install
-  button anchoring to the hero install terminal. No other links (one-page site), no hamburger,
-  no dropdowns.
+- Nav: sticky minimal bar — mono green wordmark, one mono link per group page (labels in
+  `website.COPY.md`; muted, split by hairline middots, green for the page you are on), GitHub
+  link with star count, green install button anchoring to the hero install terminal from every
+  page. Nothing else, no hamburger, no dropdowns. It sits in a wider container than the page
+  column (`--container-nav` 88rem) so the links fit on one row; below 1408px they drop to a
+  second row that scrolls sideways if it has to.
 - Motion: per DECISIONS — demo players only, plus CSS blinking cursor after the hero h1.
 
 ## Homepage (approved skeleton; final copy in `website.COPY.md`)
 
-v1 is a one-page site: this page is the whole site; group pages may come later. Approved block
-order (reorder session 2026-07-27):
+The homepage carries the whole pitch; blocks 5-10 hand their demo to the group page they link
+to (see below). Approved block order (reorder session 2026-07-27):
 
 1. Hero, centered: two-exchange voice TUI demo → h1 mono `agent-toolkit` + blinking cursor →
    tagline → chips → one-line install terminal with copy button → mono link
@@ -73,28 +77,28 @@ order (reorder session 2026-07-27):
 3. Principles (green): six panes in a 2×3 grid, three inline Medium links, no footer link.
 4. Philosophy (green): "A minimalistic toolkit, not a framework", comparison panels, no quote.
 5. Task workflow (green): "Refine, Plan, Act", four equal-size stage boxes
-   (Ticket/Refine/Plan/Act), refine-ticket grilling demo, footer link to a Medium article.
-6. One compact section per remaining group, order: reviews (orange, fetch → /clear → refine
-   demo), fresh-eyes (orange, findings demo), hygiene (blue, context-checkup demo), authoring
-   (purple, self-improve demo, footer link to a Medium article), conversational (blue,
-   two-exchange refactor demo), rules (pink, short: no heading, no demo, footer link to the
-   README rules section on GitHub). Only workflow, authoring and rules have footer links; the
-   others' "Read more" links return if group pages are added later.
+   (Ticket/Refine/Plan/Act), footer link to `/task-workflow`.
+6. One compact section per remaining group, order: reviews (orange), fresh-eyes (orange),
+   hygiene (blue), authoring (purple), conversational (blue), each with a footer link to its
+   group page; rules (pink, short: no heading, no demo, footer link to the README rules section
+   on GitHub).
 7. Share your feedback (green, centered): kicker + one line + "Open an issue →" (GitHub issues).
 8. Mono footer (`agent-toolkit · MIT`). No standalone install section (hero covers it, nav
    install button anchors to the hero terminal) and no credits section.
 
 Demo players below the hero lazy-load (Lighthouse 95+ budget).
 
-## Group page template (deferred — not in v1)
+## Group pages
 
-Kept for a possible later expansion beyond the one-page site. Per the approved /conversational
-example — everything stacked, single column:
+Each of the six shipped pages (`/task-workflow`, `/pr-review-assistants`, `/fresh-eyes-review`,
+`/context-hygiene`, `/skills-docs-authoring`, `/conversational-language`) renders its homepage
+block plus that block's demo in the standard shell, with the block heading as the page h1. The richer template below is the later expansion, per the
+approved /conversational-language example — everything stacked, single column:
 
 1. Nav (same bar).
 2. Title: skill/group name (mono) + one concise description line.
-3. Demo block(s): for /conversational, two windows — "without the skill" (stiff AI reply) and
-   "with the skill" (human reply). Other pages: at least the flagship demo.
+3. Demo block(s): for /conversational-language, two windows — "without the skill" (stiff AI
+   reply) and "with the skill" (human reply). Other pages: at least the flagship demo.
 4. Per-skill mini sections following the section pattern (icon, 1-2 lines each).
 5. Links: each skill's SKILL.md on GitHub (rule files for /rules) + install.
 
@@ -103,7 +107,8 @@ example — everything stacked, single column:
 
 ## Demo lineup (v1, one spec file each)
 
-All seven demos live on the homepage; scripts are written out in `website.COPY.md`.
+The hero demo lives on the homepage, the other six on their group pages; scripts are written out
+in `website.COPY.md`.
 
 1. use-conversational-language two-exchange "draft an answer" — hero.
 2. refine-ticket grilling (one question, recommendation) — workflow section.
@@ -119,8 +124,9 @@ The git-read-only-by-default demo was tied to the /rules page and is deferred wi
 ## Copy status
 
 Homepage copy and block order are approved (copy session 2026-07-27) and live in
-`website.COPY.md` — that file wins over any text shown in this doc or the mockups. v1 has no
-other pages, so the copy pass is complete. Any future group-page copy follows the same process:
+`website.COPY.md` — that file wins over any text shown in this doc or the mockups. The group
+pages reuse those blocks; their metadata and link labels were approved 2026-07-31. Any further
+group-page copy follows the same process:
 short, human, non-salesy, per the DECISIONS copy rules (no dashes as punctuation, straight
 apostrophes), reviewed with Francesco section by section.
 
@@ -133,4 +139,4 @@ Lighthouse performance and accessibility 95+, OpenGraph/social meta on every pag
 ## Open items
 
 - Lucide icon picks per section.
-- Whether/when to add group pages and the catalog beyond the one-page v1.
+- Whether/when to expand the group pages beyond their homepage blocks, and to add the catalog.
