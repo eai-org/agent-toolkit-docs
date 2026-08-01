@@ -1,0 +1,33 @@
+src/components/Nav.astro
+  s_43b2a497da484c::t_de5d9ca0492dda 15
+  s_43b2a497da484c::t_7d2130d691dbfc 3
+src/styles/global.css
+  s_43b2a497da484c::t_0a28915bb982b9 3-4,6-16,24-32
+  s_43b2a497da484c::t_2e3dbc13a71cbe 48-49
+  s_43b2a497da484c::t_73fbd9dd1aa54d 33
+  s_43b2a497da484c::t_d224475eedb0da 50
+src/components/TerminalWindow.astro
+  s_43b2a497da484c::t_0e16368743f5e0 5
+src/components/ThemeToggle.astro
+  s_43b2a497da484c::t_9965d80c1bd878 1-39
+src/layouts/Base.astro
+  s_43b2a497da484c::t_b7a3c36ef828c1 22-29
+tests/page.test.ts
+  s_43b2a497da484c::t_729b65621de6cf 184-191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "bdf4f1bc3adcf890f5a19998f054fb4c8624a3b3",
+  "prompts": {},
+  "sessions": {
+    "s_43b2a497da484c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c5b44e88-21e0-4ed9-a41c-9bfe4150a446",
+        "model": "claude-opus-5"
+      },
+      "human_author": "stefanoslig <stefanoslignos@gmail.com>"
+    }
+  }
+}
