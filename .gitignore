@@ -4,4 +4,5 @@ dist/
 public/demos/
 public/llms.txt
 public/social-card.png
+*.superpowers
 *.DS_STORE

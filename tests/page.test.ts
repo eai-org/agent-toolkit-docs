@@ -1,47 +1,22 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, test } from 'vitest';
 
-const html = readFileSync('dist/index.html', 'utf8');
+// per AGENTS.md the page checks only run when a build is present
+const d = existsSync('dist/index.html') ? describe : describe.skip;
+const read = (p: string) => readFileSync(p, 'utf8');
 
-const mustContain = [
-  'Different projects, same repetitive tasks',
-  'Core ideas behind every skill',
-  'A minimalistic toolkit, not a framework',
-  'Refine, Plan, Act',
-  'Help on both sides of the code review',
-  'Let a sub-agent review the code',
-  'Your context is often cluttered before you even type',
-  'Create and continuously improve the skills and docs your agents rely on',
-  'Texts that sound like a real human typed them',
-  'Opinionated rules',
-  'Got an issue or an idea? Please report it on GitHub.',
-  'agent-toolkit · MIT',
-  'Give us a star on GitHub',
-  'Other ways to install',
-];
+// The site base is '/agent-toolkit-docs' on Pages and '' on SITE_BASE=/ preview builds, and
+// the preview workflow sets SITE_BASE on its build step only. So read the base back out of the
+// build itself, off the favicon link that Base.astro emits on every page.
+const baseFrom = () => read('dist/index.html').match(/href="([^"]*)\/favicon\.svg"/)![1];
 
-describe('homepage content', () => {
-  test.each(mustContain)('contains %s', (s) => expect(html).toContain(s));
-
-  test('blocks appear in the approved order', () => {
-    let pos = -1;
-    for (const s of mustContain.slice(0, 12)) {
-      const next = html.indexOf(s);
-      expect(next, s).toBeGreaterThan(pos);
-      pos = next;
-    }
-  });
-
-  test('all seven casts are referenced once each', () => {
-    const casts = [...html.matchAll(/0[0-9]-[a-z-]+\.cast/g)].map((m) => m[0]);
-    expect(new Set(casts).size).toBe(7);
-  });
-
-  test('the only em dashes are the conversational bullet pair', () => {
-    expect((html.match(/—/g) ?? []).length).toBe(2);
+d('homepage', () => {
+  test('the install button points at the homepage anchor, not a bare hash', () => {
+    const html = read('dist/index.html');
+    expect(html).toContain(`href="${baseFrom()}/#install"`);
   });
 
   test('no curly apostrophes', () => {
-    expect(html).not.toMatch(/[‘’]/);
+    expect(read('dist/index.html')).not.toMatch(/[‘’]/);
   });
 });

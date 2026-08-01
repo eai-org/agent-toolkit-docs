@@ -1,18 +1,20 @@
 ---
-let stars: string | null = null;
-try {
-  const r = await fetch('https://api.github.com/repos/eai-org/agent-toolkit');
-  if (r.ok) stars = `★ ${((await r.json()).stargazers_count as number).toLocaleString('en-US')}`;
-} catch { /* offline build: no count */ }
+import { starLabel } from '../lib/stars';
+interface Props { back?: boolean }
+const { back = false } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const stars = await starLabel();
 ---
 <nav class="sticky top-0 z-10 bg-bg/90 backdrop-blur border-b border-border">
   <div class="max-w-page mx-auto flex items-center justify-between px-6 py-3">
-    <a href={import.meta.env.BASE_URL} class="font-mono font-bold text-green no-underline">agent-toolkit</a>
+    <a href={`${base}/`} class="font-mono font-bold text-green no-underline">
+      {back && <span aria-hidden="true">&larr; </span>}agent-toolkit
+    </a>
     <div class="flex items-center gap-4">
       <a href="https://github.com/eai-org/agent-toolkit" class="font-mono text-[13px] text-text no-underline hover:text-green">
         GitHub{stars && <span class="text-muted"> {stars}</span>}
       </a>
-      <a href="#install" class="font-mono text-[13px] font-bold text-bg bg-green rounded-md px-3 py-1 no-underline">Install</a>
+      <a href={`${base}/#install`} class="font-mono text-[13px] font-bold text-bg bg-green rounded-md px-3 py-1 no-underline">Install</a>
     </div>
   </div>
 </nav>
