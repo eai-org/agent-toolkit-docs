@@ -1,0 +1,20 @@
+tests/page.test.ts
+  s_1e8e832112e264::t_e1efd05a5fead9 184,190-193
+  s_1e8e832112e264::t_cb4f5c732ef3b6 194-195
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "4c736a90c4d852d780b88e8cc3e344d8f9443499",
+  "prompts": {},
+  "sessions": {
+    "s_1e8e832112e264": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f925d3c-19a1-43a8-9bf9-2e7c22800f78",
+        "model": "claude-opus-5"
+      },
+      "human_author": "stefanoslig <stefanoslignos@gmail.com>"
+    }
+  }
+}
