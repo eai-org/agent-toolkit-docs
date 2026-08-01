@@ -1,0 +1,21 @@
+src/pages/reviews.astro
+  s_1e8e832112e264::t_bdca0e3e554536 1-50
+tests/page.test.ts
+  s_1e8e832112e264::t_0373040ffb6240 48-71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "8fe686ef8d71b4dbb0f56c0f5297e6900b805a98",
+  "prompts": {},
+  "sessions": {
+    "s_1e8e832112e264": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f925d3c-19a1-43a8-9bf9-2e7c22800f78",
+        "model": "claude-opus-5"
+      },
+      "human_author": "stefanoslig <stefanoslignos@gmail.com>"
+    }
+  }
+}
