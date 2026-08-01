@@ -20,3 +20,28 @@ d('homepage', () => {
     expect(read('dist/index.html')).not.toMatch(/[‘’]/);
   });
 });
+
+d('/workflow', () => {
+  const html = () => read('dist/workflow/index.html');
+
+  test('has its own h1 and intro', () => {
+    expect(html()).toContain('From a ticket to shipped code');
+    expect(html()).toContain('<h1');
+  });
+
+  test('lists its four skills', () => {
+    for (const s of ['fetch-ticket', 'refine-ticket', 'create-implementation-plan', 'create-manual-test-instructions']) {
+      expect(html()).toContain(s);
+    }
+  });
+
+  test('carries the refine-ticket demo', () => {
+    expect(html()).toContain('02-refine-ticket.cast');
+  });
+
+  test('links onward to two siblings and back to all groups', () => {
+    expect(html()).toContain(`${baseFrom()}/reviews/`);
+    expect(html()).toContain(`${baseFrom()}/hygiene/`);
+    expect(html()).toContain(`${baseFrom()}/#whats-inside`);
+  });
+});

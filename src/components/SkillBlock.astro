@@ -1,0 +1,14 @@
+---
+import DemoPlayer from './DemoPlayer.astro';
+interface Props { name: string; cast?: string; cols?: number; rows?: number; label?: string }
+const { name, cast, cols, rows, label } = Astro.props;
+---
+<div class="border-t border-border first:border-t-0 py-5">
+  <h3 class="font-mono text-[15px] font-bold mb-1.5">{name}</h3>
+  <p class="text-muted leading-relaxed"><slot /></p>
+  {cast && (
+    <div class="mt-4">
+      <DemoPlayer cast={cast} cols={cols!} rows={rows!} label={label!} />
+    </div>
+  )}
+</div>
