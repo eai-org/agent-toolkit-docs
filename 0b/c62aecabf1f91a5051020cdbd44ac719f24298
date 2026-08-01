@@ -1,0 +1,27 @@
+tests/page.test.ts
+  s_1e8e832112e264::t_5088cebdcdd3d7 23-47
+src/components/GroupCard.astro
+  s_1e8e832112e264::t_8c8e8eb1fce559 1-27
+src/components/SkillBlock.astro
+  s_1e8e832112e264::t_d3cdb52ef8bc93 1-14
+src/components/KeepGoing.astro
+  s_1e8e832112e264::t_ef22b20ba6a545 1-19
+src/pages/workflow.astro
+  s_1e8e832112e264::t_3a5c7bc247554b 1-34
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "0bc62aecabf1f91a5051020cdbd44ac719f24298",
+  "prompts": {},
+  "sessions": {
+    "s_1e8e832112e264": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f925d3c-19a1-43a8-9bf9-2e7c22800f78",
+        "model": "claude-opus-5"
+      },
+      "human_author": "stefanoslig <stefanoslignos@gmail.com>"
+    }
+  }
+}
