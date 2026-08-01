@@ -128,3 +128,47 @@ d('/conversational', () => {
     expect((html().match(/—/g) ?? []).length).toBe(2);
   });
 });
+
+d('homepage blocks', () => {
+  const ORDER = [
+    'Give us a star on GitHub',
+    'Different projects, same repetitive tasks',
+    'Refine, Plan, Act',
+    'Five groups of skills',
+    'Core ideas behind every skill',
+    'A toolkit, not a framework',
+    'Opinionated rules',
+    'Got an issue or an idea? Please report it on GitHub.',
+    'agent-toolkit · MIT',
+  ];
+
+  test.each(ORDER)('contains %s', (s) => expect(read('dist/index.html')).toContain(s));
+
+  test('blocks appear in the approved order', () => {
+    const html = read('dist/index.html');
+    let pos = -1;
+    for (const s of ORDER) {
+      const next = html.indexOf(s);
+      expect(next, s).toBeGreaterThan(pos);
+      pos = next;
+    }
+  });
+
+  test('carries exactly one demo, the hero', () => {
+    const html = read('dist/index.html');
+    const casts = [...html.matchAll(/0[0-9]-[a-z-]+\.cast/g)].map((m) => m[0]);
+    expect(new Set(casts)).toEqual(new Set(['01-hero-voice.cast']));
+  });
+
+  test('has a card for every group, with the anchor Keep going targets', () => {
+    const html = read('dist/index.html');
+    expect(html).toContain('id="whats-inside"');
+    for (const slug of ['workflow', 'reviews', 'hygiene', 'authoring', 'conversational']) {
+      expect(html).toContain(`${baseFrom()}/${slug}/"`);
+    }
+  });
+
+  test('no em dashes left on the homepage', () => {
+    expect((read('dist/index.html').match(/—/g) ?? []).length).toBe(0);
+  });
+});

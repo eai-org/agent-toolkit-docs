@@ -1,0 +1,10 @@
+---
+import Section from '../Section.astro';
+import GroupCard from '../GroupCard.astro';
+import { GROUPS } from '../../data/groups';
+---
+<Section kicker="What's inside" color="blue" heading="Five groups of skills" id="whats-inside">
+  <div class="grid md:grid-cols-2 gap-3 mt-4">
+    {GROUPS.map((group) => <GroupCard group={group} />)}
+  </div>
+</Section>
