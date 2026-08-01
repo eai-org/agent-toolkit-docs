@@ -181,10 +181,16 @@ d('site-wide', () => {
     for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
   });
 
-  test('every page has its own canonical URL and title', () => {
+  test('every page has its own canonical URL', () => {
     const canonicals = PAGES.map((p) => read(p).match(/rel="canonical" href="([^"]+)"/)?.[1]);
     expect(new Set(canonicals).size).toBe(PAGES.length);
     for (const c of canonicals) expect(c).toBeTruthy();
+  });
+
+  test('every page has its own title', () => {
+    const titles = PAGES.map((p) => read(p).match(/<title>([^<]*)<\/title>/)?.[1]);
+    for (const t of titles) expect(t).toBeTruthy();
+    expect(new Set(titles).size).toBe(PAGES.length);
   });
 
   test('no curly apostrophes anywhere', () => {
