@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import SkillBlock from '../components/SkillBlock.astro';
+import KeepGoing from '../components/KeepGoing.astro';
+---
+<Base
+  title="Context & memory hygiene · agent-toolkit"
+  description="See what auto-loads into your agent before you even type, and trim it without breaking anything."
+  back
+>
+  <Section kicker="Context & memory hygiene" color="blue"
+    heading="Your context is often cluttered before you even type" level={1}>
+    <div class="mt-2">
+      <SkillBlock name="context-checkup" cast="05-context-checkup" cols={72} rows={11}
+        label="context-checkup proposing a trim">
+        audits everything that auto-loads at startup (governing docs, skills, MCP servers),
+        measures the token cost and proposes lean, reversible trims
+      </SkillBlock>
+      <SkillBlock name="memory-doctor">
+        drains the agent's auto-memory block by block, relocating each entry to a home you control
+        or archiving it. You confirm every action
+      </SkillBlock>
+    </div>
+  </Section>
+  <KeepGoing current="hygiene" />
+</Base>

@@ -69,3 +69,21 @@ d('/reviews', () => {
     expect(html()).toContain('Let a sub-agent take a fresh look');
   });
 });
+
+d('/hygiene', () => {
+  const html = () => read('dist/hygiene/index.html');
+
+  test('has its own h1', () => {
+    expect(html()).toContain('Your context is often cluttered before you even type');
+    expect(html()).toContain('<h1');
+  });
+
+  test('lists its two skills', () => {
+    expect(html()).toContain('context-checkup');
+    expect(html()).toContain('memory-doctor');
+  });
+
+  test('carries the context-checkup demo', () => {
+    expect(html()).toContain('05-context-checkup.cast');
+  });
+});
