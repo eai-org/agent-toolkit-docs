@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, test } from 'vitest';
+import { GROUPS } from '../src/data/groups';
 
 // per AGENTS.md the page checks only run when a build is present
 const d = existsSync('dist/index.html') ? describe : describe.skip;
@@ -9,17 +10,6 @@ const read = (p: string) => readFileSync(p, 'utf8');
 // the preview workflow sets SITE_BASE on its build step only. So read the base back out of the
 // build itself, off the favicon link that Base.astro emits on every page.
 const baseFrom = () => read('dist/index.html').match(/href="([^"]*)\/favicon\.svg"/)![1];
-
-d('homepage', () => {
-  test('the install button points at the homepage anchor, not a bare hash', () => {
-    const html = read('dist/index.html');
-    expect(html).toContain(`href="${baseFrom()}/#install"`);
-  });
-
-  test('no curly apostrophes', () => {
-    expect(read('dist/index.html')).not.toMatch(/[‘’]/);
-  });
-});
 
 d('/workflow', () => {
   const html = () => read('dist/workflow/index.html');
@@ -170,5 +160,45 @@ d('homepage blocks', () => {
 
   test('no em dashes left on the homepage', () => {
     expect((read('dist/index.html').match(/—/g) ?? []).length).toBe(0);
+  });
+});
+
+d('site-wide', () => {
+  const PAGES = ['dist/index.html', ...GROUPS.map((g) => `dist/${g.slug}/index.html`)];
+
+  test('every page was built', () => {
+    for (const p of PAGES) expect(existsSync(p), p).toBe(true);
+  });
+
+  test('all seven casts play, each on exactly one page', () => {
+    const seen = new Map<string, string[]>();
+    for (const p of PAGES) {
+      for (const m of new Set([...read(p).matchAll(/0[0-9]-[a-z-]+\.cast/g)].map((x) => x[0]))) {
+        seen.set(m, [...(seen.get(m) ?? []), p]);
+      }
+    }
+    expect(seen.size).toBe(7);
+    for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
+  });
+
+  test('every page has its own canonical URL and title', () => {
+    const canonicals = PAGES.map((p) => read(p).match(/rel="canonical" href="([^"]+)"/)?.[1]);
+    expect(new Set(canonicals).size).toBe(PAGES.length);
+    for (const c of canonicals) expect(c).toBeTruthy();
+  });
+
+  test('no curly apostrophes anywhere', () => {
+    for (const p of PAGES) expect(read(p), p).not.toMatch(/[‘’]/);
+  });
+
+  test('em dashes only on /conversational', () => {
+    for (const p of PAGES) {
+      const count = (read(p).match(/—/g) ?? []).length;
+      expect(count, p).toBe(p.includes('conversational') ? 2 : 0);
+    }
+  });
+
+  test('install works from every page', () => {
+    for (const p of PAGES) expect(read(p), p).toContain(`href="${baseFrom()}/#install"`);
   });
 });
