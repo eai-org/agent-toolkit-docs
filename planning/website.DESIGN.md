@@ -91,18 +91,19 @@ Demo players below the hero lazy-load (Lighthouse 95+ budget).
 ## Group pages
 
 Each of the six shipped pages (`/task-workflow`, `/pr-review-assistants`, `/fresh-eyes-review`,
-`/context-hygiene`, `/skills-docs-authoring`, `/conversational-language`) renders its homepage
-block plus that block's demo in the standard shell, with the block heading as the page h1. The richer template below is the later expansion, per the
-approved /conversational-language example — everything stacked, single column:
+`/context-hygiene`, `/skills-docs-authoring`, `/conversational-language`) is built in the
+standard shell as (expansion built 2026-08-01, block copy draft in `website.COPY.md` §14):
 
 1. Nav (same bar).
-2. Title: skill/group name (mono) + one concise description line.
-3. Demo block(s): for /conversational-language, two windows — "without the skill" (stiff AI
-   reply) and "with the skill" (human reply). Other pages: at least the flagship demo.
-4. Per-skill mini sections following the section pattern (icon, 1-2 lines each).
-5. Links: each skill's SKILL.md on GitHub (rule files for /rules) + install.
+2. Header section: kicker, block heading as the page h1, intro line; /task-workflow keeps the
+   flow strip.
+3. One hairline-separated block per skill (`SkillBlock.astro`, py-10 vs the sections' py-14):
+   mono skill name as h2 in the group hue, 1-3 muted lines, the demo inside the block of the
+   skill it shows, mono `Read the SKILL.md →` link to GitHub (rules: `Read the rule →`), plus the
+   per-block article links COPY §14 defines. No icons yet (open item).
+4. Page-level article link where the copy defines one, as a slim closing block.
 
-/rules would frame everything as opt-in; its demo shows a rule steering behavior
+/rules (still deferred) would frame everything as opt-in; its demo shows a rule steering behavior
 (git-read-only-by-default declining an unrequested push and asking for confirmation).
 
 ## Demo lineup (v1, one spec file each)
@@ -138,5 +139,5 @@ Lighthouse performance and accessibility 95+, OpenGraph/social meta on every pag
 
 ## Open items
 
-- Lucide icon picks per section.
-- Whether/when to expand the group pages beyond their homepage blocks, and to add the catalog.
+- Lucide icon picks per section and per skill block.
+- When to add the catalog page.

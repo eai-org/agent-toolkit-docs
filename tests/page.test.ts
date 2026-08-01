@@ -24,6 +24,10 @@ const WORKFLOW_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e';
 const AUTHORING_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd';
+const CONTEXT_ARTICLE =
+  'https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949';
+const MEMORY_ARTICLE =
+  'https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257';
 
 // labels and titles carry the entity encoding of the built HTML
 const groupLinks = [
@@ -109,7 +113,9 @@ const groupPages = [
     heading: 'Refine, Plan, Act',
     cast: '02-refine-ticket.cast',
     emDashes: 0,
-    article: WORKFLOW_ARTICLE,
+    skills: ['fetch-ticket', 'refine-ticket', 'create-implementation-plan', 'create-manual-test-instructions'],
+    rules: [],
+    articles: [WORKFLOW_ARTICLE],
   },
   {
     slug: 'pr-review-assistants',
@@ -119,7 +125,9 @@ const groupPages = [
     heading: 'Help on both sides of the code review',
     cast: '03-pr-review.cast',
     emDashes: 0,
-    article: null,
+    skills: ['fetch-pr-review', 'refine-pr-review', 'review-code-assistant'],
+    rules: [],
+    articles: [],
   },
   {
     slug: 'fresh-eyes-review',
@@ -129,7 +137,9 @@ const groupPages = [
     heading: 'Let a sub-agent review the code',
     cast: '04-fresh-eyes.cast',
     emDashes: 0,
-    article: null,
+    skills: ['fresh-eyes-review'],
+    rules: [],
+    articles: [],
   },
   {
     slug: 'context-hygiene',
@@ -138,7 +148,9 @@ const groupPages = [
     heading: 'Your context is often cluttered before you even type',
     cast: '05-context-checkup.cast',
     emDashes: 0,
-    article: null,
+    skills: ['context-checkup', 'memory-doctor'],
+    rules: [],
+    articles: [CONTEXT_ARTICLE, MEMORY_ARTICLE],
   },
   {
     slug: 'skills-docs-authoring',
@@ -147,7 +159,9 @@ const groupPages = [
     heading: 'Create and continuously improve the skills and docs your agents rely on',
     cast: '06-self-improve.cast',
     emDashes: 0,
-    article: AUTHORING_ARTICLE,
+    skills: ['compact-docs-writer', 'compact-skill-creator', 'self-improve'],
+    rules: [],
+    articles: [AUTHORING_ARTICLE],
   },
   {
     slug: 'conversational-language',
@@ -156,11 +170,13 @@ const groupPages = [
     heading: 'Texts that sound like a real human typed them',
     cast: '07-explain-refactor.cast',
     emDashes: 2,
-    article: null,
+    skills: ['use-conversational-language'],
+    rules: ['write-realistic-texts'],
+    articles: [],
   },
 ];
 
-describe.each(groupPages)('$slug page', ({ slug, title, description, heading, cast, emDashes, article }) => {
+describe.each(groupPages)('$slug page', ({ slug, title, description, heading, cast, emDashes, skills, rules, articles }) => {
   const doc = readFileSync(`dist/${slug}/index.html`, 'utf8');
   const url = `https://eai-org.github.io/agent-toolkit-docs/${slug}/`;
 
@@ -195,9 +211,22 @@ describe.each(groupPages)('$slug page', ({ slug, title, description, heading, ca
     expect(doc).toContain('href="/agent-toolkit-docs/#install"');
   });
 
-  test('links to its article only where there is one', () => {
-    if (article) expect(doc).toContain(`href="${article}"`);
-    else expect(doc).not.toContain('medium.com');
+  test('has a block per skill, each linking its SKILL.md on GitHub', () => {
+    for (const skill of skills) {
+      expect(doc, skill).toContain(
+        `href="https://github.com/eai-org/agent-toolkit/blob/main/skills/${skill}/SKILL.md"`,
+      );
+    }
+    for (const rule of rules) {
+      expect(doc, rule).toContain(
+        `href="https://github.com/eai-org/agent-toolkit/blob/main/rules/${rule}.md"`,
+      );
+    }
+  });
+
+  test('links to its articles only where there are any', () => {
+    if (articles.length === 0) expect(doc).not.toContain('medium.com');
+    for (const article of articles) expect(doc).toContain(`href="${article}"`);
   });
 
   test('keeps the copy guards', () => {

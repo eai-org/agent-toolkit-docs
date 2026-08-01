@@ -1,0 +1,29 @@
+---
+interface Props {
+  name: string;
+  color: 'green' | 'blue' | 'orange' | 'purple' | 'pink';
+  rule?: boolean;
+  article?: string;
+  articleLabel?: string;
+}
+const { name, color, rule = false, article, articleLabel } = Astro.props;
+const repo = 'https://github.com/eai-org/agent-toolkit/blob/main';
+const github = rule ? `${repo}/rules/${name}.md` : `${repo}/skills/${name}/SKILL.md`;
+const nameColor = {
+  green: 'text-green', blue: 'text-blue', orange: 'text-orange',
+  purple: 'text-purple', pink: 'text-pink',
+}[color];
+---
+<section class="border-t border-border py-10 px-6">
+  <div class="max-w-page mx-auto">
+    <h2 class:list={['font-mono text-lg font-bold mb-3', nameColor]}>{name}</h2>
+    <slot />
+    <p class="mt-4 flex flex-wrap gap-x-6 gap-y-1">
+      <a class="more-link" target="_blank" rel="noopener" href={github}>
+        {rule ? 'Read the rule' : 'Read the SKILL.md'} &rarr;</a>
+      {article && (
+        <a class="more-link" target="_blank" rel="noopener" href={article}>{articleLabel} &rarr;</a>
+      )}
+    </p>
+  </div>
+</section>

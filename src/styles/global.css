@@ -26,7 +26,7 @@ body { @apply bg-bg text-text font-sans; }
 
 .kicker { @apply font-mono text-[11px] font-bold uppercase tracking-[0.18em] mb-2; }
 .bullets { @apply list-disc pl-5 space-y-1.5; }
-.bullets .sk { @apply font-mono text-[0.92em] font-bold; }
+.sk { @apply font-mono text-[0.92em] font-bold; }
 .more-link { @apply font-mono text-[13px] text-blue no-underline hover:underline; }
 
 .chip { @apply bg-panel2 border border-border rounded-md px-2.5 py-0.5; }

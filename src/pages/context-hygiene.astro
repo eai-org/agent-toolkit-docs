@@ -1,10 +1,37 @@
 ---
 import Base from '../layouts/Base.astro';
-import Hygiene from '../components/sections/Hygiene.astro';
+import Section from '../components/Section.astro';
+import SkillBlock from '../components/SkillBlock.astro';
+import DemoPlayer from '../components/DemoPlayer.astro';
 ---
 <Base
   title="Context hygiene · agent-toolkit"
   description="Your context is often cluttered before you even type"
 >
-  <Hygiene page />
+  <Section kicker="Context & memory hygiene" color="blue" heading="Your context is often cluttered before you even type" as="h1">
+    <p class="text-muted">
+      A lean context window keeps the agent sharp. These two skills tackle the two places where
+      clutter builds up: your setup and your agent's memory.
+    </p>
+  </Section>
+  <SkillBlock name="context-checkup" color="blue"
+    article="https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949"
+    articleLabel="Read more about the context window"
+  >
+    <p class="text-muted mb-4">
+      Audits everything that auto-loads at startup (governing docs, skills, MCP servers), measures
+      the token cost and proposes lean, reversible trims.
+    </p>
+    <DemoPlayer cast="05-context-checkup" cols={72} rows={11} label="context-checkup proposing a trim" />
+  </SkillBlock>
+  <SkillBlock name="memory-doctor" color="blue"
+    article="https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257"
+    articleLabel="Read more about memory-doctor"
+  >
+    <p class="text-muted">
+      Drains the agent's auto-memory block by block, relocating each entry to a home you control
+      or archiving it. You confirm every action. Memory works best as an inbox, not a filing
+      cabinet: entries land there, get reviewed and move on to a permanent home.
+    </p>
+  </SkillBlock>
 </Base>

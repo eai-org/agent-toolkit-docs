@@ -1,22 +1,12 @@
 ---
 import Section from '../Section.astro';
-import DemoPlayer from '../DemoPlayer.astro';
-interface Props { page?: boolean }
-const { page = false } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
-<Section kicker="Skill & doc authoring" color="purple" heading="Create and continuously improve the skills and docs your agents rely on" as={page ? 'h1' : 'h2'}>
+<Section kicker="Skill & doc authoring" color="purple" heading="Create and continuously improve the skills and docs your agents rely on">
   <ul class="bullets mb-4">
     <li><b class="sk">compact-docs-writer</b> <span class="text-muted">writes docs with maximum token economy</span></li>
     <li><b class="sk">compact-skill-creator</b> <span class="text-muted">creates or edits skills, combining compact-docs-writer with a set of best practices for effective skills</span></li>
     <li><b class="sk">self-improve</b> <span class="text-muted">when the agent makes a mistake or doesn't behave the way you want, this skill captures the lesson so it won't repeat the same mistake again</span></li>
   </ul>
-  {page && <DemoPlayer cast="06-self-improve" cols={72} rows={17} label="self-improve capturing a lesson as a doc diff" />}
-  {page ? (
-    <p class="mt-4"><a class="more-link" target="_blank" rel="noopener"
-      href="https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd">
-      Read more about the authoring skills &rarr;</a></p>
-  ) : (
-    <p class="mt-4"><a class="more-link" href={`${base}/skills-docs-authoring/`}>More about the authoring skills &rarr;</a></p>
-  )}
+  <p class="mt-4"><a class="more-link" href={`${base}/skills-docs-authoring/`}>More about the authoring skills &rarr;</a></p>
 </Section>

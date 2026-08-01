@@ -284,3 +284,40 @@ Demo window (traffic-light dots, two exchanges):
 
 No credits section. The page ends with the feedback block, then the mono footer:
 `agent-toolkit · MIT`.
+
+## 14. Group page blocks (DRAFT 2026-08-01, pending approval)
+
+Each group page renders, after its §5-§10 header block (kicker, h1, intro; /task-workflow keeps
+the flow strip): one hairline-separated block per skill — mono skill name as h2 in the group hue,
+muted text, the demo inside the block of the skill it shows, mono link
+`Read the SKILL.md →` to the skill on GitHub (rules: `Read the rule →`) — then the approved
+page-level article link where §5-§10 defines one. The §6, §8, §9, §10 bullets are reused as block
+texts, sentence-cased with a final period. New draft copy (file names mono, bold as marked):
+
+- /task-workflow, under the flow strip: Each phase runs in a fresh session and hands over a file,
+  not chat history, so the context stays sharp.
+- fetch-ticket: Every task starts with a ticket. This skill downloads it from Jira, GitHub, Azure
+  DevOps or similar into a self-contained **TICKET.md**, attachments and linked tickets included.
+  No tracker? Write the file by hand and the workflow stays the same.
+- refine-ticket: Defines the **WHAT**. The agent checks the ticket against the actual codebase
+  and interviews you, one question at a time, each with a recommended answer. No silent
+  assumptions: you decide. The result is a validated **REQUIREMENTS.md**.
+- create-implementation-plan: Defines the **HOW**. The agent studies the code, settles the
+  technical decisions with you and writes a self-contained **PLAN.md** that a fresh session can
+  execute step by step.
+- create-manual-test-instructions: Optional last step: turns the requirements into a concise
+  manual test file a non-author can follow.
+- refine-pr-review, second sentence added to the §6 bullet: It drafts each reply and collects the
+  accepted changes into requirements you can feed back into the task workflow.
+- fresh-eyes-review: One command: the sub-agent reviews the changeset and comes back with its
+  findings, sorted by severity. You choose which ones to address.
+- /context-hygiene intro: A lean context window keeps the agent sharp. These two skills tackle
+  the two places where clutter builds up: your setup and your agent's memory.
+- context-checkup block link (`target="_blank"`): [Read more about the context window →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949)
+- memory-doctor, sentence added to the §8 bullet: Memory works best as an inbox, not a filing
+  cabinet: entries land there, get reviewed and move on to a permanent home. Block link
+  (`target="_blank"`): [Read more about memory-doctor →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257)
+- /skills-docs-authoring intro: Skills, rules and governing docs are what your agents run on.
+  These three keep them compact, effective and improving with every mistake.
+- compact-docs-writer, sentence added to the §9 bullet: Agents reread these files over and over,
+  so every token counts.

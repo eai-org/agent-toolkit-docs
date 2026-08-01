@@ -25,10 +25,12 @@ replicates that: short texts, icons, animated terminal demos. Never long prose.
 
 Scope update (2026-07-31): the homepage carries the whole pitch, plus six group pages —
 `/task-workflow`, `/pr-review-assistants`, `/fresh-eyes-review`, `/context-hygiene`,
-`/skills-docs-authoring`, `/conversational-language` — each
-rendering its homepage block and that block's demo. `/rules`, `/core-concepts`, the catalog and
-the richer per-page content below are deferred, kept here as the plan for that expansion.
-Approved block order and copy: `website.COPY.md`; skeleton: `website.DESIGN.md`.
+`/skills-docs-authoring`, `/conversational-language`. Update 2026-08-01: the group pages now
+carry per-skill blocks (template in `website.DESIGN.md`, copy draft in `website.COPY.md` §14);
+`/pr-review-assistants` covers only the three §6 skills so far, not yet the ticket-review trio
+in the table below. `/rules`, `/core-concepts` and the catalog stay deferred, kept here as the
+plan for that expansion. Approved block order and copy: `website.COPY.md`; skeleton:
+`website.DESIGN.md`.
 
 Pages as planned for the expansion:
 
