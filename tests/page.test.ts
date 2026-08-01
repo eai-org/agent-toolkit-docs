@@ -87,3 +87,22 @@ d('/hygiene', () => {
     expect(html()).toContain('05-context-checkup.cast');
   });
 });
+
+d('/authoring', () => {
+  const html = () => read('dist/authoring/index.html');
+
+  test('has its own h1', () => {
+    expect(html()).toContain('Create and improve the skills and docs your agents rely on');
+    expect(html()).toContain('<h1');
+  });
+
+  test('lists its three skills', () => {
+    for (const s of ['compact-docs-writer', 'compact-skill-creator', 'self-improve']) {
+      expect(html()).toContain(s);
+    }
+  });
+
+  test('carries the self-improve demo', () => {
+    expect(html()).toContain('06-self-improve.cast');
+  });
+});
