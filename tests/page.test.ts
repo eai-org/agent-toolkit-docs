@@ -45,3 +45,27 @@ d('/workflow', () => {
     expect(html()).toContain(`${baseFrom()}/#whats-inside`);
   });
 });
+
+d('/reviews', () => {
+  const html = () => read('dist/reviews/index.html');
+
+  test('has its own h1', () => {
+    expect(html()).toContain('Help on both sides of the review');
+    expect(html()).toContain('<h1');
+  });
+
+  test('lists its four skills including fresh eyes', () => {
+    for (const s of ['fetch-pr-review', 'refine-pr-review', 'review-code-assistant', 'fresh-eyes-review']) {
+      expect(html()).toContain(s);
+    }
+  });
+
+  test('carries both review demos', () => {
+    expect(html()).toContain('03-pr-review.cast');
+    expect(html()).toContain('04-fresh-eyes.cast');
+  });
+
+  test('keeps fresh eyes as its own sub-section', () => {
+    expect(html()).toContain('Let a sub-agent take a fresh look');
+  });
+});
