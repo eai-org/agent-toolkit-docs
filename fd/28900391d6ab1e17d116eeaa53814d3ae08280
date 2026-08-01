@@ -1,0 +1,21 @@
+tests/page.test.ts
+  s_1e8e832112e264::t_9ecf5eb17d34d4 90-108
+src/pages/authoring.astro
+  s_1e8e832112e264::t_ec133a9390b604 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "fd28900391d6ab1e17d116eeaa53814d3ae08280",
+  "prompts": {},
+  "sessions": {
+    "s_1e8e832112e264": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f925d3c-19a1-43a8-9bf9-2e7c22800f78",
+        "model": "claude-opus-5"
+      },
+      "human_author": "stefanoslig <stefanoslignos@gmail.com>"
+    }
+  }
+}
