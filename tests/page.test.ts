@@ -106,3 +106,25 @@ d('/authoring', () => {
     expect(html()).toContain('06-self-improve.cast');
   });
 });
+
+d('/conversational', () => {
+  const html = () => read('dist/conversational/index.html');
+
+  test('has its own h1', () => {
+    expect(html()).toContain('Texts that sound like a real human typed them');
+    expect(html()).toContain('<h1');
+  });
+
+  test('lists the skill and the rule', () => {
+    expect(html()).toContain('use-conversational-language');
+    expect(html()).toContain('write-realistic-texts');
+  });
+
+  test('carries the explain-refactor demo', () => {
+    expect(html()).toContain('07-explain-refactor.cast');
+  });
+
+  test('keeps the deliberate em dash pair', () => {
+    expect((html().match(/—/g) ?? []).length).toBe(2);
+  });
+});
