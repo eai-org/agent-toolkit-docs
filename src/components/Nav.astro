@@ -1,5 +1,6 @@
 ---
 import { starLabel } from '../lib/stars';
+import ThemeToggle from './ThemeToggle.astro';
 interface Props { back?: boolean }
 const { back = false } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -11,6 +12,7 @@ const stars = await starLabel();
       {back && <span aria-hidden="true">&larr; </span>}agent-toolkit
     </a>
     <div class="flex items-center gap-4">
+      <ThemeToggle />
       <a href="https://github.com/eai-org/agent-toolkit" class="font-mono text-[13px] text-text no-underline hover:text-green">
         GitHub{stars && <span class="text-muted"> {stars}</span>}
       </a>

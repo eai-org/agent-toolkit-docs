@@ -1,23 +1,35 @@
 @import "tailwindcss";
 
+/* Every token carries both palettes: light-dark() resolves against the color-scheme of whoever
+   uses it, so the theme button only sets color-scheme, and with JS off the OS preference wins. */
 @theme {
-  --color-bg: #0D1117;
-  --color-panel: #161B22;
-  --color-panel2: #1C2128;
-  --color-border: #30363D;
-  --color-text: #E6EDF3;
-  --color-muted: #8B949E;
-  --color-green: #3FB950;
-  --color-blue: #58A6FF;
-  --color-orange: #D29922;
-  --color-purple: #BC8CFF;
-  --color-pink: #F97583;
+  --color-bg: light-dark(#FFFFFF, #0D1117);
+  --color-panel: light-dark(#F6F8FA, #161B22);
+  --color-panel2: light-dark(#EAEEF2, #1C2128);
+  --color-border: light-dark(#D0D7DE, #30363D);
+  --color-text: light-dark(#1F2328, #E6EDF3);
+  --color-muted: light-dark(#59636E, #8B949E);
+  --color-green: light-dark(#1A7F37, #3FB950);
+  --color-blue: light-dark(#0969DA, #58A6FF);
+  --color-orange: light-dark(#9A6700, #D29922);
+  --color-purple: light-dark(#8250DF, #BC8CFF);
+  --color-pink: light-dark(#CF222E, #F97583);
   --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
   --font-sans: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --radius-card: 10px;
   --container-page: 60rem;
   --container-demo: 39rem;
 }
+
+:root { color-scheme: light dark; }
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
+/* the button shows only the icon of the active preference, from the very first paint */
+.theme-icon { display: none; }
+:root[data-theme="light"] .theme-icon-light,
+:root[data-theme="dark"] .theme-icon-dark,
+:root:not([data-theme="light"], [data-theme="dark"]) .theme-icon-system { display: block; }
 
 body { @apply bg-bg text-text font-sans; }
 :focus-visible { outline: 2px solid var(--color-green); outline-offset: 2px; }
@@ -32,6 +44,9 @@ body { @apply bg-bg text-text font-sans; }
 @keyframes blink { 50% { opacity: 0; } }
 @utility animate-blink { animation: blink 1.1s steps(1) infinite; }
 @media (prefers-reduced-motion: reduce) { .cursor { animation: none; } }
+
+/* the casts bake the dark palette into their ANSI codes, so terminals stay dark in light mode */
+.terminal { color-scheme: dark; }
 
 .stage { @apply flex flex-col bg-panel border-[1.5px] rounded-card px-3 py-2 text-[13px]; }
 .stage > span { @apply text-muted text-[12px] leading-snug mt-1; }

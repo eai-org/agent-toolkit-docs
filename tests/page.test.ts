@@ -181,6 +181,14 @@ d('site-wide', () => {
     for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
   });
 
+  test('every page can switch theme, without a flash of the wrong one', () => {
+    for (const p of PAGES) {
+      expect(read(p), p).toContain('class="theme-toggle');
+      // the pre-paint read has to stay inline in <head>, a bundled script runs too late
+      expect(read(p), p).toMatch(/<script>[^<]*localStorage\.getItem\('theme'\)/);
+    }
+  });
+
   test('every page has its own canonical URL', () => {
     const canonicals = PAGES.map((p) => read(p).match(/rel="canonical" href="([^"]+)"/)?.[1]);
     expect(new Set(canonicals).size).toBe(PAGES.length);
