@@ -5,6 +5,9 @@
   `planning/website.DECISIONS.md` scope and tech.
 - Copy rules: no dashes as punctuation, straight apostrophes. The em dashes in the conversational
   bullet and the pink demo replies are deliberate.
+- Never guess a skill's behavior in copy or demo specs: read its `SKILL.md` in
+  `../agent-toolkit/skills/` and the articles linked from
+  `../agent-toolkit/docs/core-philosophy.md`.
 - Demos are generated: edit `demos/specs/*.yaml`, never a `.cast` file. `npm run build` compiles
   them (plus `llms.txt` and the social card) before `astro build`.
 - No binaries or build output in git.

@@ -6,3 +6,9 @@ public/llms.txt
 public/social-card.png
 *.superpowers
 *.DS_STORE
+
+planning/*
+!planning/agent-toolkit-site-reference.html
+!planning/website.COPY.md
+!planning/website.DECISIONS.md
+!planning/website.DESIGN.md
