@@ -89,7 +89,9 @@ export function compileSpec(spec: DemoSpec): string {
     }
     t += 0.4;
   }
-  t += 1;
+  // hold the finished frame before the player loops: longer for demos that printed more
+  const lines = events.reduce((n, [, , d]) => n + d.split(nl).length - 1, 0);
+  t += Math.max(3, 0.35 * lines);
   emit('');
 
   const header = JSON.stringify({ version: 2, width: spec.cols, height: spec.rows });

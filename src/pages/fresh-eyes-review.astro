@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SkillBlock from '../components/SkillBlock.astro';
+import DemoPlayer from '../components/DemoPlayer.astro';
+import KeepGoing from '../components/KeepGoing.astro';
+---
+<Base
+  title="Fresh eyes review · agent-toolkit"
+  description="A fresh perspective works for AI just like it does for humans: a sub-agent with a clean context, seeing only the changeset and a minimal description, catches surprisingly more regressions and issues than the session that wrote the code."
+  back
+>
+  <PageHeader title="Fresh eyes review" heading="Let a sub-agent review the code">
+    <p class="text-muted">
+      A fresh perspective works for AI just like it does for humans: a sub-agent with a clean
+      context, seeing only the changeset and a minimal description, catches surprisingly more
+      regressions and issues than the session that wrote the code.
+    </p>
+  </PageHeader>
+  <SkillBlock name="fresh-eyes-review" color="orange">
+    <p class="text-muted mb-4">
+      One command: the sub-agent reviews the changeset and comes back with its findings, sorted by
+      severity. You choose which ones to address.
+    </p>
+    <DemoPlayer cast="04-fresh-eyes" cols={72} rows={10} label="fresh-eyes-review returning three findings" />
+  </SkillBlock>
+  <KeepGoing />
+</Base>

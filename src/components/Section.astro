@@ -14,8 +14,8 @@ const kickerColor = {
 }[color];
 const Heading = `h${level}` as 'h1' | 'h2';
 ---
-<section id={id} class:list={['border-t border-border py-14 px-6', center && 'text-center']}>
-  <div class="max-w-page mx-auto">
+<section id={id} class:list={['px-6', center && 'text-center']}>
+  <div class="max-w-page mx-auto border-t border-border py-14">
     <div class:list={['kicker', kickerColor]}>{kicker}</div>
     {heading && (
       <Heading class:list={[level === 1 ? 'text-3xl' : 'text-2xl', 'font-bold mb-3']}>

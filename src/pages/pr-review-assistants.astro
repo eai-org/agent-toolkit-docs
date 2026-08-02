@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SkillBlock from '../components/SkillBlock.astro';
+import DemoPlayer from '../components/DemoPlayer.astro';
+import KeepGoing from '../components/KeepGoing.astro';
+---
+<Base
+  title="PR review assistants · agent-toolkit"
+  description="Code review is still a key part of most teams' workflow. These skills assist in both directions: when others leave feedback on your PRs, and when you review someone else's code."
+  back
+>
+  <PageHeader title="PR review assistants" heading="Help on both sides of the code review">
+    <p class="text-muted">
+      Code review is still a key part of most teams' workflow. These skills assist in both
+      directions: when <b>others leave feedback on your PRs</b>, and when <b>you review someone
+      else's code</b>.
+    </p>
+  </PageHeader>
+  <SkillBlock name="fetch-pr-review" color="orange">
+    <p class="text-muted">
+      Downloads all the comments your PR received into a self-contained document that
+      <b class="sk">refine-pr-review</b> can consume.
+    </p>
+  </SkillBlock>
+  <SkillBlock name="refine-pr-review" color="orange">
+    <p class="text-muted mb-4">
+      Assists you in triaging the feedback, comment by comment: address, partial or push back. It
+      drafts each reply and collects the accepted changes into requirements you can feed back into
+      the task workflow.
+    </p>
+    <DemoPlayer cast="03-pr-review" cols={72} rows={18} label="fetch-pr-review and refine-pr-review triaging comments" />
+  </SkillBlock>
+  <SkillBlock name="review-code-assistant" color="orange">
+    <p class="text-muted">
+      Reviews someone else's PR locally (works for self-review too), suggesting human-voiced
+      comments and explanations. <b>You</b> decide what to post.
+    </p>
+  </SkillBlock>
+  <KeepGoing />
+</Base>

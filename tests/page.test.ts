@@ -11,120 +11,166 @@ const read = (p: string) => readFileSync(p, 'utf8');
 // build itself, off the favicon link that Base.astro emits on every page.
 const baseFrom = () => read('dist/index.html').match(/href="([^"]*)\/favicon\.svg"/)![1];
 
-d('/workflow', () => {
-  const html = () => read('dist/workflow/index.html');
+const casts = (doc: string) => [...doc.matchAll(/0[0-9]-[a-z-]+\.cast/g)].map((m) => m[0]);
 
-  test('has its own h1 and intro', () => {
-    expect(html()).toContain('From a ticket to shipped code');
-    expect(html()).toContain('<h1');
+const WORKFLOW_ARTICLE =
+  'https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e';
+const AUTHORING_ARTICLE =
+  'https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd';
+const CONTEXT_ARTICLE =
+  'https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949';
+const MEMORY_ARTICLE =
+  'https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257';
+
+// titles carry the entity encoding of the built HTML
+const groupPages = [
+  {
+    slug: 'task-workflow',
+    title: 'Task workflow · agent-toolkit',
+    description:
+      'Refine, plan, act: turn a ticket into requirements, a plan, then code, with a clean handoff at every step.',
+    pageTitle: 'Task workflow skills',
+    heading: 'Refine, Plan, Act',
+    cast: '02-refine-ticket.cast',
+    emDashes: 0,
+    skills: ['fetch-ticket', 'refine-ticket', 'create-implementation-plan', 'create-manual-test-instructions'],
+    rules: [],
+    articles: [WORKFLOW_ARTICLE],
+  },
+  {
+    slug: 'pr-review-assistants',
+    title: 'PR review assistants · agent-toolkit',
+    description:
+      "Code review is still a key part of most teams' workflow. These skills assist in both directions: when others leave feedback on your PRs, and when you review someone else's code.",
+    pageTitle: 'PR review assistants',
+    heading: 'Help on both sides of the code review',
+    cast: '03-pr-review.cast',
+    emDashes: 0,
+    skills: ['fetch-pr-review', 'refine-pr-review', 'review-code-assistant'],
+    rules: [],
+    articles: [],
+  },
+  {
+    slug: 'fresh-eyes-review',
+    title: 'Fresh eyes review · agent-toolkit',
+    description:
+      'A fresh perspective works for AI just like it does for humans: a sub-agent with a clean context, seeing only the changeset and a minimal description, catches surprisingly more regressions and issues than the session that wrote the code.',
+    pageTitle: 'Fresh eyes review',
+    heading: 'Let a sub-agent review the code',
+    cast: '04-fresh-eyes.cast',
+    emDashes: 0,
+    skills: ['fresh-eyes-review'],
+    rules: [],
+    articles: [],
+  },
+  {
+    slug: 'context-hygiene',
+    title: 'Context hygiene · agent-toolkit',
+    description:
+      'See what auto-loads into your agent before you even type, and trim it without breaking anything.',
+    pageTitle: 'Context hygiene skills',
+    heading: 'Your context is often cluttered before you even type',
+    cast: '05-context-checkup.cast',
+    emDashes: 0,
+    skills: ['context-checkup', 'memory-doctor'],
+    rules: [],
+    articles: [CONTEXT_ARTICLE, MEMORY_ARTICLE],
+  },
+  {
+    slug: 'skills-docs-authoring',
+    title: 'Skills &amp; docs authoring · agent-toolkit',
+    description:
+      'Write skills and docs your agents actually follow, and turn every correction into a lasting lesson.',
+    pageTitle: 'Skills &amp; docs authoring',
+    heading: 'Create and continuously improve the skills and docs your agents rely on',
+    cast: '06-self-improve.cast',
+    emDashes: 0,
+    skills: ['compact-docs-writer', 'compact-skill-creator', 'self-improve'],
+    rules: [],
+    articles: [AUTHORING_ARTICLE],
+  },
+  {
+    slug: 'conversational-language',
+    title: 'Conversational language · agent-toolkit',
+    description: 'Texts that sound like a real human typed them, not sophisticated AI prose.',
+    pageTitle: 'Conversational language',
+    heading: 'Texts that sound like a real human typed them',
+    cast: '07-explain-refactor.cast',
+    emDashes: 2,
+    skills: ['use-conversational-language'],
+    rules: ['write-realistic-texts'],
+    articles: [],
+  },
+];
+
+d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading, cast, emDashes, skills, rules, articles }) => {
+  const doc = () => read(`dist/${slug}/index.html`);
+  const url = () => `https://eai-org.github.io${baseFrom()}/${slug}/`;
+
+  test('carries its title and meta description', () => {
+    expect(doc()).toContain(`<title>${title}</title>`);
+    expect(doc()).toContain(`<meta name="description" content="${description}">`);
   });
 
-  test('lists its four skills', () => {
-    for (const s of ['fetch-ticket', 'refine-ticket', 'create-implementation-plan', 'create-manual-test-instructions']) {
-      expect(html()).toContain(s);
+  test('canonical and og:url point at the page', () => {
+    expect(doc()).toContain(`<link rel="canonical" href="${url()}">`);
+    expect(doc()).toContain(`<meta property="og:url" content="${url()}">`);
+  });
+
+  test('the page title is the only h1', () => {
+    const headings = [...doc().matchAll(/<h1[^>]*>([^<]*)<\/h1>/g)].map((m) => m[1]);
+    expect(headings).toEqual([pageTitle]);
+  });
+
+  test('the old header heading survives as an h2, with no kicker label', () => {
+    const at = doc().indexOf(`>${heading}</h2>`);
+    expect(at).toBeGreaterThan(-1);
+    // the footer cards carry kickers, so only the part up to the heading has to be free of them
+    expect(doc().slice(0, at)).not.toMatch(/class="kicker/);
+  });
+
+  test('the separator lines span the content column, not the viewport', () => {
+    expect(doc()).not.toMatch(/<section[^>]*border-t/);
+    expect(doc()).toMatch(/max-w-page[^"]*border-t/);
+  });
+
+  test('plays its own demo, once', () => {
+    expect(casts(doc())).toEqual([cast]);
+  });
+
+  test('the install button reaches the homepage anchor', () => {
+    expect(doc()).toContain(`href="${baseFrom()}/#install"`);
+  });
+
+  test('has a block per skill, each linking its SKILL.md on GitHub', () => {
+    for (const skill of skills) {
+      expect(doc(), skill).toContain(
+        `href="https://github.com/eai-org/agent-toolkit/blob/main/skills/${skill}/SKILL.md"`,
+      );
+    }
+    for (const rule of rules) {
+      expect(doc(), rule).toContain(
+        `href="https://github.com/eai-org/agent-toolkit/blob/main/rules/${rule}.md"`,
+      );
     }
   });
 
-  test('carries the refine-ticket demo', () => {
-    expect(html()).toContain('02-refine-ticket.cast');
+  test('links to its articles only where there are any', () => {
+    if (articles.length === 0) expect(doc()).not.toContain('medium.com');
+    for (const article of articles) expect(doc()).toContain(`href="${article}"`);
   });
 
-  test('links onward to two siblings and back to all groups', () => {
-    expect(html()).toContain(`${baseFrom()}/reviews/`);
-    expect(html()).toContain(`${baseFrom()}/hygiene/`);
-    expect(html()).toContain(`${baseFrom()}/#whats-inside`);
-  });
-});
-
-d('/reviews', () => {
-  const html = () => read('dist/reviews/index.html');
-
-  test('has its own h1', () => {
-    expect(html()).toContain('Help on both sides of the review');
-    expect(html()).toContain('<h1');
-  });
-
-  test('lists its four skills including fresh eyes', () => {
-    for (const s of ['fetch-pr-review', 'refine-pr-review', 'review-code-assistant', 'fresh-eyes-review']) {
-      expect(html()).toContain(s);
-    }
-  });
-
-  test('carries both review demos', () => {
-    expect(html()).toContain('03-pr-review.cast');
-    expect(html()).toContain('04-fresh-eyes.cast');
-  });
-
-  test('keeps fresh eyes as its own sub-section', () => {
-    expect(html()).toContain('Let a sub-agent take a fresh look');
+  test('keeps the copy guards', () => {
+    expect((doc().match(/—/g) ?? []).length).toBe(emDashes);
+    expect(doc()).not.toMatch(/[‘’]/);
   });
 });
 
-d('/hygiene', () => {
-  const html = () => read('dist/hygiene/index.html');
-
-  test('has its own h1', () => {
-    expect(html()).toContain('Your context is often cluttered before you even type');
-    expect(html()).toContain('<h1');
-  });
-
-  test('lists its two skills', () => {
-    expect(html()).toContain('context-checkup');
-    expect(html()).toContain('memory-doctor');
-  });
-
-  test('carries the context-checkup demo', () => {
-    expect(html()).toContain('05-context-checkup.cast');
-  });
-});
-
-d('/authoring', () => {
-  const html = () => read('dist/authoring/index.html');
-
-  test('has its own h1', () => {
-    expect(html()).toContain('Create and improve the skills and docs your agents rely on');
-    expect(html()).toContain('<h1');
-  });
-
-  test('lists its three skills', () => {
-    for (const s of ['compact-docs-writer', 'compact-skill-creator', 'self-improve']) {
-      expect(html()).toContain(s);
-    }
-  });
-
-  test('carries the self-improve demo', () => {
-    expect(html()).toContain('06-self-improve.cast');
-  });
-});
-
-d('/conversational', () => {
-  const html = () => read('dist/conversational/index.html');
-
-  test('has its own h1', () => {
-    expect(html()).toContain('Texts that sound like a real human typed them');
-    expect(html()).toContain('<h1');
-  });
-
-  test('lists the skill and the rule', () => {
-    expect(html()).toContain('use-conversational-language');
-    expect(html()).toContain('write-realistic-texts');
-  });
-
-  test('carries the explain-refactor demo', () => {
-    expect(html()).toContain('07-explain-refactor.cast');
-  });
-
-  test('keeps the deliberate em dash pair', () => {
-    expect((html().match(/—/g) ?? []).length).toBe(2);
-  });
-});
-
-d('homepage blocks', () => {
+d('homepage', () => {
   const ORDER = [
     'Give us a star on GitHub',
     'Different projects, same repetitive tasks',
-    'Refine, Plan, Act',
-    'Five groups of skills',
+    'Several groups of skills',
     'Core ideas behind every skill',
     'A toolkit, not a framework',
     'Opinionated rules',
@@ -145,17 +191,26 @@ d('homepage blocks', () => {
   });
 
   test('carries exactly one demo, the hero', () => {
-    const html = read('dist/index.html');
-    const casts = [...html.matchAll(/0[0-9]-[a-z-]+\.cast/g)].map((m) => m[0]);
-    expect(new Set(casts)).toEqual(new Set(['01-hero-voice.cast']));
+    expect(casts(read('dist/index.html'))).toEqual(['01-hero-voice.cast']);
   });
 
-  test('has a card for every group, with the anchor Keep going targets', () => {
+  test('has a card for every group in the whats-inside grid', () => {
     const html = read('dist/index.html');
     expect(html).toContain('id="whats-inside"');
-    for (const slug of ['workflow', 'reviews', 'hygiene', 'authoring', 'conversational']) {
-      expect(html).toContain(`${baseFrom()}/${slug}/"`);
+    for (const group of GROUPS) {
+      expect(html, group.slug).toContain(`${baseFrom()}/${group.slug}/"`);
     }
+  });
+
+  test('the two article links moved to their group pages', () => {
+    const html = read('dist/index.html');
+    expect(html).not.toContain('Read more about the task workflow');
+    expect(html).not.toContain('Read more about the authoring skills');
+    expect(html).not.toContain(WORKFLOW_ARTICLE);
+  });
+
+  test('the rules block still links to the GitHub rules list', () => {
+    expect(read('dist/index.html')).toContain('https://github.com/eai-org/agent-toolkit/tree/main#rules');
   });
 
   test('no em dashes left on the homepage', () => {
@@ -173,7 +228,7 @@ d('site-wide', () => {
   test('all seven casts play, each on exactly one page', () => {
     const seen = new Map<string, string[]>();
     for (const p of PAGES) {
-      for (const m of new Set([...read(p).matchAll(/0[0-9]-[a-z-]+\.cast/g)].map((x) => x[0]))) {
+      for (const m of new Set(casts(read(p)))) {
         seen.set(m, [...(seen.get(m) ?? []), p]);
       }
     }
@@ -205,7 +260,7 @@ d('site-wide', () => {
     for (const p of PAGES) expect(read(p), p).not.toMatch(/[‘’]/);
   });
 
-  test('em dashes only on /conversational', () => {
+  test('em dashes only on the conversational page', () => {
     for (const p of PAGES) {
       const count = (read(p).match(/—/g) ?? []).length;
       expect(count, p).toBe(p.includes('conversational') ? 2 : 0);
@@ -214,5 +269,17 @@ d('site-wide', () => {
 
   test('install works from every page', () => {
     for (const p of PAGES) expect(read(p), p).toContain(`href="${baseFrom()}/#install"`);
+  });
+
+  test('every group page links to all six group pages', () => {
+    for (const p of PAGES.slice(1)) {
+      for (const group of GROUPS) {
+        expect(read(p), `${p} -> ${group.slug}`).toContain(`${baseFrom()}/${group.slug}/"`);
+      }
+    }
+  });
+
+  test('no separator line spans the full viewport width', () => {
+    for (const p of PAGES) expect(read(p), p).not.toMatch(/<section[^>]*border-t/);
   });
 });

@@ -23,29 +23,34 @@ replicates that: short texts, icons, animated terminal demos. Never long prose.
 
 ## Site structure
 
-Scope update (copy session 2026-07-27): **v1 ships as a one-page site.** The homepage carries the
-whole pitch and is the whole site; where sections would have linked to subpages they now link to
-Medium articles or the GitHub README, or carry no link. The subpages below are deferred to a
-possible later phase, kept here as the plan for that expansion. Approved block order and copy:
-`website.COPY.md`; skeleton: `website.DESIGN.md`.
+Scope update (2026-07-31, final shape after the 2026-08-02 merge): a homepage overview (hero,
+problem, six-card group grid, principles, philosophy, rules, feedback) routes into six group
+pages — `/task-workflow`, `/pr-review-assistants`, `/fresh-eyes-review`, `/context-hygiene`,
+`/skills-docs-authoring`, `/conversational-language` — which carry the per-skill blocks and
+demos (template in `website.DESIGN.md`, copy in `website.COPY.md` §14) and end with a compact
+footer grid of all six group cards.
+`/pr-review-assistants` covers only the three §6 skills so far, not yet the ticket-review trio
+in the table below. `/rules`, `/core-concepts` and the catalog stay deferred, kept here as the
+plan for that expansion. Approved block order and copy: `website.COPY.md`; skeleton:
+`website.DESIGN.md`.
 
-Deferred pages:
+Pages as planned for the expansion:
 
 | Page | Content |
 |---|---|
 | `/core-concepts` | The five pillars, marketing style: icons + short texts. NOT a render of `docs/core-philosophy.md` (that doc is agent-facing source material informing the copy; llms.txt generates from it). The deck shows only four principles — it predates pillar 5 (generic beats specific); core-philosophy.md is the authority: five pillars |
-| `/workflow` | RPA flagship: fetch-ticket, refine-ticket, create-implementation-plan, create-manual-test-instructions. Includes the Refine/Plan/Act flow diagram from the deck |
-| `/reviews` | Incoming PR (fetch-pr-review, refine-pr-review); reviewing others' code (review-code-assistant); tickets (review-ticket, verify-understanding, check-ticket-implementation) |
-| `/fresh-eyes` | fresh-eyes-review — separate concept: validating your own work with a clean context |
-| `/conversational` | use-conversational-language (+ write-realistic-texts rule). Proven crowd favorite |
-| `/hygiene` | context-checkup, memory-doctor |
-| `/authoring` | compact-skill-creator, compact-docs-writer, self-improve |
+| `/task-workflow` | RPA flagship: fetch-ticket, refine-ticket, create-implementation-plan, create-manual-test-instructions. Includes the Refine/Plan/Act flow diagram from the deck |
+| `/pr-review-assistants` | Incoming PR (fetch-pr-review, refine-pr-review); reviewing others' code (review-code-assistant); tickets (review-ticket, verify-understanding, check-ticket-implementation) |
+| `/fresh-eyes-review` | fresh-eyes-review — separate concept: validating your own work with a clean context |
+| `/conversational-language` | use-conversational-language (+ write-realistic-texts rule). Proven crowd favorite |
+| `/context-hygiene` | context-checkup, memory-doctor |
+| `/skills-docs-authoring` | compact-skill-creator, compact-docs-writer, self-improve |
 | `/rules` | Opt-in rules, clearly framed as opt-in. Adapted pattern: links go to rule files (rules have no SKILL.md); the demo shows a rule steering behavior, e.g. git-read-only-by-default declining an unrequested push and asking for explicit confirmation |
 | catalog page | Full skill/rule reference, generated at build time from SKILL.md frontmatter and rule files — cannot drift from the repo |
 
 run-nx-checks: catalog only, no marketing section.
 
-If group pages land later, they all follow the same pattern as the homepage sections, one level
+Expanded, the group pages all follow the same pattern as the homepage sections, one level
 deeper: icon + short marketing text per skill, at least one terminal demo, links to each skill's
 SKILL.md on GitHub (`/rules`: rule files instead — see table) and to the install section. Same
 visual language everywhere; never long prose.
@@ -65,11 +70,11 @@ visual language everywhere; never long prose.
   agent-branded chrome, but Claude Code-adjacent palette/feel for familiarity. Simplicity and
   elegance over 1:1 mimicry.
 - Hero demo: use-conversational-language (before/after of an AI-sounding vs human PR reply) —
-  graspable in seconds with zero context. The workflow section opens with the refine-ticket
+  graspable in seconds with zero context. /task-workflow carries the refine-ticket
   grilling demo (one question at a time, each with a recommendation).
-- v1: seven demos, all on the homepage (lineup and scripts in `website.DESIGN.md` /
-  `website.COPY.md`). If group pages land later, each gets at least one demo of its flagship
-  skill.
+- Seven demos: the hero on the homepage, the other six on their group pages (lineup and scripts
+  in `website.DESIGN.md` / `website.COPY.md`). Any further group page gets at least one demo of
+  its flagship skill.
 
 ## Tech
 
@@ -78,7 +83,10 @@ visual language everywhere; never long prose.
   `--panel-2 #1C2128` (chips), `--border #30363D`, `--text #E6EDF3`, `--muted #8B949E`,
   `--green #3FB950`, `--blue #58A6FF`, `--orange #D29922`, `--purple #BC8CFF`,
   `--pink #F97583`, `--radius 10px`. GitHub-dark palette, terminal-green accent, monospace
-  accents. Font stacks modernized in the design session, superseding the deck's Courier New/Arial:
+  accents. Since the 2026-08 theme work each color is a `light-dark()` pair — these deck values
+  are the dark side, paired with GitHub-light counterparts, toggle in the nav
+  (details in `website.DESIGN.md`). Font stacks modernized in the design session, superseding
+  the deck's Courier New/Arial:
   mono `ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace`, sans
   `system-ui, -apple-system, "Segoe UI", Arial, sans-serif`. The reference HTML's `:root` is
   authoritative if it and this list diverge, except the font stacks, where this list wins.
@@ -115,8 +123,9 @@ Settled in the 2026-07-26 design session:
   marketing site rather than copied from the slides.
 - Font stacks: modern system stacks (see Tech); role structure unchanged — mono for
   display/accents/terminals, sans for body.
-- Navigation: minimal top bar — wordmark, GitHub link with star count, install button anchoring
-  to the hero install terminal. No other links in the one-page v1; no hamburger or dropdowns.
+- Navigation: minimal top bar — wordmark (← back arrow prefix on group pages), theme toggle,
+  GitHub link with star count, install button anchoring to the hero install terminal from every
+  page. No page links, nothing else; no hamburger or dropdowns.
 - Motion: the demo players carry all animation. Beyond them only a CSS blinking cursor in the
   hero and quiet hover states; no scroll-triggered effects.
 - Layout, hero, signature element, TUI demo chrome, per-group hues, and the demo lineup are
@@ -138,7 +147,7 @@ marketplace.
 - `llms.txt` at site root, generated at build time from `docs/core-philosophy.md`.
 - Pages URL added to the GitHub repo header.
 - Launch promo planned with v1: dev.to crossposts, Show HN, r/ClaudeAI. Hard rule: the site is
-  complete (the one-page site with all seven demos) before any promo goes out.
+  complete (homepage, group pages, all seven demos) before any promo goes out.
 
 ## Out of scope for v1
 
@@ -150,10 +159,10 @@ Custom domain; blog on the site (Medium stays the writing home); talk recording 
   site-serving workflows land in it (only the Pages URL in its README/header, the README's
   gif link to the deployed site, and later an optional dispatch hook).
 - The site repo commits no binaries or build output.
-- Once the catalog page lands (deferred, not in the one-page v1): a new or changed skill in
-  agent-toolkit appears in it automatically — within a day via the nightly rebuild, with no
-  manual copy step ever (cron kept alive by the keepalive step). The nightly rebuild itself
-  ships with v1 (llms.txt already generates from the toolkit checkout).
+- Once the catalog page lands (deferred): a new or changed skill in agent-toolkit appears in it
+  automatically — within a day via the nightly rebuild, with no manual copy step ever (cron kept
+  alive by the keepalive step). The nightly rebuild itself ships with v1 (llms.txt already
+  generates from the toolkit checkout).
 - A demo is (re)generated from its spec file by the build; changing a demo means editing a spec.
 - Site renders with JS disabled except demo playback; responsive to mobile; visible focus;
   reduced motion respected.

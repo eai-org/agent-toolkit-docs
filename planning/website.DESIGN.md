@@ -26,6 +26,11 @@ dense skeleton ("too chaotic — humans are lazy, we need simple, quick, effecti
   orange, conversational blue, hygiene blue, authoring purple, rules pink. Green doubles as the
   general accent (CTAs, links-as-commands, cursor).
 - Icons: one Lucide icon per section header, inlined SVG, picked at build (per DECISIONS).
+- Dark and light theme (2026-08-02): every color token is a `light-dark()` pair — dark side = the
+  deck palette, light side GitHub-light. The nav toggle cycles dark/light/system by setting
+  `data-theme` (which sets `color-scheme`); an inline pre-paint `<head>` script restores the
+  stored choice so the wrong theme never flashes; with JS off the OS preference wins. Terminal
+  demos stay dark in light mode (casts bake dark ANSI colors).
 - Signature element: the agent-TUI demo windows — especially the hero's two-exchange voice demo
   (stiff AI reply, then the same prompt with the skill and a human reply) — inside an otherwise
   still, deck-calm page.
@@ -45,82 +50,92 @@ Demos depict a Claude Code-like agent app, never a bash shell (no `$` prompts):
   the only git-style diff is the self-improve demo's suggested addition (green `+` line).
 - Rendered by asciinema-player from generated casts (per DECISIONS), capped at 624px
   (`--container-demo`) so terminal text stays ~14px; each loops while in view (GIF-like),
-  paused offscreen. `prefers-reduced-motion`: static first frame until play.
+  paused offscreen, holding its finished frame for at least 3s (longer the more it printed)
+  before restarting. `prefers-reduced-motion`: static first frame until play.
 
 ## Layout system
 
-- Single centered column, `max-width` ~960px, sections separated by 1px `--border`, generous
-  vertical padding. No sidebars, no split panes.
+- Single centered column, `max-width` ~960px, sections separated by 1px `--border` lines,
+  generous vertical padding. No sidebars, no split panes. Separators sit on the inner
+  `max-w-page` div, spanning the content column, never the full viewport (site-wide since the
+  2026-08-02 merge); only the site footer keeps a full-width border.
 - Section pattern (homepage and group pages alike): kicker → heading → ≤3 short lines →
   optional panel/quote → optional demo → mono `more →` link. Never long prose.
-- Only grids: the deck's own — principles panels (2-col, pillar 5 spanning), comparison (2-col).
-  Both stack on mobile like the deck's `.cols`.
-- Nav: sticky minimal bar — mono green wordmark, GitHub link with star count, green install
-  button anchoring to the hero install terminal. No other links (one-page site), no hamburger,
-  no dropdowns.
+- Only grids: principles panes (2-col), comparison (2-col), group cards (2-col on the homepage,
+  3-col compact in the group-page footer). All stack on mobile like the deck's `.cols`.
+- Nav: sticky minimal bar in the page column — mono green wordmark linking home (prefixed with a
+  ← arrow on group pages), theme toggle, GitHub link with star count, green install button
+  anchoring to the hero install terminal from every page. No page links, nothing else, no
+  hamburger, no dropdowns.
 - Motion: per DECISIONS — demo players only, plus CSS blinking cursor after the hero h1.
 
 ## Homepage (approved skeleton; final copy in `website.COPY.md`)
 
-v1 is a one-page site: this page is the whole site; group pages may come later. Approved block
-order (reorder session 2026-07-27):
+The homepage is a compact overview (slimmed in the 2026-08-02 merge); the group blocks and
+their demos live on the group pages. Block order:
 
 1. Hero, centered: two-exchange voice TUI demo → h1 mono `agent-toolkit` + blinking cursor →
    tagline → chips → one-line install terminal with copy button → mono link
    "Other ways to install →" (README install section on GitHub) → star line (orange ★, link to
    the repo).
 2. The problem (pink): "Different projects, same repetitive tasks", 3 bullets, quote panel.
-3. Principles (green): six panes in a 2×3 grid, three inline Medium links, no footer link.
-4. Philosophy (green): "A minimalistic toolkit, not a framework", comparison panels, no quote.
-5. Task workflow (green): "Refine, Plan, Act", four equal-size stage boxes
-   (Ticket/Refine/Plan/Act), refine-ticket grilling demo, footer link to a Medium article.
-6. One compact section per remaining group, order: reviews (orange, fetch → /clear → refine
-   demo), fresh-eyes (orange, findings demo), hygiene (blue, context-checkup demo), authoring
-   (purple, self-improve demo, footer link to a Medium article), conversational (blue,
-   two-exchange refactor demo), rules (pink, short: no heading, no demo, footer link to the
-   README rules section on GitHub). Only workflow, authoring and rules have footer links; the
-   others' "Read more" links return if group pages are added later.
+3. What's inside (blue, anchor `#whats-inside`): "Several groups of skills", six group cards in
+   a 2-col grid, each linking its group page (copy in `website.COPY.md` §2b).
+4. Principles (green): six panes in a 2-col grid, three inline Medium links, no footer link.
+5. Philosophy (green): "A toolkit, not a framework", comparison panels, no quote.
+6. Opinionated rules (pink, short: no heading, no demo, footer link to the README rules section
+   on GitHub).
 7. Share your feedback (green, centered): kicker + one line + "Open an issue →" (GitHub issues).
 8. Mono footer (`agent-toolkit · MIT`). No standalone install section (hero covers it, nav
    install button anchors to the hero terminal) and no credits section.
 
 Demo players below the hero lazy-load (Lighthouse 95+ budget).
 
-## Group page template (deferred — not in v1)
+## Group pages
 
-Kept for a possible later expansion beyond the one-page site. Per the approved /conversational
-example — everything stacked, single column:
+Each of the six shipped pages (`/task-workflow`, `/pr-review-assistants`, `/fresh-eyes-review`,
+`/context-hygiene`, `/skills-docs-authoring`, `/conversational-language`) is built in the
+standard shell as (expansion built 2026-08-01, block copy draft in `website.COPY.md` §14):
 
-1. Nav (same bar).
-2. Title: skill/group name (mono) + one concise description line.
-3. Demo block(s): for /conversational, two windows — "without the skill" (stiff AI reply) and
-   "with the skill" (human reply). Other pages: at least the flagship demo.
-4. Per-skill mini sections following the section pattern (icon, 1-2 lines each).
-5. Links: each skill's SKILL.md on GitHub (rule files for /rules) + install.
+1. Nav (same bar, wordmark prefixed with a ← back arrow).
+2. Page title: big centered mono h1, hero-style, no kicker (`PageHeader.astro`; titles in COPY
+   §14).
+3. Intro section, borderless: the block heading demoted to h2, intro line(s); /task-workflow
+   keeps the flow strip.
+4. One hairline-separated block per skill (`SkillBlock.astro`, py-10 vs the sections' py-14):
+   mono skill name as h2 in the group hue, 1-3 muted lines, the demo inside the block of the
+   skill it shows, mono `Read the SKILL.md →` link to GitHub (rules: `Read the rule →`), plus the
+   per-block article links COPY §14 defines. No icons yet (open item).
+5. Page-level article link where the copy defines one, as a slim closing block.
+6. Footer grid (`KeepGoing.astro`): all six group cards, compact (kicker + one-line title, long
+   titles swapped for their short stand-in), 3-col, no label.
 
-/rules would frame everything as opt-in; its demo shows a rule steering behavior
+/rules (still deferred) would frame everything as opt-in; its demo shows a rule steering behavior
 (git-read-only-by-default declining an unrequested push and asking for confirmation).
 
 ## Demo lineup (v1, one spec file each)
 
-All seven demos live on the homepage; scripts are written out in `website.COPY.md`.
+The hero demo lives on the homepage, the other six on their group pages; scripts are written out
+in `website.COPY.md`.
 
 1. use-conversational-language two-exchange "draft an answer" — hero.
-2. refine-ticket grilling (one question, recommendation) — workflow section.
+2. refine-ticket grilling (one question, recommendation) — /task-workflow.
 3. fetch-pr-review → /clear → refine-pr-review triage (comment 3/12: address / partial / push
-   back) — reviews section.
-4. fresh-eyes-review returning 3 findings with address options — fresh-eyes section.
-5. context-checkup audit with a proposed trim — hygiene section.
-6. self-improve turning a correction into a doc diff — authoring section.
-7. use-conversational-language two-exchange "explain the refactor" — conversational section.
+   back) — /pr-review-assistants.
+4. fresh-eyes-review returning 3 findings with address options — /fresh-eyes-review.
+5. context-checkup audit with a proposed trim — /context-hygiene.
+6. self-improve turning a correction into a doc diff — /skills-docs-authoring.
+7. use-conversational-language two-exchange "explain the refactor" — /conversational-language.
 
 The git-read-only-by-default demo was tied to the /rules page and is deferred with it.
 
 ## Copy status
 
 Homepage copy and block order are approved (copy session 2026-07-27) and live in
-`website.COPY.md` — that file wins over any text shown in this doc or the mockups. v1 has no
-other pages, so the copy pass is complete. Any future group-page copy follows the same process:
+`website.COPY.md` — that file wins over any text shown in this doc or the mockups. The group
+pages carry the §5-§10 blocks; metadata approved 2026-07-31, page URLs and titles 2026-08-01,
+group cards and the slimmed homepage 2026-08-02. Any further
+group-page copy follows the same process:
 short, human, non-salesy, per the DECISIONS copy rules (no dashes as punctuation, straight
 apostrophes), reviewed with Francesco section by section.
 
@@ -132,5 +147,5 @@ Lighthouse performance and accessibility 95+, OpenGraph/social meta on every pag
 
 ## Open items
 
-- Lucide icon picks per section.
-- Whether/when to add group pages and the catalog beyond the one-page v1.
+- Lucide icon picks per section and per skill block.
+- When to add the catalog page.

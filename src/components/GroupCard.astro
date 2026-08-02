@@ -9,12 +9,9 @@ const hue = {
 }[group.hue];
 ---
 <a href={`${base}/${group.slug}/`}
-   class:list={[
-     'block bg-panel border border-border rounded-card px-4 py-3 no-underline text-text hover:border-muted',
-     group.wide && !compact && 'md:col-span-2',
-   ]}>
+   class="block bg-panel border border-border rounded-card px-4 py-3 no-underline text-text hover:border-muted">
   <div class:list={['kicker', hue]}>{group.kicker}</div>
-  <div class="font-bold">{group.title}</div>
+  <div class="font-bold">{compact ? (group.short ?? group.title) : group.title}</div>
   {!compact && (
     <>
       <p class="text-muted text-[13px] leading-snug mt-1">{group.line}</p>

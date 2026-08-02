@@ -1,16 +1,26 @@
-# COPY: agent-toolkit website — homepage (approved)
+# COPY: agent-toolkit website (approved)
 
-Homepage copy approved by Francesco in the copy session of 2026-07-27, including the block order.
-This is the authoritative text for the build; `website.DESIGN.md` holds layout/visuals,
-`website.DECISIONS.md` the tech and scope. **v1 is a one-page site**: the homepage is the whole
-site, group pages may come later. Bullet items render as the deck pattern: **bold lead** followed
-by a muted detail span (no literal dash between them). Skill names in bullets are mono. Demo
-lines: `>` input box, `✻` muted spinner, `⏺` agent output; numbered options with `❯` on the
-highlighted one and `(recommended)` in green. In voice demos the `⏺` is pink for the stiff AI
-reply and green for the human one.
+Copy approved by Francesco in the copy session of 2026-07-27, including the block order; the page
+metadata of §5-§10 approved 2026-07-31, the §5-§8 page URLs and titles 2026-08-01, the group
+cards (§2b), the slimmed homepage and the four reworked meta descriptions 2026-08-02 (merge of
+the two page splits). This is the authoritative text
+for the build; `website.DESIGN.md` holds layout/visuals, `website.DECISIONS.md` the tech and
+scope. The site is a homepage overview plus one page per skill group (§5-§10, no `/rules` page
+yet). Homepage block order: §1 hero, §2 problem, §2b card grid, §3 principles, §4 philosophy,
+§11 rules, §12 feedback. The §5-§10 blocks and their demos live only on their group pages,
+structured per §14. Bullet items render as the deck pattern:
+**bold lead** followed by a muted detail span (no literal dash between them). Skill names in
+bullets are mono. Demo lines: `>` input box, `✻` muted spinner, `⏺` agent output; numbered
+options with `❯` on the highlighted one and `(recommended)` in green. In voice demos the `⏺` is
+pink for the stiff AI reply and green for the human one.
 
-Sections 6, 7, 8 and 10 have no footer link for now; their "Read more …" links return if group
-pages are added later.
+## 0. Nav (every page)
+
+- Wordmark (mono green, links home): agent-toolkit — prefixed with a ← arrow on group pages
+- Theme toggle (icon-only: dark/light/system)
+- GitHub, with the star count appended (`★ 1,284`), to the repo
+- Install button, to the hero install terminal
+- No page links.
 
 ## 1. Hero (centered)
 
@@ -34,7 +44,8 @@ Demo window (traffic-light dots, two exchanges):
 - Install terminal (copy button): comment `# install with one command`, command
   `git clone https://github.com/eai-org/agent-toolkit.git && cd agent-toolkit && ./install.sh`
 - Below it, mono blue link: `Other ways to install →` — to the README install section on GitHub.
-  (The sticky nav's install button anchors here; the standalone "Get it" section was dropped.)
+  (The sticky nav's install button anchors here from every page; the standalone "Get it" section
+  was dropped.)
 - Star line (below the install link, orange ★): This toolkit is entirely open source and free to
   use. [Give us a star on GitHub](https://github.com/eai-org/agent-toolkit) to support us.
 
@@ -48,41 +59,57 @@ Demo window (traffic-light dots, two exchanges):
 - Quote panel: "I kept rebuilding the same AI setup in every project, so I built one that works
   everywhere."
 
+## 2b. What's inside (blue)
+
+- Kicker: What's inside
+- Heading: Several groups of skills
+- Six cards in a 2-col grid, one per group page; each card: kicker in the group hue, bold title,
+  muted line, count bottom-left, blue `Open →`. The same cards, compact (kicker + title only),
+  repeat as the unlabeled footer grid on every group page (§14); there a title too long for one
+  line gets a compact stand-in — `/conversational-language`: "Texts that sound like real
+  humans". Card copy:
+
+| page | kicker (hue) | title | line | count |
+|---|---|---|---|---|
+| `/task-workflow` | Task workflow (green) | Refine, plan, act | Turn a ticket into requirements, a plan, then code, with a clean handoff at every step. | 4 skills |
+| `/pr-review-assistants` | PR reviews (orange) | Both sides of the review | Triage the feedback your PR gets and review someone else's code. | 3 skills |
+| `/fresh-eyes-review` | Fresh eyes review (pink) | Let a sub-agent review the code | A sub-agent with a clean context, seeing only the changeset, catches what the session that wrote the code misses. | 1 skill |
+| `/context-hygiene` | Context & memory (blue) | Keep the context lean | See what auto-loads before you even type, and trim it without breaking anything. | 2 skills |
+| `/skills-docs-authoring` | Skill & doc authoring (purple) | Teach your agent | Write skills and docs agents actually follow, and turn every correction into a lasting lesson. | 3 skills |
+| `/conversational-language` | Conversational voice (blue) | Texts that sound like a real human typed them | No em dashes, no "this valuable feedback". Just what you would have written yourself, faster. | 1 skill + 1 rule |
+
 ## 3. Principles (green)
 
 - Kicker: Principles
 - Heading: Core ideas behind every skill
-- Six panes, 2×3 grid; inline links are mono blue, Medium ones `target="_blank"`:
-  1. **Keep the context window sharp** Atomic skills: do one thing, do it well, load nothing
-     else. [Why this matters →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949)
-  2. **Offload to files, pick up fresh** Each phase ends in a self-contained doc a fresh session
-     can pick up. Clean handoffs, easy parallelism. [The RPA workflow →](https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427)
-  3. **Human in the loop** You keep full control: nothing runs behind your back. The agent
-     recommends, you decide.
-  4. **Never guess** The agent checks the existing code first and asks you when in doubt.
-  5. **Learn from mistakes** Every correction you make becomes a durable lesson, so your agents
-     get smarter every day. [Learn more →](https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd)
-  6. **Versatile by design** Skills that work in any project and tech stack, in any type of team
-     or solo.
+- Six panes, 2-col grid, bold lead + small muted detail; inline links are mono blue,
+  `target="_blank"`:
+  1. **Keep the context window sharp** Atomic skills: one job each, nothing else loaded.
+     [why →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949)
+  2. **Offload to files, pick up fresh** Every phase ends in a doc a new session can pick up.
+     [how →](https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427)
+  3. **Human in the loop** The agent recommends, you decide. Nothing runs behind your back.
+  4. **Never guess** It reads the existing code first and asks you when in doubt.
+  5. **Learn from mistakes** Every correction becomes a durable lesson.
+     [more →](https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd)
+  6. **Versatile by design** Any project, any stack, team or solo.
 - No footer link (no /core-concepts page; the Medium links cover further reading).
 
 ## 4. Philosophy (green)
 
 - Kicker: Philosophy
-- Heading: A minimalistic toolkit, not a framework
-- Intro (muted): There are great skill frameworks out there that auto-activate around everything
-  you do. The **agent-toolkit** deliberately takes the other road:
+- Heading: A toolkit, not a framework
+- Intro (muted): Great frameworks exist that auto-activate around everything you do. This one
+  deliberately takes the other road:
 - Two comparison panels (stack on mobile):
-  - `auto-activating frameworks` (muted title): a whole methodology / skills activate before any
-    task / the agent drives / pulls you in at its checkpoints / fuller context, less to remember
-  - `agent-toolkit` (green title): modular, use only the parts you need / primarily user
-    invoked / you drive, the agent assists / human in the loop by design / lean context,
-    predictable behavior
+  - `auto-activating frameworks` (muted title): a whole methodology / the agent drives / fuller
+    context, less to remember
+  - `agent-toolkit` (green title): use only the parts you need / you drive, the agent assists /
+    lean context, predictable behavior
 - No trade-off quote.
 
 ## 5. Task workflow (green)
 
-- Kicker: Task workflow
 - Heading: Refine, Plan, Act
 - Intro (muted): A development workflow suitable for any kind of project
 - Flow: four equal-size stage boxes (stretch grid, arrows between). Bold marks: WHAT, HOW and
@@ -102,11 +129,12 @@ Demo window (traffic-light dots, two exchanges):
     2. include, flagged
 ```
 
-- Footer link (`target="_blank"`): [Read more about the task workflow →](https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e)
+- Page `/task-workflow` — title `Task workflow · agent-toolkit`; meta description `Refine, plan,
+  act: turn a ticket into requirements, a plan, then code, with a clean handoff at every step.`;
+  footer link (`target="_blank"`): [Read more about the task workflow →](https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e)
 
 ## 6. Review assistants (orange)
 
-- Kicker: Review assistants
 - Heading: Help on both sides of the code review
 - Intro (muted): Code review is still a key part of most teams' workflow. These skills assist in
   both directions: when **others leave feedback on your PRs**, and when **you review someone
@@ -132,11 +160,13 @@ Demo window (traffic-light dots, two exchanges):
     3. push back
 ```
 
-- No footer link for now.
+- Page `/pr-review-assistants` — title `PR review assistants · agent-toolkit`; meta description
+  `Code review is still a key part of most teams' workflow. These skills assist in both
+  directions: when others leave feedback on your PRs, and when you review someone else's code.`;
+  no footer link.
 
 ## 7. Fresh eyes review (orange)
 
-- Kicker: Fresh eyes review
 - Heading: Let a sub-agent review the code
 - Intro (muted): A fresh perspective works for AI just like it does for humans: a sub-agent with
   a clean context, seeing only the changeset and a minimal description, catches surprisingly
@@ -153,11 +183,13 @@ Demo window (traffic-light dots, two exchanges):
     3. Chat about this
 ```
 
-- No footer link for now.
+- Page `/fresh-eyes-review` — title `Fresh eyes review · agent-toolkit`; meta description
+  `A fresh perspective works for AI just like it does for humans: a sub-agent with a clean
+  context, seeing only the changeset and a minimal description, catches surprisingly more
+  regressions and issues than the session that wrote the code.`; no footer link.
 
 ## 8. Context & memory hygiene (blue)
 
-- Kicker: Context & memory hygiene
 - Heading: Your context is often cluttered before you even type
 - **context-checkup** audits everything that auto-loads at startup (governing docs, skills, MCP
   servers), measures the token cost and proposes lean, reversible trims
@@ -174,11 +206,12 @@ Demo window (traffic-light dots, two exchanges):
     3. Show the full report
 ```
 
-- No footer link for now.
+- Page `/context-hygiene` — title `Context hygiene · agent-toolkit`; meta description `See what
+  auto-loads into your agent before you even type, and trim it without breaking anything.`; no
+  footer link.
 
 ## 9. Skill & doc authoring (purple)
 
-- Kicker: Skill & doc authoring
 - Heading: Create and continuously improve the skills and docs your agents rely on
 - **compact-docs-writer** writes docs with maximum token economy
 - **compact-skill-creator** creates or edits skills, combining compact-docs-writer with a set of
@@ -201,12 +234,13 @@ Demo window (traffic-light dots, two exchanges):
     4. Chat about this
 ```
 
-- Footer link (`target="_blank"`, same article as the Learn-from-mistakes pane in Principles,
-  accepted overlap): [Read more about the authoring skills →](https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd)
+- Page `/skills-docs-authoring` — title `Skills & docs authoring · agent-toolkit`; meta
+  description `Write skills and docs your agents actually follow, and turn every correction into
+  a lasting lesson.`; footer link (`target="_blank"`, same article as the Learn-from-mistakes
+  pane in Principles, accepted overlap): [Read more about the authoring skills →](https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd)
 
 ## 10. Conversational voice (blue)
 
-- Kicker: Conversational voice
 - Heading: Texts that sound like a real human typed them
 - Intro (muted): We often ask AI to help draft texts that other people will read:
 - **use-conversational-language** tells the agent to write in simple, human language instead of
@@ -225,7 +259,9 @@ Demo window (traffic-light dots, two exchanges):
 ⏺ (green) "extracted serializeUsers() to a shared service so we can reuse it in JIRA-1234"
 ```
 
-- No footer link for now.
+- Page `/conversational-language` — title `Conversational language · agent-toolkit`; meta
+  description `Texts that sound like a real human typed them, not sophisticated AI prose.`; no
+  footer link.
 
 ## 11. Opinionated rules (pink)
 
@@ -233,14 +269,9 @@ Demo window (traffic-light dots, two exchanges):
 - No heading, no demo (deliberately short).
 - Intro (muted): Optional and not installed by default: get them all with
   `./install-opinionated-rules.sh` or pick only the ones you want. Examples:
-- **git-read-only-by-default** prevents the agent from performing git write operations such as
-  commit, push, reset, etc. unless explicitly instructed
-- **no-ai-attribution** no AI co-author additions on commits and no "Generated with" footers on
-  PRs
-- **no-nonsense-comments** write only code comments that still make sense to a future reader
-  with zero context, prefer no comment over a low-value one, and voice them via
-  use-conversational-language
-- and more… (muted last bullet)
+- **git-read-only-by-default** no commits, pushes or resets unless you asked for them
+- **no-ai-attribution** your work stays yours: no AI co-author, no "generated with" footer
+- **no-nonsense-comments** only comments a future reader with zero context still needs
 - Footer link (`target="_blank"`, no /rules page): [Check the full list of available rules →](https://github.com/eai-org/agent-toolkit/tree/main#rules)
 
 ## 12. Share your feedback (green, centered)
@@ -254,3 +285,44 @@ Demo window (traffic-light dots, two exchanges):
 
 No credits section. The page ends with the feedback block, then the mono footer:
 `agent-toolkit · MIT`.
+
+## 14. Group page blocks (shipped 2026-08-02)
+
+Each group page opens with a big centered mono h1 title (titles below; no kicker), then the
+§5-§10 block heading demoted to h2 with its intro (/task-workflow keeps the flow strip), then
+one hairline-separated block per skill — mono skill name as h2 in the group hue,
+muted text, the demo inside the block of the skill it shows, mono link
+`Read the SKILL.md →` to the skill on GitHub (rules: `Read the rule →`) — then the approved
+page-level article link where §5-§10 defines one, then the closing footer grid: all six §2b
+cards in compact form, no label. Block copy (file names mono, bold as marked):
+
+- Page titles (2026-08-01, "Task workflow skills" is Francesco's wording, the rest drafted):
+  Task workflow skills · PR review assistants · Fresh eyes review · Context hygiene skills ·
+  Skills & docs authoring · Conversational language.
+- /task-workflow, under the flow strip: Each phase runs in a fresh session and hands over a file,
+  not chat history, so the context stays sharp.
+- fetch-ticket: Every task starts with a ticket. This skill downloads it from Jira, GitHub, Azure
+  DevOps or similar into a self-contained **TICKET.md**, attachments and linked tickets included.
+  No tracker? Write the file by hand and the workflow stays the same.
+- refine-ticket: Defines the **WHAT**. The agent checks the ticket against the actual codebase
+  and interviews you, one question at a time, each with a recommended answer. No silent
+  assumptions: you decide. The result is a validated **REQUIREMENTS.md**.
+- create-implementation-plan: Defines the **HOW**. The agent studies the code, settles the
+  technical decisions with you and writes a self-contained **PLAN.md** that a fresh session can
+  execute step by step.
+- create-manual-test-instructions: Optional last step: turns the requirements into a concise
+  manual test file a non-author can follow.
+- refine-pr-review, second sentence added to the §6 bullet: It drafts each reply and collects the
+  accepted changes into requirements you can feed back into the task workflow.
+- fresh-eyes-review: One command: the sub-agent reviews the changeset and comes back with its
+  findings, sorted by severity. You choose which ones to address.
+- /context-hygiene intro: A lean context window keeps the agent sharp. These two skills tackle
+  the two places where clutter builds up: your setup and your agent's memory.
+- context-checkup block link (`target="_blank"`): [Read more about the context window →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949)
+- memory-doctor, sentence added to the §8 bullet: Memory works best as an inbox, not a filing
+  cabinet: entries land there, get reviewed and move on to a permanent home. Block link
+  (`target="_blank"`): [Read more about memory-doctor →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257)
+- /skills-docs-authoring intro: Skills, rules and governing docs are what your agents run on.
+  These three keep them compact, effective and improving with every mistake.
+- compact-docs-writer, sentence added to the §9 bullet: Agents reread these files over and over,
+  so every token counts.

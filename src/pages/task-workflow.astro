@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SkillBlock from '../components/SkillBlock.astro';
+import RpaFlow from '../components/RpaFlow.astro';
+import DemoPlayer from '../components/DemoPlayer.astro';
+import KeepGoing from '../components/KeepGoing.astro';
+---
+<Base
+  title="Task workflow · agent-toolkit"
+  description="Refine, plan, act: turn a ticket into requirements, a plan, then code, with a clean handoff at every step."
+  back
+>
+  <PageHeader title="Task workflow skills" heading="Refine, Plan, Act">
+    <p class="text-muted">A development workflow suitable for any kind of project</p>
+    <RpaFlow />
+    <p class="text-muted">
+      Each phase runs in a fresh session and hands over a file, not chat history, so the context
+      stays sharp.
+    </p>
+  </PageHeader>
+  <SkillBlock name="fetch-ticket" color="green">
+    <p class="text-muted">
+      Every task starts with a ticket. This skill downloads it from Jira, GitHub, Azure DevOps or
+      similar into a self-contained <b class="sk">TICKET.md</b>, attachments and linked tickets
+      included. No tracker? Write the file by hand and the workflow stays the same.
+    </p>
+  </SkillBlock>
+  <SkillBlock name="refine-ticket" color="green">
+    <p class="text-muted mb-4">
+      Defines the <b>WHAT</b>. The agent checks the ticket against the actual codebase and
+      interviews you, one question at a time, each with a recommended answer. No silent
+      assumptions: you decide. The result is a validated <b class="sk">REQUIREMENTS.md</b>.
+    </p>
+    <DemoPlayer cast="02-refine-ticket" cols={72} rows={9} label="refine-ticket asking a grilling question" />
+  </SkillBlock>
+  <SkillBlock name="create-implementation-plan" color="green">
+    <p class="text-muted">
+      Defines the <b>HOW</b>. The agent studies the code, settles the technical decisions with you
+      and writes a self-contained <b class="sk">PLAN.md</b> that a fresh session can execute step
+      by step.
+    </p>
+  </SkillBlock>
+  <SkillBlock name="create-manual-test-instructions" color="green">
+    <p class="text-muted">
+      Optional last step: turns the requirements into a concise manual test file a non-author can
+      follow.
+    </p>
+  </SkillBlock>
+  <section class="px-6">
+    <div class="max-w-page mx-auto border-t border-border py-8">
+      <a class="more-link" target="_blank" rel="noopener"
+        href="https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e">
+        Read more about the task workflow &rarr;</a>
+    </div>
+  </section>
+  <KeepGoing />
+</Base>

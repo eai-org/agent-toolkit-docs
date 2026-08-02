@@ -1,19 +1,11 @@
 ---
 import GroupCard from './GroupCard.astro';
-import { siblingsOf } from '../data/groups';
-interface Props { current: string }
-const { current } = Astro.props;
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const siblings = siblingsOf(current);
+import { GROUPS } from '../data/groups';
 ---
-<section class="border-t border-border py-10 px-6">
-  <div class="max-w-page mx-auto">
-    <div class="text-muted text-[13px] mb-3">Keep going</div>
-    <div class="grid md:grid-cols-2 gap-3">
-      {siblings.map((group) => <GroupCard group={group} compact />)}
+<section class="px-6">
+  <div class="max-w-page mx-auto border-t border-border py-10">
+    <div class="grid md:grid-cols-3 gap-3">
+      {GROUPS.map((group) => <GroupCard group={group} compact />)}
     </div>
-    <p class="mt-4">
-      <a class="more-link" href={`${base}/#whats-inside`}>All five groups &rarr;</a>
-    </p>
   </div>
 </section>
