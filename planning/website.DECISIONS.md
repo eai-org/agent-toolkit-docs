@@ -147,7 +147,7 @@ marketplace.
 - `llms.txt` at site root, generated at build time from `docs/core-philosophy.md`.
 - Pages URL added to the GitHub repo header.
 - Launch promo planned with v1: dev.to crossposts, Show HN, r/ClaudeAI. Hard rule: the site is
-  complete (homepage, group pages, all seven demos) before any promo goes out.
+  complete (homepage, group pages, all demos) before any promo goes out.
 
 ## Out of scope for v1
 

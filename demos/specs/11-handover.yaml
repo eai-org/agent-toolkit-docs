@@ -1,0 +1,8 @@
+cols: 72
+rows: 7
+seed: 11-handover
+events:
+  - input: ''
+    skill: /handover
+  - spinner: Reading the diff, the plan and the decisions…
+  - output: Saved 1234-users.HANDOVER.md, paste-ready as your PR description
