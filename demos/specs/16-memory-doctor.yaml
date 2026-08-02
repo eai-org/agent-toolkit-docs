@@ -1,0 +1,13 @@
+cols: 72
+rows: 11
+seed: 16-memory-doctor
+events:
+  - input: ''
+    skill: /memory-doctor
+  - spinner: Scanning the project memory…
+  - output: '7 blocks found. Block 1: "always mock the clock in unit tests" belongs in docs/unit-testing-guidelines.md'
+  - options:
+      - text: Move it there
+        recommended: true
+      - text: Archive it
+      - text: Keep it

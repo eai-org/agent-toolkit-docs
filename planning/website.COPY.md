@@ -192,10 +192,15 @@ Demo window (traffic-light dots, two exchanges):
 ## 8. Context & memory hygiene (blue)
 
 - Heading: Your context is often cluttered before you even type
-- **context-checkup** audits everything that auto-loads at startup (governing docs, skills, MCP
-  servers), measures the token cost and proposes lean, reversible trims
-- **memory-doctor** drains the agent's auto-memory block by block, relocating each entry to a
-  home you control or archiving it. You confirm every action
+- **context-checkup**: Audits everything that auto-loads at startup: the governing-doc chain,
+  skill descriptions, MCP servers, memory. It measures each source instead of guessing, ranks
+  the trims by payoff and keeps every change reversible. Nothing is touched without your
+  approval.
+- **memory-doctor**: Auto-memory is a hidden side-channel into every session's context: facts
+  pile up there that you never review. This skill drains it block by block, relocating each
+  entry to a home you control (a doc, a skill, a rule) or archiving it. You confirm every
+  action. Memory works best as an inbox, not a filing cabinet: entries land, get reviewed and
+  move on.
 - Demo:
 
 ```
@@ -205,6 +210,19 @@ Demo window (traffic-light dots, two exchanges):
   ❯ 1. Disable it in this project (recommended)
     2. Keep it
     3. Show the full report
+> 1
+⏺ Done. Next startup: 12.2k tokens. Reversible in .claude/settings.json
+```
+
+- Memory-doctor demo:
+
+```
+> /memory-doctor
+✻ Scanning the project memory…
+⏺ 7 blocks found. Block 1: "always mock the clock in unit tests" belongs in docs/unit-testing-guidelines.md
+  ❯ 1. Move it there (recommended)
+    2. Archive it
+    3. Keep it
 ```
 
 - Page `/context-hygiene` — title `Context hygiene · agent-toolkit`; meta description `See what
@@ -443,11 +461,15 @@ demo renders muted.
   accepted changes into requirements you can feed back into the task workflow.
 - fresh-eyes-review: One command: the sub-agent reviews the changeset and comes back with its
   findings, sorted by severity. You choose which ones to address.
-- /context-hygiene intro: A lean context window keeps the agent sharp. These two skills tackle
-  the two places where clutter builds up: your setup and your agent's memory.
+- /context-hygiene intro, two paragraphs: (1) AI agents work at their best when the context
+  window is lean. Reasoning is sharpest in the first part of the window and degrades well
+  before the hard limit, so every token you load has to earn its place. The smaller the
+  context, the sharper the agent. (2) Much of that context is spent before you even type:
+  governing docs, skills, MCP servers and auto-memory all load at startup. These two skills
+  tackle the two places where clutter builds up: your setup and your agent's memory.
 - context-checkup block link (`target="_blank"`): [Read more about the context window →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949)
-- memory-doctor, sentence added to the §8 bullet: Memory works best as an inbox, not a filing
-  cabinet: entries land there, get reviewed and move on to a permanent home. Block link
+- memory-doctor: full description and second demo script in §8 (shipped 2026-08-02), demo label
+  `memory-doctor relocating a block`. Block link
   (`target="_blank"`): [Read more about memory-doctor →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257)
 - /skills-docs-authoring (reworked 2026-08-02): full copy in the rewritten §9. Layout
   deviations: the page-level article link sits in the intro as a more-link line, not a closing

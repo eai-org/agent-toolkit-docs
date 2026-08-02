@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .astro/
+.playwright-mcp
 public/demos/
 public/llms.txt
 public/social-card.png

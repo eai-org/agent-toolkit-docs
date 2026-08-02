@@ -128,7 +128,7 @@ Keep-going footer — sans-serif h2, muted intro, bulleted mono rule names, each
 
 ## Demo lineup (v1, one spec file each)
 
-The hero demo lives on the homepage, the other fourteen on their group pages; scripts are written
+The hero demo lives on the homepage, the other fifteen on their group pages; scripts are written
 out in `website.COPY.md`.
 
 1. use-conversational-language two-exchange "draft an answer" — hero.
@@ -137,7 +137,8 @@ out in `website.COPY.md`.
 3. fetch-pr-review → /clear → refine-pr-review triage (comment 3/12: address / partial / push
    back) — /pr-review-assistants.
 4. fresh-eyes-review returning 3 findings with address options — /fresh-eyes-review.
-5. context-checkup audit with a proposed trim — /context-hygiene.
+5. context-checkup audit with a proposed trim, accepted, ending on the savings line —
+   /context-hygiene.
 6. self-improve turning a correction into a doc diff — /skills-docs-authoring.
 7. use-conversational-language two-exchange "explain the refactor" — /conversational-language.
 8. fetch-ticket saving a ticket into a self-contained file, then the next-step hand-off —
@@ -152,6 +153,8 @@ out in `website.COPY.md`.
     /skills-docs-authoring.
 15. compact-skill-creator trigger-type intake, then the drafted skill (spec `15-create-skill`) —
     /skills-docs-authoring.
+16. memory-doctor relocating one block into its doc (spec `16-memory-doctor`) —
+    /context-hygiene, second demo on that page.
 
 The flow demos (2, 8, 9) close with the skill's real hand-off suggestion, rendered muted:
 `Next: /clear, then <command for the next phase>`.

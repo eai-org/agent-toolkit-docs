@@ -1,5 +1,5 @@
 cols: 72
-rows: 11
+rows: 16
 seed: 05-context-checkup
 events:
   - input: ''
@@ -11,3 +11,5 @@ events:
         recommended: true
       - text: Keep it
       - text: Show the full report
+  - input: '1'
+  - output: 'Done. Next startup: 12.2k tokens. Reversible in .claude/settings.json'

@@ -91,7 +91,7 @@ const groupPages = [
       'See what auto-loads into your agent before you even type, and trim it without breaking anything.',
     pageTitle: 'Context hygiene skills',
     heading: 'Your context is often cluttered before you even type',
-    casts: ['05-context-checkup.cast'],
+    casts: ['05-context-checkup.cast', '16-memory-doctor.cast'],
     emDashes: 0,
     skills: ['context-checkup', 'memory-doctor'],
     rules: [],
@@ -258,14 +258,14 @@ d('site-wide', () => {
     for (const p of PAGES) expect(existsSync(p), p).toBe(true);
   });
 
-  test('all fifteen casts play, each on exactly one page', () => {
+  test('all sixteen casts play, each on exactly one page', () => {
     const seen = new Map<string, string[]>();
     for (const p of PAGES) {
       for (const m of new Set(casts(read(p)))) {
         seen.set(m, [...(seen.get(m) ?? []), p]);
       }
     }
-    expect(seen.size).toBe(15);
+    expect(seen.size).toBe(16);
     for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
   });
 
