@@ -65,9 +65,9 @@ Demo window (traffic-light dots, two exchanges):
 - Heading: Several groups of skills
 - Six cards in a 2-col grid, one per group page; each card: kicker in the group hue, bold title,
   muted line, count bottom-left, blue `Open →`. The same cards, compact (kicker + title only),
-  repeat as the unlabeled footer grid on every group page (§14); there a title too long for one
-  line gets a compact stand-in — `/conversational-language`: "Texts that sound like real
-  humans". Card copy:
+  reappear two at a time in the "Keep going" footer of every group page (§14); there a title too
+  long for one line gets a compact stand-in — `/conversational-language`: "Texts that sound like
+  real humans". Card copy:
 
 | page | kicker (hue) | title | line | count |
 |---|---|---|---|---|
@@ -293,8 +293,9 @@ Each group page opens with a big centered mono h1 title (titles below; no kicker
 one hairline-separated block per skill — mono skill name as h2 in the group hue,
 muted text, the demo inside the block of the skill it shows, mono link
 `Read the SKILL.md →` to the skill on GitHub (rules: `Read the rule →`) — then the approved
-page-level article link where §5-§10 defines one, then the closing footer grid: all six §2b
-cards in compact form, no label. Block copy (file names mono, bold as marked):
+page-level article link where §5-§10 defines one, then the closing "Keep going" footer: two §2b
+cards in compact form, plus an `All six groups →` link. Block copy (file names mono, bold as
+marked):
 
 - Page titles (2026-08-01, "Task workflow skills" is Francesco's wording, the rest drafted):
   Task workflow skills · PR review assistants · Fresh eyes review · Context hygiene skills ·

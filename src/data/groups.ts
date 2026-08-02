@@ -65,3 +65,10 @@ export const GROUPS: Group[] = [
     count: '1 skill + 1 rule',
   },
 ];
+
+/** the next two groups in GROUPS order, wrapping past the end */
+export function siblingsOf(slug: string): Group[] {
+  const i = GROUPS.findIndex((g) => g.slug === slug);
+  if (i < 0) throw new Error(`unknown group: ${slug}`);
+  return [GROUPS[(i + 1) % GROUPS.length], GROUPS[(i + 2) % GROUPS.length]];
+}

@@ -107,8 +107,9 @@ standard shell as (expansion built 2026-08-01, block copy draft in `website.COPY
    skill it shows, mono `Read the SKILL.md →` link to GitHub (rules: `Read the rule →`), plus the
    per-block article links COPY §14 defines. No icons yet (open item).
 5. Page-level article link where the copy defines one, as a slim closing block.
-6. Footer grid (`KeepGoing.astro`): all six group cards, compact (kicker + one-line title, long
-   titles swapped for their short stand-in), 3-col, no label.
+6. "Keep going" footer (`KeepGoing.astro`): the next two groups in order, wrapping, as compact
+   2-col cards (kicker + one-line title, long titles swapped for their short stand-in), plus an
+   `All six groups →` link to the homepage grid.
 
 /rules (still deferred) would frame everything as opt-in; its demo shows a rule steering behavior
 (git-read-only-by-default declining an unrequested push and asking for confirmation).

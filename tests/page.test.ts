@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, test } from 'vitest';
-import { GROUPS } from '../src/data/groups';
+import { GROUPS, siblingsOf } from '../src/data/groups';
 
 // per AGENTS.md the page checks only run when a build is present
 const d = existsSync('dist/index.html') ? describe : describe.skip;
@@ -271,11 +271,16 @@ d('site-wide', () => {
     for (const p of PAGES) expect(read(p), p).toContain(`href="${baseFrom()}/#install"`);
   });
 
-  test('every group page links to all six group pages', () => {
-    for (const p of PAGES.slice(1)) {
-      for (const group of GROUPS) {
-        expect(read(p), `${p} -> ${group.slug}`).toContain(`${baseFrom()}/${group.slug}/"`);
+  test('every group page keeps going to its two siblings and the full grid', () => {
+    for (const group of GROUPS) {
+      const html = read(`dist/${group.slug}/index.html`);
+      const siblings = siblingsOf(group.slug).map((g) => g.slug);
+      // the page links to its own URL from the canonical tag, so only the other five are telling
+      for (const other of GROUPS.filter((g) => g.slug !== group.slug)) {
+        const linked = html.includes(`href="${baseFrom()}/${other.slug}/"`);
+        expect(linked, `${group.slug} -> ${other.slug}`).toBe(siblings.includes(other.slug));
       }
+      expect(html, group.slug).toContain(`${baseFrom()}/#whats-inside"`);
     }
   });
 

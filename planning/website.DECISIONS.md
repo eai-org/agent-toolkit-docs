@@ -27,8 +27,8 @@ Scope update (2026-07-31, final shape after the 2026-08-02 merge): a homepage ov
 problem, six-card group grid, principles, philosophy, rules, feedback) routes into six group
 pages — `/task-workflow`, `/pr-review-assistants`, `/fresh-eyes-review`, `/context-hygiene`,
 `/skills-docs-authoring`, `/conversational-language` — which carry the per-skill blocks and
-demos (template in `website.DESIGN.md`, copy in `website.COPY.md` §14) and end with a compact
-footer grid of all six group cards.
+demos (template in `website.DESIGN.md`, copy in `website.COPY.md` §14) and end with a
+"Keep going" footer linking the next two groups and the homepage grid.
 `/pr-review-assistants` covers only the three §6 skills so far, not yet the ticket-review trio
 in the table below. `/rules`, `/core-concepts` and the catalog stay deferred, kept here as the
 plan for that expansion. Approved block order and copy: `website.COPY.md`; skeleton:
