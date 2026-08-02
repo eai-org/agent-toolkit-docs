@@ -5,14 +5,26 @@ import SkillBlock from '../components/SkillBlock.astro';
 import RpaFlow from '../components/RpaFlow.astro';
 import DemoPlayer from '../components/DemoPlayer.astro';
 import KeepGoing from '../components/KeepGoing.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <Base
   title="Task workflow · agent-toolkit"
-  description="Refine, plan, act: turn a ticket into requirements, a plan, then code, with a clean handoff at every step."
+  description="Refine, plan, act, consolidate: turn a ticket into requirements, a plan, then reviewed code, with a clean handoff at every step."
   back
 >
-  <PageHeader title="Task workflow skills" heading="Refine, Plan, Act">
-    <p class="text-muted">A development workflow suitable for any kind of project</p>
+  <PageHeader title="Task workflow skills" heading="Refine, Plan, Act, Consolidate">
+    <p class="text-muted mb-3">
+      The <b>Task workflow</b> skills are a set of utilities that support any developer through a
+      standard development task, from fetching the ticket to handing the finished code over to
+      review.
+    </p>
+    <p class="text-muted">
+      They are based on the <a class="more-link" target="_blank" rel="noopener"
+        href="https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427">RPAC
+        pattern</a>: Refine, Plan, Act, Consolidate. Misunderstandings surface in a reviewable
+      document before any code is written, and a failed attempt costs a retry from the last file,
+      not the whole task.
+    </p>
     <RpaFlow />
     <p class="text-muted">
       Each phase runs in a fresh session and hands over a file, not chat history, so the context
@@ -20,11 +32,12 @@ import KeepGoing from '../components/KeepGoing.astro';
     </p>
   </PageHeader>
   <SkillBlock name="fetch-ticket" color="green">
-    <p class="text-muted">
+    <p class="text-muted mb-4">
       Every task starts with a ticket. This skill downloads it from Jira, GitHub, Azure DevOps or
       similar into a self-contained <b class="sk">TICKET.md</b>, attachments and linked tickets
       included. No tracker? Write the file by hand and the workflow stays the same.
     </p>
+    <DemoPlayer cast="08-fetch-ticket" cols={72} rows={9} label="fetch-ticket downloading a ticket into a self-contained file" />
   </SkillBlock>
   <SkillBlock name="refine-ticket" color="green">
     <p class="text-muted mb-4">
@@ -32,20 +45,60 @@ import KeepGoing from '../components/KeepGoing.astro';
       interviews you, one question at a time, each with a recommended answer. No silent
       assumptions: you decide. The result is a validated <b class="sk">REQUIREMENTS.md</b>.
     </p>
-    <DemoPlayer cast="02-refine-ticket" cols={72} rows={9} label="refine-ticket asking a grilling question" />
+    <DemoPlayer cast="02-refine-ticket" cols={72} rows={13} label="refine-ticket asking a grilling question" />
   </SkillBlock>
   <SkillBlock name="create-implementation-plan" color="green">
-    <p class="text-muted">
+    <p class="text-muted mb-4">
       Defines the <b>HOW</b>. The agent studies the code, settles the technical decisions with you
       and writes a self-contained <b class="sk">PLAN.md</b> that a fresh session can execute step
       by step.
     </p>
+    <DemoPlayer cast="09-create-plan" cols={72} rows={12} label="create-implementation-plan asking where the serializer should live" />
   </SkillBlock>
-  <SkillBlock name="create-manual-test-instructions" color="green">
-    <p class="text-muted">
-      Optional last step: turns the requirements into a concise manual test file a non-author can
-      follow.
+  <SkillBlock name="Execute the plan" color="text" github={false}>
+    <p class="text-muted mb-4">
+      The <b>Act</b> phase needs no skill at all. Open a fresh session and ask the agent to
+      execute the plan: everything it needs is in <b class="sk">PLAN.md</b>. Ask it to run your
+      project's checks too, so it verifies its own work.
     </p>
+    <DemoPlayer cast="10-execute-plan" cols={72} rows={7} label="a plain prompt executing the plan and running the checks" />
+  </SkillBlock>
+  <SkillBlock name="fresh-eyes-review" color="pink" github={false}
+    link={`${base}/fresh-eyes-review/`} linkLabel="See the fresh eyes review">
+    <p class="text-muted">
+      First step of <b>Consolidate</b>: before handing over, let a sub-agent with a clean context
+      review the changeset. It catches what the session that wrote the code misses.
+    </p>
+  </SkillBlock>
+  <SkillBlock name="handover" color="green">
+    <p class="text-muted mb-4">
+      Closes the task. The agent gathers the decisions made along the way, from the ticket to the
+      session itself, matches the plan against the actual diff and writes a
+      <b class="sk">HANDOVER.md</b>: a paste-ready PR description with real test evidence and
+      known gaps, so reviewers never reconstruct intent from the diff.
+    </p>
+    <DemoPlayer cast="11-handover" cols={72} rows={7} label="handover saving a paste-ready PR description" />
+  </SkillBlock>
+  <section class="px-6">
+    <div class="max-w-page mx-auto border-t border-border py-10">
+      <h2 class="text-2xl font-bold mb-3">Extra workflow skills</h2>
+      <p class="text-muted">Not part of the main flow, but handy when the task calls for them.</p>
+    </div>
+  </section>
+  <SkillBlock name="create-manual-test-instructions" color="green">
+    <p class="text-muted mb-4">
+      Turns the requirements into a concise <b class="sk">MANUAL-TEST.md</b> a non-author can
+      follow: what changed, how to get there, before vs after, and what to verify.
+    </p>
+    <DemoPlayer cast="12-manual-test" cols={72} rows={8} label="create-manual-test-instructions saving a manual test file" />
+  </SkillBlock>
+  <SkillBlock name="review-ticket" color="green">
+    <p class="text-muted mb-4">
+      A triage glance before anyone picks a ticket up: compares it against the codebase and
+      reports whether it's ready, plus the questions worth asking whoever owns the requirements.
+      Verdict and briefing land in a <b class="sk">TICKET-REVIEW.md</b> next to the ticket.
+    </p>
+    <DemoPlayer cast="13-review-ticket" cols={72} rows={8} label="review-ticket delivering its triage verdict" />
   </SkillBlock>
   <section class="px-6">
     <div class="max-w-page mx-auto border-t border-border py-8">

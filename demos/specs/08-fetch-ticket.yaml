@@ -1,0 +1,10 @@
+cols: 72
+rows: 9
+seed: 08-fetch-ticket
+events:
+  - input: https://yourproject.atlassian.net/browse/XX-1234
+    skill: /fetch-ticket
+  - spinner: Downloading the ticket and its attachments…
+  - output: Saved to 1234-users.TICKET.md, attachments and linked tickets included
+  - output: 'Next: /clear, then /refine-ticket 1234-users.TICKET.md'
+    color: muted
