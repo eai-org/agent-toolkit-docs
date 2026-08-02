@@ -68,6 +68,7 @@ const groupPages = [
     skills: ['fetch-pr-review', 'refine-pr-review', 'review-code-assistant'],
     rules: [],
     articles: [],
+    internalLinkLabels: [],
   },
   {
     slug: 'fresh-eyes-review',
@@ -81,6 +82,7 @@ const groupPages = [
     skills: ['fresh-eyes-review'],
     rules: [],
     articles: [],
+    internalLinkLabels: [],
   },
   {
     slug: 'context-hygiene',
@@ -94,6 +96,7 @@ const groupPages = [
     skills: ['context-checkup', 'memory-doctor'],
     rules: [],
     articles: [CONTEXT_ARTICLE, MEMORY_ARTICLE],
+    internalLinkLabels: [],
   },
   {
     slug: 'skills-docs-authoring',
@@ -102,11 +105,12 @@ const groupPages = [
       'Write skills and docs your agents actually follow, and turn every correction into a lasting lesson.',
     pageTitle: 'Skills &amp; docs authoring',
     heading: 'Create and continuously improve the skills and docs your agents rely on',
-    casts: ['06-self-improve.cast'],
+    casts: ['14-compact-doc.cast', '15-create-skill.cast', '06-self-improve.cast'],
     emDashes: 0,
     skills: ['compact-docs-writer', 'compact-skill-creator', 'self-improve'],
-    rules: [],
+    rules: ['compact-governing-docs', 'self-contained-docs', 'self-improve-on-correction'],
     articles: [AUTHORING_ARTICLE],
+    internalLinkLabels: ['Read more about this approach'],
   },
   {
     slug: 'conversational-language',
@@ -119,6 +123,7 @@ const groupPages = [
     skills: ['use-conversational-language'],
     rules: ['write-realistic-texts'],
     articles: [],
+    internalLinkLabels: [],
   },
 ];
 
@@ -185,6 +190,7 @@ d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading
   test('links to its articles only where there are any', () => {
     if (articles.length === 0) expect(doc()).not.toContain('medium.com');
     for (const article of articles) expect(doc()).toContain(`href="${article}"`);
+    for (const label of internalLinkLabels) expect(doc()).toContain(label);
   });
 
   test('keeps the copy guards', () => {
@@ -252,14 +258,14 @@ d('site-wide', () => {
     for (const p of PAGES) expect(existsSync(p), p).toBe(true);
   });
 
-  test('all fourteen casts play, each on exactly one page', () => {
+  test('all sixteen casts play, each on exactly one page', () => {
     const seen = new Map<string, string[]>();
     for (const p of PAGES) {
       for (const m of new Set(casts(read(p)))) {
         seen.set(m, [...(seen.get(m) ?? []), p]);
       }
     }
-    expect(seen.size).toBe(14);
+    expect(seen.size).toBe(16);
     for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
   });
 

@@ -7,7 +7,9 @@ export type DemoEvent =
 export interface DemoSpec { cols: number; rows: number; seed: string; events: DemoEvent[] }
 
 const FG = { green: '38;2;63;185;80', pink: '38;2;249;117;131', muted: '38;2;139;148;158' } as const;
-const DIFF_BG = '48;2;27;46;40';
+// each diff background is a ~12% blend of its FG over the dark panel background #161B22
+const DIFF_BG_ADD = '48;2;27;46;40';
+const DIFF_BG_DEL = '48;2;49;38;46';
 const ESC = '\u001b[';
 const RESET = `${ESC}0m`;
 const paint = (sgr: string, s: string) => `${ESC}${sgr}m${s}${RESET}`;
@@ -74,7 +76,10 @@ export function compileSpec(spec: DemoSpec): string {
       emit(paint(FG.muted, `✻ ${ev.spinner}`) + nl, 0.2);
       t += ev.duration ?? 1.2;
     } else if ('output' in ev) {
-      const sgr = ev.diff ? `${FG.green};${DIFF_BG}` : ev.color && FG[ev.color];
+      const del = ev.diff && ev.output.startsWith('-');
+      const sgr = ev.diff
+        ? (del ? `${FG.pink};${DIFF_BG_DEL}` : `${FG.green};${DIFF_BG_ADD}`)
+        : ev.color && FG[ev.color];
       const linesOut = ev.diff ? [ev.output] : wrap(`⏺ ${ev.output}`, inner);
       for (const [i, line] of linesOut.entries()) {
         const txt = i === 0 ? line : `  ${line}`;

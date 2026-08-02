@@ -85,4 +85,20 @@ describe('compileSpec', () => {
     const spec: DemoSpec = { cols: 60, rows: 10, seed: 'd', events: [{ output: '+ Keep helper methods private unless they are used outside the class.', diff: true }] };
     expect(compileSpec(spec)).toContain('48;2;27;46;40');
   });
+
+  test('removed diff lines render pink on a blended red background', () => {
+    const spec: DemoSpec = {
+      cols: 72, rows: 10, seed: 'del',
+      events: [
+        { output: '- In order to run the tests, first install all of the dependencies.', diff: true },
+        { output: '+ Install the dependencies before running the tests.', diff: true },
+      ],
+    };
+    const cast = compileSpec(spec);
+    expect(cast).toContain('38;2;249;117;131');
+    expect(cast).toContain('48;2;49;38;46');
+    const added = lines(cast).slice(1).map((l) => JSON.parse(l)[2] as string).find((d) => d.includes('+ Install'));
+    expect(added).toContain('48;2;27;46;40');
+    expect(added).not.toContain('48;2;49;38;46');
+  });
 });

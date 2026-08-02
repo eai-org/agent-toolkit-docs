@@ -47,7 +47,8 @@ Demos depict a Claude Code-like agent app, never a bash shell (no `$` prompts):
 - Grilling questions: numbered options, `❯` on the highlighted one, `(recommended)` in green.
 - Voice before/after: two exchanges in one window — plain prompt → stiff AI answer (`⏺` pink),
   then the same prompt with the skill → spinner → human answer (`⏺` green). Never diff markers;
-  the only git-style diff is the self-improve demo's suggested addition (green `+` line).
+  the only git-style diffs are the self-improve suggested addition (green `+` on faint green)
+  and the compact-docs-writer rewrite pair (pink `-` on faint red, green `+` on faint green).
 - Rendered by asciinema-player from generated casts (per DECISIONS), capped at 624px
   (`--container-demo`) so terminal text stays ~14px; each loops while in view (GIF-like),
   paused offscreen, holding its finished frame for at least 3s (longer the more it printed)
@@ -117,12 +118,17 @@ internal cross-link block for fresh-eyes-review (pink title, `BASE_URL`-based li
 `/fresh-eyes-review/`, no demo); an "Extra workflow skills" subsection (sans-serif h2 + muted
 intro, like the page intro heading).
 
+/skills-docs-authoring deviations (2026-08-02): the page-level article link renders in the intro
+as a more-link line instead of a closing block, and a compact rules subsection sits before the
+Keep-going footer — sans-serif h2, muted intro, bulleted mono rule names, each with its own
+`Read the rule →` link.
+
 /rules (still deferred) would frame everything as opt-in; its demo shows a rule steering behavior
 (git-read-only-by-default declining an unrequested push and asking for confirmation).
 
 ## Demo lineup (v1, one spec file each)
 
-The hero demo lives on the homepage, the other thirteen on their group pages; scripts are written
+The hero demo lives on the homepage, the other fifteen on their group pages; scripts are written
 out in `website.COPY.md`.
 
 1. use-conversational-language two-exchange "draft an answer" — hero.
@@ -143,8 +149,12 @@ out in `website.COPY.md`.
 11. handover saving a paste-ready PR description — /task-workflow.
 12. create-manual-test-instructions saving a manual test file — /task-workflow.
 13. review-ticket delivering its triage verdict — /task-workflow.
-14. memory-doctor relocating one block into its doc (spec `16-memory-doctor`, numbered past the
-    14-15 taken by the pending authoring branch) — /context-hygiene, second demo on that page.
+14. compact-docs-writer minimal rewrite diff with a measured word delta (spec `14-compact-doc`) —
+    /skills-docs-authoring.
+15. compact-skill-creator trigger-type intake, then the drafted skill (spec `15-create-skill`) —
+    /skills-docs-authoring.
+16. memory-doctor relocating one block into its doc (spec `16-memory-doctor`) —
+    /context-hygiene, second demo on that page.
 
 The flow demos (2, 8, 9) close with the skill's real hand-off suggestion, rendered muted:
 `Next: /clear, then <command for the next phase>`.
