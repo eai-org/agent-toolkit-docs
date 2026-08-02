@@ -9,5 +9,10 @@
   them (plus `llms.txt` and the social card) before `astro build`.
 - No binaries or build output in git.
 - `npm test` runs the cast compiler tests and, if `dist/` exists, the page content checks.
+- Every PR gets a Cloudflare Pages preview (`.github/workflows/preview.yml`), built with
+  `SITE_BASE=/` (previews serve at a domain root): keep paths on `import.meta.env.BASE_URL`,
+  never hardcode the base. Needs repo secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`,
+  and a direct-upload Pages project (the build reads the agent-toolkit checkout, so Cloudflare
+  can't build it).
 - Before launch: create the GoatCounter site, then uncomment the analytics script tag in
   `src/layouts/Base.astro` and replace `GOATCOUNTER_CODE` with the real code.
