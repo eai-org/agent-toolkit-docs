@@ -75,7 +75,7 @@ Demo window (traffic-light dots, two exchanges):
 | `/pr-review-assistants` | PR reviews (orange) | Both sides of the review | Triage the feedback your PR gets and review someone else's code. | 3 skills |
 | `/fresh-eyes-review` | Fresh eyes review (pink) | Let a sub-agent review the code | A sub-agent with a clean context, seeing only the changeset, catches what the session that wrote the code misses. | 1 skill |
 | `/context-hygiene` | Context & memory (blue) | Keep the context lean | See what auto-loads before you even type, and trim it without breaking anything. | 2 skills |
-| `/skills-docs-authoring` | Skill & doc authoring (purple) | Teach your agent | Write skills and docs agents actually follow, and turn every correction into a lasting lesson. | 3 skills |
+| `/skills-docs-authoring` | Skill & doc authoring (purple) | Teach your agent | Write skills and docs agents actually follow, and turn every correction into a lasting lesson. | 3 skills + 3 rules |
 | `/conversational-language` | Conversational voice (blue) | Texts that sound like a real human typed them | No em dashes, no "this valuable feedback". Just what you would have written yourself, faster. | 1 skill + 1 rule |
 
 ## 3. Principles (green)
@@ -214,13 +214,45 @@ Demo window (traffic-light dots, two exchanges):
 ## 9. Skill & doc authoring (purple)
 
 - Heading: Create and continuously improve the skills and docs your agents rely on
-- **compact-docs-writer** writes docs with maximum token economy
-- **compact-skill-creator** creates or edits skills, combining compact-docs-writer with a set of
-  best practices for effective skills
+- Intro (muted): Every skill and doc you add is reloaded into the agent's context over and over,
+  and verbose ones get skimmed or ignored. These three skills keep your skills and docs compact
+  and effective, and turn every correction into a lasting lesson.
+- Intro link, its own line under the intro (`target="_blank"`; same article as the
+  Learn-from-mistakes pane in Principles, accepted overlap): [Read more about this approach →](https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd)
+- **compact-docs-writer** rewrites a doc, or drafts a new one, to carry every rule and intent in
+  the least text possible. You get a measured word delta proving nothing was lost, and the diff
+  is applied only after your approval.
+- **compact-skill-creator** creates or edits skills on top of compact-docs-writer, adding the
+  skill-specific craft: a sharp description (the most expensive text, loaded in every session),
+  the right trigger type, and progressive disclosure.
 - **self-improve** when the agent makes a mistake or doesn't behave the way you want, this skill
-  captures the lesson so it won't repeat the same mistake again
-- Demo (correction → lesson; the addition renders as a git diff line, green `+` on faint green
-  background):
+  captures the lesson as a diff to the skill or doc that should have prevented it. You approve
+  where it lands, and the mistake doesn't repeat.
+- compact-docs-writer demo (the rewrite renders as git diff lines: pink `-` on faint red
+  background, green `+` on faint green):
+
+```
+> /compact-docs-writer docs/onboarding.md
+✻ Compacting the doc…
+⏺ Suggested rewrite for docs/onboarding.md (excerpt):
+- In order to run the tests, first install all of the dependencies.
++ Install the dependencies before running the tests.
+⏺ Nothing lost: 128 words down to 74, measured with wc -w. Apply?
+```
+
+- compact-skill-creator demo:
+
+```
+> /compact-skill-creator create a skill that writes release notes from the merged PRs
+⏺ How should this skill be triggered?
+  ❯ 1. Manual: you invoke it yourself (recommended)
+    2. Mandatory: auto-loads for release-notes work
+✻ Drafting via compact-docs-writer…
+⏺ Draft ready: skills/release-notes/SKILL.md, 84 words. Apply?
+```
+
+- self-improve demo (correction → lesson; the addition renders as a git diff line, green `+` on
+  faint green background):
 
 ```
 > Some of the methods you generated are not called outside the service, change them to private
@@ -235,10 +267,19 @@ Demo window (traffic-light dots, two exchanges):
     4. Chat about this
 ```
 
+- Rules subsection, hairline-separated before the Keep-going footer — sans-serif h2
+  `Opinionated rules that support this approach`; intro (muted): Optional and not installed by
+  default: three rules that support this authoring approach. Bullets, each closing with a mono
+  [Read the rule →] link to its file under `rules/` on GitHub:
+  - **compact-governing-docs** every edit to a skill or governing doc goes through the
+    compaction skills first.
+  - **self-contained-docs** planning docs carry everything a fresh session needs, and nothing
+    more.
+  - **self-improve-on-correction** when you correct the agent on something a doc governs, it
+    offers to capture the lesson with /self-improve.
 - Page `/skills-docs-authoring` — title `Skills & docs authoring · agent-toolkit`; meta
   description `Write skills and docs your agents actually follow, and turn every correction into
-  a lasting lesson.`; footer link (`target="_blank"`, same article as the Learn-from-mistakes
-  pane in Principles, accepted overlap): [Read more about the authoring skills →](https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd)
+  a lasting lesson.`; no footer link (the article link moved into the intro).
 
 ## 10. Conversational voice (blue)
 
@@ -408,7 +449,7 @@ demo renders muted.
 - memory-doctor, sentence added to the §8 bullet: Memory works best as an inbox, not a filing
   cabinet: entries land there, get reviewed and move on to a permanent home. Block link
   (`target="_blank"`): [Read more about memory-doctor →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257)
-- /skills-docs-authoring intro: Skills, rules and governing docs are what your agents run on.
-  These three keep them compact, effective and improving with every mistake.
-- compact-docs-writer, sentence added to the §9 bullet: Agents reread these files over and over,
-  so every token counts.
+- /skills-docs-authoring (reworked 2026-08-02): full copy in the rewritten §9. Layout
+  deviations: the page-level article link sits in the intro as a more-link line, not a closing
+  block, and a compact rules subsection (h2, muted intro, three rule bullets with per-rule
+  GitHub links) sits before the Keep-going footer.

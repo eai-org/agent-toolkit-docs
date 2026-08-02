@@ -12,34 +12,58 @@ import KeepGoing from '../components/KeepGoing.astro';
 >
   <PageHeader title="Skills & docs authoring" heading="Create and continuously improve the skills and docs your agents rely on">
     <p class="text-muted">
-      Skills, rules and governing docs are what your agents run on. These three keep them compact,
-      effective and improving with every mistake.
+      Every skill and doc you add is reloaded into the agent's context over and over, and verbose
+      ones get skimmed or ignored. These three skills keep your skills and docs compact and
+      effective, and turn every correction into a lasting lesson.
     </p>
+    <p class="mt-3"><a class="more-link" target="_blank" rel="noopener"
+      href="https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd">
+      Read more about this approach &rarr;</a></p>
   </PageHeader>
   <SkillBlock name="compact-docs-writer" color="purple">
-    <p class="text-muted">
-      Writes docs with maximum token economy. Agents reread these files over and over, so every
-      token counts.
+    <p class="text-muted mb-4">
+      Rewrites a doc, or drafts a new one, to carry every rule and intent in the least text
+      possible. You get a measured word delta proving nothing was lost, and the diff is applied
+      only after your approval.
     </p>
+    <DemoPlayer cast="14-compact-doc" cols={72} rows={10} label="compact-docs-writer replacing a verbose line and reporting the word delta" />
   </SkillBlock>
   <SkillBlock name="compact-skill-creator" color="purple">
-    <p class="text-muted">
-      Creates or edits skills, combining <b class="sk">compact-docs-writer</b> with a set of best
-      practices for effective skills.
+    <p class="text-muted mb-4">
+      Creates or edits skills on top of <b class="sk">compact-docs-writer</b>, adding the
+      skill-specific craft: a sharp description (the most expensive text, loaded in every
+      session), the right trigger type, and progressive disclosure.
     </p>
+    <DemoPlayer cast="15-create-skill" cols={72} rows={11} label="compact-skill-creator asking the trigger type, then drafting the skill" />
   </SkillBlock>
   <SkillBlock name="self-improve" color="purple">
     <p class="text-muted mb-4">
       When the agent makes a mistake or doesn't behave the way you want, this skill captures the
-      lesson so it won't repeat the same mistake again.
+      lesson as a diff to the skill or doc that should have prevented it. You approve where it
+      lands, and the mistake doesn't repeat.
     </p>
     <DemoPlayer cast="06-self-improve" cols={72} rows={17} label="self-improve capturing a lesson as a doc diff" />
   </SkillBlock>
   <section class="px-6">
-    <div class="max-w-page mx-auto border-t border-border py-8">
-      <a class="more-link" target="_blank" rel="noopener"
-        href="https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd">
-        Read more about the authoring skills &rarr;</a>
+    <div class="max-w-page mx-auto border-t border-border py-10">
+      <h2 class="text-2xl font-bold mb-3">Opinionated rules that support this approach</h2>
+      <p class="text-muted">
+        Optional and not installed by default: three rules that support this authoring approach.
+      </p>
+      <ul class="bullets my-4">
+        <li><b class="sk">compact-governing-docs</b>
+          <span class="text-muted">every edit to a skill or governing doc goes through the compaction skills first.</span>
+          <a class="more-link" target="_blank" rel="noopener"
+            href="https://github.com/eai-org/agent-toolkit/blob/main/rules/compact-governing-docs.md">Read the rule &rarr;</a></li>
+        <li><b class="sk">self-contained-docs</b>
+          <span class="text-muted">planning docs carry everything a fresh session needs, and nothing more.</span>
+          <a class="more-link" target="_blank" rel="noopener"
+            href="https://github.com/eai-org/agent-toolkit/blob/main/rules/self-contained-docs.md">Read the rule &rarr;</a></li>
+        <li><b class="sk">self-improve-on-correction</b>
+          <span class="text-muted">when you correct the agent on something a doc governs, it offers to capture the lesson with /self-improve.</span>
+          <a class="more-link" target="_blank" rel="noopener"
+            href="https://github.com/eai-org/agent-toolkit/blob/main/rules/self-improve-on-correction.md">Read the rule &rarr;</a></li>
+      </ul>
     </div>
   </section>
   <KeepGoing current="skills-docs-authoring" />

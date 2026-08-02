@@ -1,0 +1,13 @@
+cols: 72
+rows: 10
+seed: 14-compact-doc
+events:
+  - input: docs/onboarding.md
+    skill: /compact-docs-writer
+  - spinner: Compacting the doc…
+  - output: 'Suggested rewrite for docs/onboarding.md (excerpt):'
+  - output: '- In order to run the tests, first install all of the dependencies.'
+    diff: true
+  - output: '+ Install the dependencies before running the tests.'
+    diff: true
+  - output: 'Nothing lost: 128 words down to 74, measured with wc -w. Apply?'
