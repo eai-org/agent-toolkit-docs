@@ -1,29 +1,38 @@
 ---
 interface Props {
   name: string;
-  color: 'green' | 'blue' | 'orange' | 'purple' | 'pink';
+  color: 'green' | 'blue' | 'orange' | 'purple' | 'pink' | 'text';
   rule?: boolean;
+  github?: boolean;
+  link?: string;
+  linkLabel?: string;
   article?: string;
   articleLabel?: string;
 }
-const { name, color, rule = false, article, articleLabel } = Astro.props;
+const { name, color, rule = false, github = true, link, linkLabel, article, articleLabel } =
+  Astro.props;
 const repo = 'https://github.com/eai-org/agent-toolkit/blob/main';
-const github = rule ? `${repo}/rules/${name}.md` : `${repo}/skills/${name}/SKILL.md`;
+const githubHref = rule ? `${repo}/rules/${name}.md` : `${repo}/skills/${name}/SKILL.md`;
 const nameColor = {
   green: 'text-green', blue: 'text-blue', orange: 'text-orange',
-  purple: 'text-purple', pink: 'text-pink',
+  purple: 'text-purple', pink: 'text-pink', text: 'text-text',
 }[color];
 ---
 <section class="px-6">
   <div class="max-w-page mx-auto border-t border-border py-10">
     <h2 class:list={['font-mono text-lg font-bold mb-3', nameColor]}>{name}</h2>
     <slot />
-    <p class="mt-4 flex flex-wrap gap-x-6 gap-y-1">
-      <a class="more-link" target="_blank" rel="noopener" href={github}>
-        {rule ? 'Read the rule' : 'Read the SKILL.md'} &rarr;</a>
-      {article && (
-        <a class="more-link" target="_blank" rel="noopener" href={article}>{articleLabel} &rarr;</a>
-      )}
-    </p>
+    {(github || link || article) && (
+      <p class="mt-4 flex flex-wrap gap-x-6 gap-y-1">
+        {github && (
+          <a class="more-link" target="_blank" rel="noopener" href={githubHref}>
+            {rule ? 'Read the rule' : 'Read the SKILL.md'} &rarr;</a>
+        )}
+        {link && <a class="more-link" href={link}>{linkLabel} &rarr;</a>}
+        {article && (
+          <a class="more-link" target="_blank" rel="noopener" href={article}>{articleLabel} &rarr;</a>
+        )}
+      </p>
+    )}
   </div>
 </section>

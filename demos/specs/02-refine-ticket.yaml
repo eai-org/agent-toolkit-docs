@@ -1,5 +1,5 @@
 cols: 72
-rows: 9
+rows: 13
 seed: 02-refine-ticket
 events:
   - input: 1234-users.TICKET.md
@@ -10,3 +10,7 @@ events:
       - text: exclude them
         recommended: true
       - text: include, flagged
+  - spinner: Working through the remaining questions…
+  - output: Saved 1234-users.REQUIREMENTS.md
+  - output: 'Next: /clear, then /create-implementation-plan 1234-users.REQUIREMENTS.md'
+    color: muted

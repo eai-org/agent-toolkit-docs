@@ -1,0 +1,8 @@
+cols: 72
+rows: 8
+seed: 12-manual-test
+events:
+  - input: 1234-users.REQUIREMENTS.md
+    skill: /create-manual-test-instructions
+  - spinner: Reading the requirements and the code they cite…
+  - output: Saved 1234-users.MANUAL-TEST.md, followable by someone unfamiliar with the ticket

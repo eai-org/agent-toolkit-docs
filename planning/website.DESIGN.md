@@ -111,16 +111,23 @@ standard shell as (expansion built 2026-08-01, block copy draft in `website.COPY
    2-col cards (kicker + one-line title, long titles swapped for their short stand-in), plus an
    `All six groups →` link to the homepage grid.
 
+/task-workflow deviations (RPAC revamp 2026-08-02): a five-stage flow strip (Consolidate added,
+purple); a non-skill block "Execute the plan" (neutral-foreground mono title, no GitHub link); an
+internal cross-link block for fresh-eyes-review (pink title, `BASE_URL`-based link to
+`/fresh-eyes-review/`, no demo); an "Extra workflow skills" subsection (sans-serif h2 + muted
+intro, like the page intro heading).
+
 /rules (still deferred) would frame everything as opt-in; its demo shows a rule steering behavior
 (git-read-only-by-default declining an unrequested push and asking for confirmation).
 
 ## Demo lineup (v1, one spec file each)
 
-The hero demo lives on the homepage, the other seven on their group pages; scripts are written
+The hero demo lives on the homepage, the other thirteen on their group pages; scripts are written
 out in `website.COPY.md`.
 
 1. use-conversational-language two-exchange "draft an answer" — hero.
-2. refine-ticket grilling (one question, recommendation) — /task-workflow.
+2. refine-ticket grilling (one question, recommendation, then the save and the next-step
+   hand-off) — /task-workflow.
 3. fetch-pr-review → /clear → refine-pr-review triage (comment 3/12: address / partial / push
    back) — /pr-review-assistants.
 4. fresh-eyes-review returning 3 findings with address options — /fresh-eyes-review.
@@ -128,21 +135,27 @@ out in `website.COPY.md`.
    /context-hygiene.
 6. self-improve turning a correction into a doc diff — /skills-docs-authoring.
 7. use-conversational-language two-exchange "explain the refactor" — /conversational-language.
-8. memory-doctor relocating one block into its doc (spec `16-memory-doctor`, numbered past the
-   14-15 taken by the pending authoring branch) — /context-hygiene, second demo on that page.
+8. fetch-ticket saving a ticket into a self-contained file, then the next-step hand-off —
+   /task-workflow.
+9. create-implementation-plan asking where the serializer should live, then the save and the
+   next-step hand-off — /task-workflow.
+10. plain-prompt plan execution running the checks (no skill invoked) — /task-workflow.
+11. handover saving a paste-ready PR description — /task-workflow.
+12. create-manual-test-instructions saving a manual test file — /task-workflow.
+13. review-ticket delivering its triage verdict — /task-workflow.
+14. memory-doctor relocating one block into its doc (spec `16-memory-doctor`, numbered past the
+    14-15 taken by the pending authoring branch) — /context-hygiene, second demo on that page.
+
+The flow demos (2, 8, 9) close with the skill's real hand-off suggestion, rendered muted:
+`Next: /clear, then <command for the next phase>`.
 
 The git-read-only-by-default demo was tied to the /rules page and is deferred with it.
 
 ## Copy status
 
-Homepage copy and block order are approved (copy session 2026-07-27) and live in
-`website.COPY.md` — that file wins over any text shown in this doc or the mockups. The group
-pages carry the §5-§10 blocks; metadata approved 2026-07-31, page URLs and titles 2026-08-01,
-group cards and the slimmed homepage 2026-08-02, the /context-hygiene intro, block descriptions
-and second demo (memory-doctor) 2026-08-02. Any further
-group-page copy follows the same process:
-short, human, non-salesy, per the DECISIONS copy rules (no dashes as punctuation, straight
-apostrophes), reviewed with Francesco section by section.
+Copy lives in `website.COPY.md`, which mirrors the shipped code (the code is the truth, see
+AGENTS.md) and wins over any text shown in this doc or the mockups. New copy stays short, human,
+non-salesy, per the DECISIONS copy rules (no dashes as punctuation, straight apostrophes).
 
 ## Accessibility & performance
 

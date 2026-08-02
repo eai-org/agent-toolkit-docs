@@ -21,6 +21,8 @@ const CONTEXT_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949';
 const MEMORY_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257';
+const RPA_ARTICLE =
+  'https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427';
 
 // titles carry the entity encoding of the built HTML
 const groupPages = [
@@ -28,14 +30,31 @@ const groupPages = [
     slug: 'task-workflow',
     title: 'Task workflow · agent-toolkit',
     description:
-      'Refine, plan, act: turn a ticket into requirements, a plan, then code, with a clean handoff at every step.',
+      'Refine, plan, act, consolidate: turn a ticket into requirements, a plan, then reviewed code, with a clean handoff at every step.',
     pageTitle: 'Task workflow skills',
-    heading: 'Refine, Plan, Act',
-    casts: ['02-refine-ticket.cast'],
+    heading: 'Refine, Plan, Act, Consolidate',
+    casts: [
+      '08-fetch-ticket.cast',
+      '02-refine-ticket.cast',
+      '09-create-plan.cast',
+      '10-execute-plan.cast',
+      '11-handover.cast',
+      '12-manual-test.cast',
+      '13-review-ticket.cast',
+    ],
     emDashes: 0,
-    skills: ['fetch-ticket', 'refine-ticket', 'create-implementation-plan', 'create-manual-test-instructions'],
+    skills: [
+      'fetch-ticket',
+      'refine-ticket',
+      'create-implementation-plan',
+      'handover',
+      'create-manual-test-instructions',
+      'review-ticket',
+    ],
     rules: [],
-    articles: [WORKFLOW_ARTICLE],
+    articles: [WORKFLOW_ARTICLE, RPA_ARTICLE],
+    internalLinkLabels: ['See the fresh eyes review'],
+    noSkillLinks: ['fresh-eyes-review'],
   },
   {
     slug: 'pr-review-assistants',
@@ -103,7 +122,7 @@ const groupPages = [
   },
 ];
 
-d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading, casts: pageCasts, emDashes, skills, rules, articles }) => {
+d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading, casts: pageCasts, emDashes, skills, rules, articles, internalLinkLabels = [], noSkillLinks = [] }) => {
   const doc = () => read(`dist/${slug}/index.html`);
   const url = () => `https://eai-org.github.io${baseFrom()}/${slug}/`;
 
@@ -151,6 +170,14 @@ d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading
     for (const rule of rules) {
       expect(doc(), rule).toContain(
         `href="https://github.com/eai-org/agent-toolkit/blob/main/rules/${rule}.md"`,
+      );
+    }
+    for (const label of internalLinkLabels) {
+      expect(doc(), label).toContain(label);
+    }
+    for (const skill of noSkillLinks) {
+      expect(doc(), skill).not.toContain(
+        `https://github.com/eai-org/agent-toolkit/blob/main/skills/${skill}/SKILL.md`,
       );
     }
   });
@@ -225,14 +252,14 @@ d('site-wide', () => {
     for (const p of PAGES) expect(existsSync(p), p).toBe(true);
   });
 
-  test('all eight casts play, each on exactly one page', () => {
+  test('all fourteen casts play, each on exactly one page', () => {
     const seen = new Map<string, string[]>();
     for (const p of PAGES) {
       for (const m of new Set(casts(read(p)))) {
         seen.set(m, [...(seen.get(m) ?? []), p]);
       }
     }
-    expect(seen.size).toBe(8);
+    expect(seen.size).toBe(14);
     for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
   });
 
