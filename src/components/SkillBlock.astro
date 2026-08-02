@@ -14,8 +14,8 @@ const nameColor = {
   purple: 'text-purple', pink: 'text-pink',
 }[color];
 ---
-<section class="border-t border-border py-10 px-6">
-  <div class="max-w-page mx-auto">
+<section class="px-6">
+  <div class="max-w-page mx-auto border-t border-border py-10">
     <h2 class:list={['font-mono text-lg font-bold mb-3', nameColor]}>{name}</h2>
     <slot />
     <p class="mt-4 flex flex-wrap gap-x-6 gap-y-1">

@@ -95,13 +95,18 @@ Each of the six shipped pages (`/task-workflow`, `/pr-review-assistants`, `/fres
 standard shell as (expansion built 2026-08-01, block copy draft in `website.COPY.md` §14):
 
 1. Nav (same bar).
-2. Header section: kicker, block heading as the page h1, intro line; /task-workflow keeps the
-   flow strip.
-3. One hairline-separated block per skill (`SkillBlock.astro`, py-10 vs the sections' py-14):
+2. Page title: big centered mono h1, hero-style, no kicker (`PageHeader.astro`; titles in COPY
+   §14).
+3. Intro section, borderless: the block heading demoted to h2, intro line(s); /task-workflow
+   keeps the flow strip.
+4. One hairline-separated block per skill (`SkillBlock.astro`, py-10 vs the sections' py-14):
    mono skill name as h2 in the group hue, 1-3 muted lines, the demo inside the block of the
    skill it shows, mono `Read the SKILL.md →` link to GitHub (rules: `Read the rule →`), plus the
    per-block article links COPY §14 defines. No icons yet (open item).
-4. Page-level article link where the copy defines one, as a slim closing block.
+5. Page-level article link where the copy defines one, as a slim closing block.
+
+On these pages every separator borders the inner `max-w-page` div, spanning the content column,
+never the full viewport (layout revision 2026-08-01).
 
 /rules (still deferred) would frame everything as opt-in; its demo shows a rule steering behavior
 (git-read-only-by-default declining an unrequested push and asking for confirmation).

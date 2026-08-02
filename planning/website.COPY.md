@@ -287,13 +287,17 @@ No credits section. The page ends with the feedback block, then the mono footer:
 
 ## 14. Group page blocks (DRAFT 2026-08-01, pending approval)
 
-Each group page renders, after its §5-§10 header block (kicker, h1, intro; /task-workflow keeps
-the flow strip): one hairline-separated block per skill — mono skill name as h2 in the group hue,
+Each group page opens with a big centered mono h1 title (drafts below; no kicker), then the
+§5-§10 block heading demoted to h2 with its intro (/task-workflow keeps the flow strip), then
+one hairline-separated block per skill — mono skill name as h2 in the group hue,
 muted text, the demo inside the block of the skill it shows, mono link
 `Read the SKILL.md →` to the skill on GitHub (rules: `Read the rule →`) — then the approved
 page-level article link where §5-§10 defines one. The §6, §8, §9, §10 bullets are reused as block
 texts, sentence-cased with a final period. New draft copy (file names mono, bold as marked):
 
+- Page titles (2026-08-01, "Task workflow skills" is Francesco's wording, the rest drafted):
+  Task workflow skills · PR review assistants · Fresh eyes review · Context hygiene skills ·
+  Skills & docs authoring · Conversational language.
 - /task-workflow, under the flow strip: Each phase runs in a fresh session and hands over a file,
   not chat history, so the context stays sharp.
 - fetch-ticket: Every task starts with a ticket. This skill downloads it from Jira, GitHub, Azure

@@ -110,6 +110,7 @@ const groupPages = [
     slug: 'task-workflow',
     title: 'Task workflow · agent-toolkit',
     description: 'A development workflow suitable for any kind of project',
+    pageTitle: 'Task workflow skills',
     heading: 'Refine, Plan, Act',
     cast: '02-refine-ticket.cast',
     emDashes: 0,
@@ -122,6 +123,7 @@ const groupPages = [
     title: 'PR review assistants · agent-toolkit',
     description:
       "Code review is still a key part of most teams' workflow. These skills assist in both directions: when others leave feedback on your PRs, and when you review someone else's code.",
+    pageTitle: 'PR review assistants',
     heading: 'Help on both sides of the code review',
     cast: '03-pr-review.cast',
     emDashes: 0,
@@ -134,6 +136,7 @@ const groupPages = [
     title: 'Fresh eyes review · agent-toolkit',
     description:
       'A fresh perspective works for AI just like it does for humans: a sub-agent with a clean context, seeing only the changeset and a minimal description, catches surprisingly more regressions and issues than the session that wrote the code.',
+    pageTitle: 'Fresh eyes review',
     heading: 'Let a sub-agent review the code',
     cast: '04-fresh-eyes.cast',
     emDashes: 0,
@@ -145,6 +148,7 @@ const groupPages = [
     slug: 'context-hygiene',
     title: 'Context hygiene · agent-toolkit',
     description: 'Your context is often cluttered before you even type',
+    pageTitle: 'Context hygiene skills',
     heading: 'Your context is often cluttered before you even type',
     cast: '05-context-checkup.cast',
     emDashes: 0,
@@ -156,6 +160,7 @@ const groupPages = [
     slug: 'skills-docs-authoring',
     title: 'Skills &amp; docs authoring · agent-toolkit',
     description: 'Create and continuously improve the skills and docs your agents rely on',
+    pageTitle: 'Skills &amp; docs authoring',
     heading: 'Create and continuously improve the skills and docs your agents rely on',
     cast: '06-self-improve.cast',
     emDashes: 0,
@@ -167,6 +172,7 @@ const groupPages = [
     slug: 'conversational-language',
     title: 'Conversational language · agent-toolkit',
     description: 'Texts that sound like a real human typed them',
+    pageTitle: 'Conversational language',
     heading: 'Texts that sound like a real human typed them',
     cast: '07-explain-refactor.cast',
     emDashes: 2,
@@ -176,7 +182,7 @@ const groupPages = [
   },
 ];
 
-describe.each(groupPages)('$slug page', ({ slug, title, description, heading, cast, emDashes, skills, rules, articles }) => {
+describe.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading, cast, emDashes, skills, rules, articles }) => {
   const doc = readFileSync(`dist/${slug}/index.html`, 'utf8');
   const url = `https://eai-org.github.io/agent-toolkit-docs/${slug}/`;
 
@@ -190,9 +196,19 @@ describe.each(groupPages)('$slug page', ({ slug, title, description, heading, ca
     expect(doc).toContain(`<meta property="og:url" content="${url}">`);
   });
 
-  test('the section heading is the only h1', () => {
+  test('the page title is the only h1', () => {
     const headings = [...doc.matchAll(/<h1[^>]*>([^<]*)<\/h1>/g)].map((m) => m[1]);
-    expect(headings).toEqual([heading]);
+    expect(headings).toEqual([pageTitle]);
+  });
+
+  test('the old header heading survives as an h2, with no kicker label', () => {
+    expect(doc).toContain(`>${heading}</h2>`);
+    expect(doc).not.toMatch(/class="kicker/);
+  });
+
+  test('the separator lines span the content column, not the viewport', () => {
+    expect(doc).not.toMatch(/<section[^>]*border-t/);
+    expect(doc).toMatch(/max-w-page[^"]*border-t/);
   });
 
   test('plays its own demo, once', () => {

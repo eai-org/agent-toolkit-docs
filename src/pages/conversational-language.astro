@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Section from '../components/Section.astro';
+import PageHeader from '../components/PageHeader.astro';
 import SkillBlock from '../components/SkillBlock.astro';
 import DemoPlayer from '../components/DemoPlayer.astro';
 ---
@@ -8,9 +8,9 @@ import DemoPlayer from '../components/DemoPlayer.astro';
   title="Conversational language · agent-toolkit"
   description="Texts that sound like a real human typed them"
 >
-  <Section kicker="Conversational voice" color="blue" heading="Texts that sound like a real human typed them" as="h1">
+  <PageHeader title="Conversational language" heading="Texts that sound like a real human typed them">
     <p class="text-muted">We often ask AI to help draft texts that other people will read:</p>
-  </Section>
+  </PageHeader>
   <SkillBlock name="use-conversational-language" color="blue">
     <p class="text-muted mb-4">
       Tells the agent to write in simple, human language instead of sophisticated AI prose full
