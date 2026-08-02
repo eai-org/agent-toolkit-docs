@@ -11,7 +11,7 @@ const read = (p: string) => readFileSync(p, 'utf8');
 // build itself, off the favicon link that Base.astro emits on every page.
 const baseFrom = () => read('dist/index.html').match(/href="([^"]*)\/favicon\.svg"/)![1];
 
-const casts = (doc: string) => [...doc.matchAll(/0[0-9]-[a-z-]+\.cast/g)].map((m) => m[0]);
+const casts = (doc: string) => [...doc.matchAll(/\d{2}-[a-z-]+\.cast/g)].map((m) => m[0]);
 
 const WORKFLOW_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e';
@@ -21,6 +21,8 @@ const CONTEXT_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949';
 const MEMORY_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257';
+const RPA_ARTICLE =
+  'https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427';
 
 // titles carry the entity encoding of the built HTML
 const groupPages = [
@@ -28,14 +30,31 @@ const groupPages = [
     slug: 'task-workflow',
     title: 'Task workflow · agent-toolkit',
     description:
-      'Refine, plan, act: turn a ticket into requirements, a plan, then code, with a clean handoff at every step.',
+      'Refine, plan, act, consolidate: turn a ticket into requirements, a plan, then reviewed code, with a clean handoff at every step.',
     pageTitle: 'Task workflow skills',
-    heading: 'Refine, Plan, Act',
-    cast: '02-refine-ticket.cast',
+    heading: 'Refine, Plan, Act, Consolidate',
+    casts: [
+      '08-fetch-ticket.cast',
+      '02-refine-ticket.cast',
+      '09-create-plan.cast',
+      '10-execute-plan.cast',
+      '11-handover.cast',
+      '12-manual-test.cast',
+      '13-review-ticket.cast',
+    ],
     emDashes: 0,
-    skills: ['fetch-ticket', 'refine-ticket', 'create-implementation-plan', 'create-manual-test-instructions'],
+    skills: [
+      'fetch-ticket',
+      'refine-ticket',
+      'create-implementation-plan',
+      'handover',
+      'create-manual-test-instructions',
+      'review-ticket',
+    ],
     rules: [],
-    articles: [WORKFLOW_ARTICLE],
+    articles: [WORKFLOW_ARTICLE, RPA_ARTICLE],
+    internalLinkLabels: ['See the fresh eyes review'],
+    noSkillLinks: ['fresh-eyes-review'],
   },
   {
     slug: 'pr-review-assistants',
@@ -44,7 +63,7 @@ const groupPages = [
       "Code review is still a key part of most teams' workflow. These skills assist in both directions: when others leave feedback on your PRs, and when you review someone else's code.",
     pageTitle: 'PR review assistants',
     heading: 'Help on both sides of the code review',
-    cast: '03-pr-review.cast',
+    casts: ['03-pr-review.cast'],
     emDashes: 0,
     skills: ['fetch-pr-review', 'refine-pr-review', 'review-code-assistant'],
     rules: [],
@@ -57,7 +76,7 @@ const groupPages = [
       'A fresh perspective works for AI just like it does for humans: a sub-agent with a clean context, seeing only the changeset and a minimal description, catches surprisingly more regressions and issues than the session that wrote the code.',
     pageTitle: 'Fresh eyes review',
     heading: 'Let a sub-agent review the code',
-    cast: '04-fresh-eyes.cast',
+    casts: ['04-fresh-eyes.cast'],
     emDashes: 0,
     skills: ['fresh-eyes-review'],
     rules: [],
@@ -70,7 +89,7 @@ const groupPages = [
       'See what auto-loads into your agent before you even type, and trim it without breaking anything.',
     pageTitle: 'Context hygiene skills',
     heading: 'Your context is often cluttered before you even type',
-    cast: '05-context-checkup.cast',
+    casts: ['05-context-checkup.cast'],
     emDashes: 0,
     skills: ['context-checkup', 'memory-doctor'],
     rules: [],
@@ -83,7 +102,7 @@ const groupPages = [
       'Write skills and docs your agents actually follow, and turn every correction into a lasting lesson.',
     pageTitle: 'Skills &amp; docs authoring',
     heading: 'Create and continuously improve the skills and docs your agents rely on',
-    cast: '06-self-improve.cast',
+    casts: ['06-self-improve.cast'],
     emDashes: 0,
     skills: ['compact-docs-writer', 'compact-skill-creator', 'self-improve'],
     rules: [],
@@ -95,7 +114,7 @@ const groupPages = [
     description: 'Texts that sound like a real human typed them, not sophisticated AI prose.',
     pageTitle: 'Conversational language',
     heading: 'Texts that sound like a real human typed them',
-    cast: '07-explain-refactor.cast',
+    casts: ['07-explain-refactor.cast'],
     emDashes: 2,
     skills: ['use-conversational-language'],
     rules: ['write-realistic-texts'],
@@ -103,7 +122,7 @@ const groupPages = [
   },
 ];
 
-d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading, cast, emDashes, skills, rules, articles }) => {
+d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading, casts: pageCasts, emDashes, skills, rules, articles, internalLinkLabels = [], noSkillLinks = [] }) => {
   const doc = () => read(`dist/${slug}/index.html`);
   const url = () => `https://eai-org.github.io${baseFrom()}/${slug}/`;
 
@@ -134,8 +153,8 @@ d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading
     expect(doc()).toMatch(/max-w-page[^"]*border-t/);
   });
 
-  test('plays its own demo, once', () => {
-    expect(casts(doc())).toEqual([cast]);
+  test('plays its own demos, once each', () => {
+    expect(casts(doc())).toEqual(pageCasts);
   });
 
   test('the install button reaches the homepage anchor', () => {
@@ -151,6 +170,14 @@ d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading
     for (const rule of rules) {
       expect(doc(), rule).toContain(
         `href="https://github.com/eai-org/agent-toolkit/blob/main/rules/${rule}.md"`,
+      );
+    }
+    for (const label of internalLinkLabels) {
+      expect(doc(), label).toContain(label);
+    }
+    for (const skill of noSkillLinks) {
+      expect(doc(), skill).not.toContain(
+        `https://github.com/eai-org/agent-toolkit/blob/main/skills/${skill}/SKILL.md`,
       );
     }
   });
@@ -225,14 +252,14 @@ d('site-wide', () => {
     for (const p of PAGES) expect(existsSync(p), p).toBe(true);
   });
 
-  test('all seven casts play, each on exactly one page', () => {
+  test('all thirteen casts play, each on exactly one page', () => {
     const seen = new Map<string, string[]>();
     for (const p of PAGES) {
       for (const m of new Set(casts(read(p)))) {
         seen.set(m, [...(seen.get(m) ?? []), p]);
       }
     }
-    expect(seen.size).toBe(7);
+    expect(seen.size).toBe(13);
     for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
   });
 

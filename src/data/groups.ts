@@ -19,9 +19,9 @@ export const GROUPS: Group[] = [
     slug: 'task-workflow',
     kicker: 'Task workflow',
     hue: 'green',
-    title: 'Refine, plan, act',
+    title: 'Refine, plan, act, consolidate',
     line: 'Turn a ticket into requirements, a plan, then code, with a clean handoff at every step.',
-    count: '4 skills',
+    count: '6 skills',
   },
   {
     slug: 'pr-review-assistants',

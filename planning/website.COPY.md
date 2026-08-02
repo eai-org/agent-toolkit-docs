@@ -1,11 +1,11 @@
-# COPY: agent-toolkit website (approved)
+# COPY: agent-toolkit website
 
-Copy approved by Francesco in the copy session of 2026-07-27, including the block order; the page
-metadata of §5-§10 approved 2026-07-31, the §5-§8 page URLs and titles 2026-08-01, the group
-cards (§2b), the slimmed homepage and the four reworked meta descriptions 2026-08-02 (merge of
-the two page splits). This is the authoritative text
-for the build; `website.DESIGN.md` holds layout/visuals, `website.DECISIONS.md` the tech and
-scope. The site is a homepage overview plus one page per skill group (§5-§10, no `/rules` page
+This file mirrors the shipped user-visible copy: the source code is the truth and every copy
+change syncs here (see AGENTS.md; process changed 2026-08-02, no approval gate since). Earlier
+approval history: 2026-07-27 copy session including block order; §5-§10 page metadata
+2026-07-31; §5-§8 page URLs and titles 2026-08-01; group cards (§2b), slimmed homepage and the
+four reworked meta descriptions 2026-08-02. `website.DESIGN.md` holds layout/visuals,
+`website.DECISIONS.md` the tech and scope. The site is a homepage overview plus one page per skill group (§5-§10, no `/rules` page
 yet). Homepage block order: §1 hero, §2 problem, §2b card grid, §3 principles, §4 philosophy,
 §11 rules, §12 feedback. The §5-§10 blocks and their demos live only on their group pages,
 structured per §14. Bullet items render as the deck pattern:
@@ -71,7 +71,7 @@ Demo window (traffic-light dots, two exchanges):
 
 | page | kicker (hue) | title | line | count |
 |---|---|---|---|---|
-| `/task-workflow` | Task workflow (green) | Refine, plan, act | Turn a ticket into requirements, a plan, then code, with a clean handoff at every step. | 4 skills |
+| `/task-workflow` | Task workflow (green) | Refine, plan, act, consolidate | Turn a ticket into requirements, a plan, then code, with a clean handoff at every step. | 6 skills |
 | `/pr-review-assistants` | PR reviews (orange) | Both sides of the review | Triage the feedback your PR gets and review someone else's code. | 3 skills |
 | `/fresh-eyes-review` | Fresh eyes review (pink) | Let a sub-agent review the code | A sub-agent with a clean context, seeing only the changeset, catches what the session that wrote the code misses. | 1 skill |
 | `/context-hygiene` | Context & memory (blue) | Keep the context lean | See what auto-loads before you even type, and trim it without breaking anything. | 2 skills |
@@ -110,27 +110,28 @@ Demo window (traffic-light dots, two exchanges):
 
 ## 5. Task workflow (green)
 
-- Heading: Refine, Plan, Act
-- Intro (muted): A development workflow suitable for any kind of project
-- Flow: four equal-size stage boxes (stretch grid, arrows between). Bold marks: WHAT, HOW and
+- Heading: Refine, Plan, Act, Consolidate
+- Intro (muted, two paragraphs, bold as marked; "RPAC pattern" is an inline link):
+  1. The **Task workflow** skills are a set of utilities that support any developer through a
+     standard development task, from fetching the ticket to handing the finished code over to
+     review.
+  2. They are based on the [RPAC pattern](https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427):
+     Refine, Plan, Act, Consolidate. Misunderstandings surface in a reviewable document before
+     any code is written, and a failed attempt costs a retry from the last file, not the whole
+     task.
+- Flow: five equal-size stage boxes (stretch grid, arrows between). Bold marks: WHAT, HOW and
   file names (file names also mono).
   - **Ticket** (muted border): download **TICKET.md** from your tracking board or create it
     manually
   - **Refine** (green): defines the **WHAT** and outputs **REQUIREMENTS.md**
   - **Plan** (blue): defines the **HOW** and outputs **PLAN.md** with the implementation steps
   - **Act** (orange): executes the plan, writing code and running checks
-- Demo:
-
-```
-> /refine-ticket 1234-users.TICKET.md
-✻ Reading the ticket and the code…
-⏺ Should deleted users stay in the export?
-  ❯ 1. exclude them (recommended)
-    2. include, flagged
-```
-
+  - **Consolidate** (purple): stabilizes the work: review with fresh eyes, then hand over the
+    knowledge in **HANDOVER.md**
+- Demo scripts live with their block copy in §14.
 - Page `/task-workflow` — title `Task workflow · agent-toolkit`; meta description `Refine, plan,
-  act: turn a ticket into requirements, a plan, then code, with a clean handoff at every step.`;
+  act, consolidate: turn a ticket into requirements, a plan, then reviewed code, with a clean
+  handoff at every step.`;
   footer link (`target="_blank"`): [Read more about the task workflow →](https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e)
 
 ## 6. Review assistants (orange)
@@ -302,17 +303,101 @@ marked):
   Skills & docs authoring · Conversational language.
 - /task-workflow, under the flow strip: Each phase runs in a fresh session and hands over a file,
   not chat history, so the context stays sharp.
+
+The /task-workflow entries below are the 2026-08-02 RPAC revamp. The closing `Next:` line of a
+demo renders muted.
+
 - fetch-ticket: Every task starts with a ticket. This skill downloads it from Jira, GitHub, Azure
   DevOps or similar into a self-contained **TICKET.md**, attachments and linked tickets included.
-  No tracker? Write the file by hand and the workflow stays the same.
+  No tracker? Write the file by hand and the workflow stays the same. Demo:
+
+```
+> /fetch-ticket https://yourproject.atlassian.net/browse/XX-1234
+✻ Downloading the ticket and its attachments…
+⏺ Saved to 1234-users.TICKET.md, attachments and linked tickets included
+⏺ Next: /clear, then /refine-ticket 1234-users.TICKET.md
+```
+
 - refine-ticket: Defines the **WHAT**. The agent checks the ticket against the actual codebase
   and interviews you, one question at a time, each with a recommended answer. No silent
-  assumptions: you decide. The result is a validated **REQUIREMENTS.md**.
+  assumptions: you decide. The result is a validated **REQUIREMENTS.md**. Demo:
+
+```
+> /refine-ticket 1234-users.TICKET.md
+✻ Reading the ticket and the code…
+⏺ Should deleted users stay in the export?
+  ❯ 1. exclude them (recommended)
+    2. include, flagged
+✻ Working through the remaining questions…
+⏺ Saved 1234-users.REQUIREMENTS.md
+⏺ Next: /clear, then /create-implementation-plan 1234-users.REQUIREMENTS.md
+```
+
 - create-implementation-plan: Defines the **HOW**. The agent studies the code, settles the
   technical decisions with you and writes a self-contained **PLAN.md** that a fresh session can
-  execute step by step.
-- create-manual-test-instructions: Optional last step: turns the requirements into a concise
-  manual test file a non-author can follow.
+  execute step by step. Demo:
+
+```
+> /create-implementation-plan 1234-users.REQUIREMENTS.md
+✻ Studying the requirements and the code…
+⏺ The export needs a serializer. Where should it live?
+  ❯ 1. extend the existing UsersService (recommended)
+    2. create a new UserExportService
+✻ Settling the remaining decisions…
+⏺ Saved 1234-users.PLAN.md
+⏺ Next: /clear, then "Execute 1234-users.PLAN.md"
+```
+
+- Execute the plan (non-skill block: neutral-foreground mono title, no GitHub link): The **Act**
+  phase needs no skill at all. Open a fresh session and ask the agent to execute the plan:
+  everything it needs is in **PLAN.md**. Ask it to run your project's checks too, so it verifies
+  its own work. Demo:
+
+```
+> Execute 1234-users.PLAN.md, then make sure all checks pass
+✻ Executing step 4/6: wire the export button…
+⏺ All 6 steps done. Lint, tests and build passing.
+```
+
+- fresh-eyes-review cross-link on /task-workflow (pink title, no GitHub link, no demo; internal
+  link `See the fresh eyes review →` to `/fresh-eyes-review/`, same tab): First step of
+  **Consolidate**: before handing over, let a sub-agent with a clean context review the
+  changeset. It catches what the session that wrote the code misses.
+- handover: Closes the task. The agent gathers the decisions made along the way, from the ticket
+  to the session itself, matches the plan against the actual diff and writes a **HANDOVER.md**:
+  a paste-ready PR description with real test evidence and known gaps, so reviewers never
+  reconstruct intent from the diff. Demo:
+
+```
+> /handover
+✻ Reading the diff, the plan and the decisions…
+⏺ Saved 1234-users.HANDOVER.md, paste-ready as your PR description
+```
+
+- Extra workflow skills, a plain section after handover (sans-serif h2 like the page intro
+  heading, muted intro): Not part of the main flow, but handy when the task calls for them.
+- create-manual-test-instructions (under Extra workflow skills, "Optional last step:" prefix
+  dropped): Turns the requirements into a concise **MANUAL-TEST.md** a non-author can follow:
+  what changed, how to get there, before vs after, and what to verify. Demo:
+
+```
+> /create-manual-test-instructions 1234-users.REQUIREMENTS.md
+✻ Reading the requirements and the code they cite…
+⏺ Saved 1234-users.MANUAL-TEST.md, followable by someone unfamiliar
+  with the ticket
+```
+
+- review-ticket (under Extra workflow skills): A triage glance before anyone picks a ticket up:
+  compares it against the codebase and reports whether it's ready, plus the questions worth
+  asking whoever owns the requirements. Verdict and briefing land in a **TICKET-REVIEW.md**
+  next to the ticket. Demo:
+
+```
+> /review-ticket 1234-users.TICKET.md
+✻ Comparing the ticket against the codebase…
+⏺ 2 questions to resolve before starting
+⏺ Saved 1234-users.TICKET-REVIEW.md with briefing and questions
+```
 - refine-pr-review, second sentence added to the §6 bullet: It drafts each reply and collects the
   accepted changes into requirements you can feed back into the task workflow.
 - fresh-eyes-review: One command: the sub-agent reviews the changeset and comes back with its

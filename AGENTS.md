@@ -1,7 +1,8 @@
 # agent-toolkit-docs
 
-- `planning/website.COPY.md` is the authoritative copy: never reword user-visible text without
-  Francesco's approval. `planning/website.DESIGN.md` holds layout/visuals,
+- The source code is the truth for user-visible copy; the planning docs mirror it. Whenever
+  copy, demos, layout, or scope change, sync the matching doc in the same change, without
+  asking: `planning/website.COPY.md` copy, `planning/website.DESIGN.md` layout/visuals,
   `planning/website.DECISIONS.md` scope and tech.
 - Copy rules: no dashes as punctuation, straight apostrophes. The em dashes in the conversational
   bullet and the pink demo replies are deliberate.
