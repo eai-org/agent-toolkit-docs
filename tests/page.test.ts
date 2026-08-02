@@ -11,7 +11,7 @@ const read = (p: string) => readFileSync(p, 'utf8');
 // build itself, off the favicon link that Base.astro emits on every page.
 const baseFrom = () => read('dist/index.html').match(/href="([^"]*)\/favicon\.svg"/)![1];
 
-const casts = (doc: string) => [...doc.matchAll(/0[0-9]-[a-z-]+\.cast/g)].map((m) => m[0]);
+const casts = (doc: string) => [...doc.matchAll(/[0-9]{2}-[a-z-]+\.cast/g)].map((m) => m[0]);
 
 const WORKFLOW_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e';
@@ -31,11 +31,12 @@ const groupPages = [
       'Refine, plan, act: turn a ticket into requirements, a plan, then code, with a clean handoff at every step.',
     pageTitle: 'Task workflow skills',
     heading: 'Refine, Plan, Act',
-    cast: '02-refine-ticket.cast',
+    casts: ['02-refine-ticket.cast'],
     emDashes: 0,
     skills: ['fetch-ticket', 'refine-ticket', 'create-implementation-plan', 'create-manual-test-instructions'],
     rules: [],
     articles: [WORKFLOW_ARTICLE],
+    internalLinkLabels: [],
   },
   {
     slug: 'pr-review-assistants',
@@ -44,11 +45,12 @@ const groupPages = [
       "Code review is still a key part of most teams' workflow. These skills assist in both directions: when others leave feedback on your PRs, and when you review someone else's code.",
     pageTitle: 'PR review assistants',
     heading: 'Help on both sides of the code review',
-    cast: '03-pr-review.cast',
+    casts: ['03-pr-review.cast'],
     emDashes: 0,
     skills: ['fetch-pr-review', 'refine-pr-review', 'review-code-assistant'],
     rules: [],
     articles: [],
+    internalLinkLabels: [],
   },
   {
     slug: 'fresh-eyes-review',
@@ -57,11 +59,12 @@ const groupPages = [
       'A fresh perspective works for AI just like it does for humans: a sub-agent with a clean context, seeing only the changeset and a minimal description, catches surprisingly more regressions and issues than the session that wrote the code.',
     pageTitle: 'Fresh eyes review',
     heading: 'Let a sub-agent review the code',
-    cast: '04-fresh-eyes.cast',
+    casts: ['04-fresh-eyes.cast'],
     emDashes: 0,
     skills: ['fresh-eyes-review'],
     rules: [],
     articles: [],
+    internalLinkLabels: [],
   },
   {
     slug: 'context-hygiene',
@@ -70,11 +73,12 @@ const groupPages = [
       'See what auto-loads into your agent before you even type, and trim it without breaking anything.',
     pageTitle: 'Context hygiene skills',
     heading: 'Your context is often cluttered before you even type',
-    cast: '05-context-checkup.cast',
+    casts: ['05-context-checkup.cast'],
     emDashes: 0,
     skills: ['context-checkup', 'memory-doctor'],
     rules: [],
     articles: [CONTEXT_ARTICLE, MEMORY_ARTICLE],
+    internalLinkLabels: [],
   },
   {
     slug: 'skills-docs-authoring',
@@ -83,11 +87,12 @@ const groupPages = [
       'Write skills and docs your agents actually follow, and turn every correction into a lasting lesson.',
     pageTitle: 'Skills &amp; docs authoring',
     heading: 'Create and continuously improve the skills and docs your agents rely on',
-    cast: '06-self-improve.cast',
+    casts: ['14-compact-doc.cast', '15-create-skill.cast', '06-self-improve.cast'],
     emDashes: 0,
     skills: ['compact-docs-writer', 'compact-skill-creator', 'self-improve'],
-    rules: [],
+    rules: ['compact-governing-docs', 'self-contained-docs', 'self-improve-on-correction'],
     articles: [AUTHORING_ARTICLE],
+    internalLinkLabels: ['Read more about this approach'],
   },
   {
     slug: 'conversational-language',
@@ -95,15 +100,16 @@ const groupPages = [
     description: 'Texts that sound like a real human typed them, not sophisticated AI prose.',
     pageTitle: 'Conversational language',
     heading: 'Texts that sound like a real human typed them',
-    cast: '07-explain-refactor.cast',
+    casts: ['07-explain-refactor.cast'],
     emDashes: 2,
     skills: ['use-conversational-language'],
     rules: ['write-realistic-texts'],
     articles: [],
+    internalLinkLabels: [],
   },
 ];
 
-d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading, cast, emDashes, skills, rules, articles }) => {
+d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading, casts: pageCasts, emDashes, skills, rules, articles, internalLinkLabels }) => {
   const doc = () => read(`dist/${slug}/index.html`);
   const url = () => `https://eai-org.github.io${baseFrom()}/${slug}/`;
 
@@ -134,8 +140,8 @@ d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading
     expect(doc()).toMatch(/max-w-page[^"]*border-t/);
   });
 
-  test('plays its own demo, once', () => {
-    expect(casts(doc())).toEqual([cast]);
+  test('plays its own demos, once each', () => {
+    expect(casts(doc())).toEqual(pageCasts);
   });
 
   test('the install button reaches the homepage anchor', () => {
@@ -158,6 +164,7 @@ d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading
   test('links to its articles only where there are any', () => {
     if (articles.length === 0) expect(doc()).not.toContain('medium.com');
     for (const article of articles) expect(doc()).toContain(`href="${article}"`);
+    for (const label of internalLinkLabels) expect(doc()).toContain(label);
   });
 
   test('keeps the copy guards', () => {
@@ -225,14 +232,14 @@ d('site-wide', () => {
     for (const p of PAGES) expect(existsSync(p), p).toBe(true);
   });
 
-  test('all seven casts play, each on exactly one page', () => {
+  test('all nine casts play, each on exactly one page', () => {
     const seen = new Map<string, string[]>();
     for (const p of PAGES) {
       for (const m of new Set(casts(read(p)))) {
         seen.set(m, [...(seen.get(m) ?? []), p]);
       }
     }
-    expect(seen.size).toBe(7);
+    expect(seen.size).toBe(9);
     for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
   });
 

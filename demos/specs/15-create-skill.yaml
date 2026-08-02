@@ -1,0 +1,13 @@
+cols: 72
+rows: 11
+seed: 15-create-skill
+events:
+  - input: create a skill that writes release notes from the merged PRs
+    skill: /compact-skill-creator
+  - output: How should this skill be triggered?
+  - options:
+      - text: 'Manual: you invoke it yourself'
+        recommended: true
+      - text: 'Mandatory: auto-loads for release-notes work'
+  - spinner: Drafting via compact-docs-writer…
+  - output: 'Draft ready: skills/release-notes/SKILL.md, 84 words. Apply?'

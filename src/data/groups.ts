@@ -53,7 +53,7 @@ export const GROUPS: Group[] = [
     hue: 'purple',
     title: 'Teach your agent',
     line: 'Write skills and docs agents actually follow, and turn every correction into a lasting lesson.',
-    count: '3 skills',
+    count: '3 skills + 3 rules',
   },
   {
     slug: 'conversational-language',
