@@ -116,17 +116,20 @@ standard shell as (expansion built 2026-08-01, block copy draft in `website.COPY
 
 ## Demo lineup (v1, one spec file each)
 
-The hero demo lives on the homepage, the other six on their group pages; scripts are written out
-in `website.COPY.md`.
+The hero demo lives on the homepage, the other seven on their group pages; scripts are written
+out in `website.COPY.md`.
 
 1. use-conversational-language two-exchange "draft an answer" — hero.
 2. refine-ticket grilling (one question, recommendation) — /task-workflow.
 3. fetch-pr-review → /clear → refine-pr-review triage (comment 3/12: address / partial / push
    back) — /pr-review-assistants.
 4. fresh-eyes-review returning 3 findings with address options — /fresh-eyes-review.
-5. context-checkup audit with a proposed trim — /context-hygiene.
+5. context-checkup audit with a proposed trim, accepted, ending on the savings line —
+   /context-hygiene.
 6. self-improve turning a correction into a doc diff — /skills-docs-authoring.
 7. use-conversational-language two-exchange "explain the refactor" — /conversational-language.
+8. memory-doctor relocating one block into its doc (spec `16-memory-doctor`, numbered past the
+   14-15 taken by the pending authoring branch) — /context-hygiene, second demo on that page.
 
 The git-read-only-by-default demo was tied to the /rules page and is deferred with it.
 
@@ -135,7 +138,8 @@ The git-read-only-by-default demo was tied to the /rules page and is deferred wi
 Homepage copy and block order are approved (copy session 2026-07-27) and live in
 `website.COPY.md` — that file wins over any text shown in this doc or the mockups. The group
 pages carry the §5-§10 blocks; metadata approved 2026-07-31, page URLs and titles 2026-08-01,
-group cards and the slimmed homepage 2026-08-02. Any further
+group cards and the slimmed homepage 2026-08-02, the /context-hygiene intro, block descriptions
+and second demo (memory-doctor) 2026-08-02. Any further
 group-page copy follows the same process:
 short, human, non-salesy, per the DECISIONS copy rules (no dashes as punctuation, straight
 apostrophes), reviewed with Francesco section by section.

@@ -11,9 +11,15 @@ import KeepGoing from '../components/KeepGoing.astro';
   back
 >
   <PageHeader title="Context hygiene skills" heading="Your context is often cluttered before you even type">
+    <p class="text-muted mb-3">
+      AI agents work at their best when the context window is lean. Reasoning is sharpest in the
+      first part of the window and degrades well before the hard limit, so every token you load
+      has to earn its place. The smaller the context, the sharper the agent.
+    </p>
     <p class="text-muted">
-      A lean context window keeps the agent sharp. These two skills tackle the two places where
-      clutter builds up: your setup and your agent's memory.
+      Much of that context is spent before you even type: governing docs, skills, MCP servers
+      and auto-memory all load at startup. These two skills tackle the two places where clutter
+      builds up: your setup and your agent's memory.
     </p>
   </PageHeader>
   <SkillBlock name="context-checkup" color="blue"
@@ -21,20 +27,24 @@ import KeepGoing from '../components/KeepGoing.astro';
     articleLabel="Read more about the context window"
   >
     <p class="text-muted mb-4">
-      Audits everything that auto-loads at startup (governing docs, skills, MCP servers), measures
-      the token cost and proposes lean, reversible trims.
+      Audits everything that auto-loads at startup: the governing-doc chain, skill descriptions,
+      MCP servers, memory. It measures each source instead of guessing, ranks the trims by payoff
+      and keeps every change reversible. Nothing is touched without your approval.
     </p>
-    <DemoPlayer cast="05-context-checkup" cols={72} rows={11} label="context-checkup proposing a trim" />
+    <DemoPlayer cast="05-context-checkup" cols={72} rows={16} label="context-checkup proposing a trim" />
   </SkillBlock>
   <SkillBlock name="memory-doctor" color="blue"
     article="https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257"
     articleLabel="Read more about memory-doctor"
   >
-    <p class="text-muted">
-      Drains the agent's auto-memory block by block, relocating each entry to a home you control
-      or archiving it. You confirm every action. Memory works best as an inbox, not a filing
-      cabinet: entries land there, get reviewed and move on to a permanent home.
+    <p class="text-muted mb-4">
+      Auto-memory is a hidden side-channel into every session's context: facts pile up there
+      that you never review. This skill drains it block by block, relocating each entry to a
+      home you control (a doc, a skill, a rule) or archiving it. You confirm every action.
+      Memory works best as an inbox, not a filing cabinet: entries land, get reviewed and move
+      on.
     </p>
+    <DemoPlayer cast="16-memory-doctor" cols={72} rows={11} label="memory-doctor relocating a block" />
   </SkillBlock>
   <KeepGoing current="context-hygiene" />
 </Base>
