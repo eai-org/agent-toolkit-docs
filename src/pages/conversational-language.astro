@@ -3,10 +3,12 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import SkillBlock from '../components/SkillBlock.astro';
 import DemoPlayer from '../components/DemoPlayer.astro';
+import KeepGoing from '../components/KeepGoing.astro';
 ---
 <Base
   title="Conversational language · agent-toolkit"
-  description="Texts that sound like a real human typed them"
+  description="Texts that sound like a real human typed them, not sophisticated AI prose."
+  back
 >
   <PageHeader title="Conversational language" heading="Texts that sound like a real human typed them">
     <p class="text-muted">We often ask AI to help draft texts that other people will read:</p>
@@ -24,4 +26,5 @@ import DemoPlayer from '../components/DemoPlayer.astro';
       humans (code comments, PR replies, chat messages…).
     </p>
   </SkillBlock>
+  <KeepGoing current="conversational-language" />
 </Base>

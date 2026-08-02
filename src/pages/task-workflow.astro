@@ -4,10 +4,12 @@ import PageHeader from '../components/PageHeader.astro';
 import SkillBlock from '../components/SkillBlock.astro';
 import RpaFlow from '../components/RpaFlow.astro';
 import DemoPlayer from '../components/DemoPlayer.astro';
+import KeepGoing from '../components/KeepGoing.astro';
 ---
 <Base
   title="Task workflow · agent-toolkit"
-  description="A development workflow suitable for any kind of project"
+  description="Refine, plan, act: turn a ticket into requirements, a plan, then code, with a clean handoff at every step."
+  back
 >
   <PageHeader title="Task workflow skills" heading="Refine, Plan, Act">
     <p class="text-muted">A development workflow suitable for any kind of project</p>
@@ -52,4 +54,5 @@ import DemoPlayer from '../components/DemoPlayer.astro';
         Read more about the task workflow &rarr;</a>
     </div>
   </section>
+  <KeepGoing current="task-workflow" />
 </Base>

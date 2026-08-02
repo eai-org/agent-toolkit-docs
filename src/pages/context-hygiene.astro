@@ -3,10 +3,12 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import SkillBlock from '../components/SkillBlock.astro';
 import DemoPlayer from '../components/DemoPlayer.astro';
+import KeepGoing from '../components/KeepGoing.astro';
 ---
 <Base
   title="Context hygiene · agent-toolkit"
-  description="Your context is often cluttered before you even type"
+  description="See what auto-loads into your agent before you even type, and trim it without breaking anything."
+  back
 >
   <PageHeader title="Context hygiene skills" heading="Your context is often cluttered before you even type">
     <p class="text-muted">
@@ -34,4 +36,5 @@ import DemoPlayer from '../components/DemoPlayer.astro';
       cabinet: entries land there, get reviewed and move on to a permanent home.
     </p>
   </SkillBlock>
+  <KeepGoing current="context-hygiene" />
 </Base>

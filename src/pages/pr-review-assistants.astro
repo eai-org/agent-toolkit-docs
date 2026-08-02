@@ -3,10 +3,12 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import SkillBlock from '../components/SkillBlock.astro';
 import DemoPlayer from '../components/DemoPlayer.astro';
+import KeepGoing from '../components/KeepGoing.astro';
 ---
 <Base
   title="PR review assistants · agent-toolkit"
   description="Code review is still a key part of most teams' workflow. These skills assist in both directions: when others leave feedback on your PRs, and when you review someone else's code."
+  back
 >
   <PageHeader title="PR review assistants" heading="Help on both sides of the code review">
     <p class="text-muted">
@@ -35,4 +37,5 @@ import DemoPlayer from '../components/DemoPlayer.astro';
       comments and explanations. <b>You</b> decide what to post.
     </p>
   </SkillBlock>
+  <KeepGoing current="pr-review-assistants" />
 </Base>

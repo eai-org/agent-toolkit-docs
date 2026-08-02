@@ -1,24 +1,17 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, test } from 'vitest';
+import { GROUPS, siblingsOf } from '../src/data/groups';
 
-const html = readFileSync('dist/index.html', 'utf8');
+// per AGENTS.md the page checks only run when a build is present
+const d = existsSync('dist/index.html') ? describe : describe.skip;
+const read = (p: string) => readFileSync(p, 'utf8');
 
-const mustContain = [
-  'Different projects, same repetitive tasks',
-  'Core ideas behind every skill',
-  'A minimalistic toolkit, not a framework',
-  'Refine, Plan, Act',
-  'Help on both sides of the code review',
-  'Let a sub-agent review the code',
-  'Your context is often cluttered before you even type',
-  'Create and continuously improve the skills and docs your agents rely on',
-  'Texts that sound like a real human typed them',
-  'Opinionated rules',
-  'Got an issue or an idea? Please report it on GitHub.',
-  'agent-toolkit · MIT',
-  'Give us a star on GitHub',
-  'Other ways to install',
-];
+// The site base is '/agent-toolkit-docs' on Pages and '' on SITE_BASE=/ preview builds, and
+// the preview workflow sets SITE_BASE on its build step only. So read the base back out of the
+// build itself, off the favicon link that Base.astro emits on every page.
+const baseFrom = () => read('dist/index.html').match(/href="([^"]*)\/favicon\.svg"/)![1];
+
+const casts = (doc: string) => [...doc.matchAll(/0[0-9]-[a-z-]+\.cast/g)].map((m) => m[0]);
 
 const WORKFLOW_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/how-i-use-ai-agents-to-solve-programming-tasks-daily-2a68a5828b8e';
@@ -29,87 +22,13 @@ const CONTEXT_ARTICLE =
 const MEMORY_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257';
 
-// labels and titles carry the entity encoding of the built HTML
-const groupLinks = [
-  ['task-workflow', 'More about the task workflow'],
-  ['pr-review-assistants', 'More about the review assistants'],
-  ['fresh-eyes-review', 'More about the fresh eyes review'],
-  ['context-hygiene', 'More about context &amp; memory hygiene'],
-  ['skills-docs-authoring', 'More about the authoring skills'],
-  ['conversational-language', 'More about the conversational voice'],
-] as const;
-
-const navLinks = [
-  ['task-workflow', 'Task workflow'],
-  ['pr-review-assistants', 'PR review assistants'],
-  ['fresh-eyes-review', 'Fresh eyes review'],
-  ['context-hygiene', 'Context hygiene'],
-  ['skills-docs-authoring', 'Skills &amp; docs authoring'],
-  ['conversational-language', 'Conversational language'],
-] as const;
-
-const casts = (doc: string) => [...doc.matchAll(/0[0-9]-[a-z-]+\.cast/g)].map((m) => m[0]);
-
-// the nav anchor's attributes, or null when the link is missing
-const navAttrs = (doc: string, slug: string, label: string) =>
-  doc.match(new RegExp(`<a href="/agent-toolkit-docs/${slug}/"([^>]*)>${label}</a>`))?.[1] ?? null;
-
-describe('homepage content', () => {
-  test.each(mustContain)('contains %s', (s) => expect(html).toContain(s));
-
-  test('blocks appear in the approved order', () => {
-    let pos = -1;
-    for (const s of mustContain.slice(0, 12)) {
-      const next = html.indexOf(s);
-      expect(next, s).toBeGreaterThan(pos);
-      pos = next;
-    }
-  });
-
-  test('the hero demo is the only cast on the homepage', () => {
-    expect(casts(html)).toEqual(['01-hero-voice.cast']);
-  });
-
-  test.each(groupLinks)('links to the %s page', (slug, label) => {
-    expect(html).toContain(`<a class="more-link" href="/agent-toolkit-docs/${slug}/">${label} &rarr;</a>`);
-  });
-
-  test.each(navLinks)('the nav links to the %s page', (slug, label) => {
-    expect(navAttrs(html, slug, label)).not.toBeNull();
-  });
-
-  test('the nav links are separated by decorative middots', () => {
-    expect(html.match(/aria-hidden="true">&middot;<\/span>/g)).toHaveLength(navLinks.length - 1);
-  });
-
-  test('no nav link is marked as the current page', () => {
-    expect(html).not.toContain('aria-current');
-  });
-
-  test('the two article links moved to their group pages', () => {
-    expect(html).not.toContain('Read more about the task workflow');
-    expect(html).not.toContain('Read more about the authoring skills');
-    expect(html).not.toContain(WORKFLOW_ARTICLE);
-  });
-
-  test('the rules block still links to the GitHub rules list', () => {
-    expect(html).toContain('https://github.com/eai-org/agent-toolkit/tree/main#rules');
-  });
-
-  test('the only em dashes are the conversational bullet pair', () => {
-    expect((html.match(/—/g) ?? []).length).toBe(2);
-  });
-
-  test('no curly apostrophes', () => {
-    expect(html).not.toMatch(/[‘’]/);
-  });
-});
-
+// titles carry the entity encoding of the built HTML
 const groupPages = [
   {
     slug: 'task-workflow',
     title: 'Task workflow · agent-toolkit',
-    description: 'A development workflow suitable for any kind of project',
+    description:
+      'Refine, plan, act: turn a ticket into requirements, a plan, then code, with a clean handoff at every step.',
     pageTitle: 'Task workflow skills',
     heading: 'Refine, Plan, Act',
     cast: '02-refine-ticket.cast',
@@ -147,7 +66,8 @@ const groupPages = [
   {
     slug: 'context-hygiene',
     title: 'Context hygiene · agent-toolkit',
-    description: 'Your context is often cluttered before you even type',
+    description:
+      'See what auto-loads into your agent before you even type, and trim it without breaking anything.',
     pageTitle: 'Context hygiene skills',
     heading: 'Your context is often cluttered before you even type',
     cast: '05-context-checkup.cast',
@@ -159,7 +79,8 @@ const groupPages = [
   {
     slug: 'skills-docs-authoring',
     title: 'Skills &amp; docs authoring · agent-toolkit',
-    description: 'Create and continuously improve the skills and docs your agents rely on',
+    description:
+      'Write skills and docs your agents actually follow, and turn every correction into a lasting lesson.',
     pageTitle: 'Skills &amp; docs authoring',
     heading: 'Create and continuously improve the skills and docs your agents rely on',
     cast: '06-self-improve.cast',
@@ -171,7 +92,7 @@ const groupPages = [
   {
     slug: 'conversational-language',
     title: 'Conversational language · agent-toolkit',
-    description: 'Texts that sound like a real human typed them',
+    description: 'Texts that sound like a real human typed them, not sophisticated AI prose.',
     pageTitle: 'Conversational language',
     heading: 'Texts that sound like a real human typed them',
     cast: '07-explain-refactor.cast',
@@ -182,71 +103,188 @@ const groupPages = [
   },
 ];
 
-describe.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading, cast, emDashes, skills, rules, articles }) => {
-  const doc = readFileSync(`dist/${slug}/index.html`, 'utf8');
-  const url = `https://eai-org.github.io/agent-toolkit-docs/${slug}/`;
+d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading, cast, emDashes, skills, rules, articles }) => {
+  const doc = () => read(`dist/${slug}/index.html`);
+  const url = () => `https://eai-org.github.io${baseFrom()}/${slug}/`;
 
   test('carries its title and meta description', () => {
-    expect(doc).toContain(`<title>${title}</title>`);
-    expect(doc).toContain(`<meta name="description" content="${description}">`);
+    expect(doc()).toContain(`<title>${title}</title>`);
+    expect(doc()).toContain(`<meta name="description" content="${description}">`);
   });
 
   test('canonical and og:url point at the page', () => {
-    expect(doc).toContain(`<link rel="canonical" href="${url}">`);
-    expect(doc).toContain(`<meta property="og:url" content="${url}">`);
+    expect(doc()).toContain(`<link rel="canonical" href="${url()}">`);
+    expect(doc()).toContain(`<meta property="og:url" content="${url()}">`);
   });
 
   test('the page title is the only h1', () => {
-    const headings = [...doc.matchAll(/<h1[^>]*>([^<]*)<\/h1>/g)].map((m) => m[1]);
+    const headings = [...doc().matchAll(/<h1[^>]*>([^<]*)<\/h1>/g)].map((m) => m[1]);
     expect(headings).toEqual([pageTitle]);
   });
 
   test('the old header heading survives as an h2, with no kicker label', () => {
-    expect(doc).toContain(`>${heading}</h2>`);
-    expect(doc).not.toMatch(/class="kicker/);
+    const at = doc().indexOf(`>${heading}</h2>`);
+    expect(at).toBeGreaterThan(-1);
+    // the footer cards carry kickers, so only the part up to the heading has to be free of them
+    expect(doc().slice(0, at)).not.toMatch(/class="kicker/);
   });
 
   test('the separator lines span the content column, not the viewport', () => {
-    expect(doc).not.toMatch(/<section[^>]*border-t/);
-    expect(doc).toMatch(/max-w-page[^"]*border-t/);
+    expect(doc()).not.toMatch(/<section[^>]*border-t/);
+    expect(doc()).toMatch(/max-w-page[^"]*border-t/);
   });
 
   test('plays its own demo, once', () => {
-    expect(casts(doc)).toEqual([cast]);
-  });
-
-  test('the nav marks this page and links to the other five', () => {
-    for (const [navSlug, label] of navLinks) {
-      const attrs = navAttrs(doc, navSlug, label);
-      expect(attrs, navSlug).not.toBeNull();
-      expect(attrs!.includes('aria-current="page"'), navSlug).toBe(navSlug === slug);
-    }
+    expect(casts(doc())).toEqual([cast]);
   });
 
   test('the install button reaches the homepage anchor', () => {
-    expect(doc).toContain('href="/agent-toolkit-docs/#install"');
+    expect(doc()).toContain(`href="${baseFrom()}/#install"`);
   });
 
   test('has a block per skill, each linking its SKILL.md on GitHub', () => {
     for (const skill of skills) {
-      expect(doc, skill).toContain(
+      expect(doc(), skill).toContain(
         `href="https://github.com/eai-org/agent-toolkit/blob/main/skills/${skill}/SKILL.md"`,
       );
     }
     for (const rule of rules) {
-      expect(doc, rule).toContain(
+      expect(doc(), rule).toContain(
         `href="https://github.com/eai-org/agent-toolkit/blob/main/rules/${rule}.md"`,
       );
     }
   });
 
   test('links to its articles only where there are any', () => {
-    if (articles.length === 0) expect(doc).not.toContain('medium.com');
-    for (const article of articles) expect(doc).toContain(`href="${article}"`);
+    if (articles.length === 0) expect(doc()).not.toContain('medium.com');
+    for (const article of articles) expect(doc()).toContain(`href="${article}"`);
   });
 
   test('keeps the copy guards', () => {
-    expect((doc.match(/—/g) ?? []).length).toBe(emDashes);
-    expect(doc).not.toMatch(/[‘’]/);
+    expect((doc().match(/—/g) ?? []).length).toBe(emDashes);
+    expect(doc()).not.toMatch(/[‘’]/);
+  });
+});
+
+d('homepage', () => {
+  const ORDER = [
+    'Give us a star on GitHub',
+    'Different projects, same repetitive tasks',
+    'Several groups of skills',
+    'Core ideas behind every skill',
+    'A toolkit, not a framework',
+    'Opinionated rules',
+    'Got an issue or an idea? Please report it on GitHub.',
+    'agent-toolkit · MIT',
+  ];
+
+  test.each(ORDER)('contains %s', (s) => expect(read('dist/index.html')).toContain(s));
+
+  test('blocks appear in the approved order', () => {
+    const html = read('dist/index.html');
+    let pos = -1;
+    for (const s of ORDER) {
+      const next = html.indexOf(s);
+      expect(next, s).toBeGreaterThan(pos);
+      pos = next;
+    }
+  });
+
+  test('carries exactly one demo, the hero', () => {
+    expect(casts(read('dist/index.html'))).toEqual(['01-hero-voice.cast']);
+  });
+
+  test('has a card for every group in the whats-inside grid', () => {
+    const html = read('dist/index.html');
+    expect(html).toContain('id="whats-inside"');
+    for (const group of GROUPS) {
+      expect(html, group.slug).toContain(`${baseFrom()}/${group.slug}/"`);
+    }
+  });
+
+  test('the two article links moved to their group pages', () => {
+    const html = read('dist/index.html');
+    expect(html).not.toContain('Read more about the task workflow');
+    expect(html).not.toContain('Read more about the authoring skills');
+    expect(html).not.toContain(WORKFLOW_ARTICLE);
+  });
+
+  test('the rules block still links to the GitHub rules list', () => {
+    expect(read('dist/index.html')).toContain('https://github.com/eai-org/agent-toolkit/tree/main#rules');
+  });
+
+  test('no em dashes left on the homepage', () => {
+    expect((read('dist/index.html').match(/—/g) ?? []).length).toBe(0);
+  });
+});
+
+d('site-wide', () => {
+  const PAGES = ['dist/index.html', ...GROUPS.map((g) => `dist/${g.slug}/index.html`)];
+
+  test('every page was built', () => {
+    for (const p of PAGES) expect(existsSync(p), p).toBe(true);
+  });
+
+  test('all seven casts play, each on exactly one page', () => {
+    const seen = new Map<string, string[]>();
+    for (const p of PAGES) {
+      for (const m of new Set(casts(read(p)))) {
+        seen.set(m, [...(seen.get(m) ?? []), p]);
+      }
+    }
+    expect(seen.size).toBe(7);
+    for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
+  });
+
+  test('every page can switch theme, without a flash of the wrong one', () => {
+    for (const p of PAGES) {
+      expect(read(p), p).toContain('class="theme-toggle');
+      // the pre-paint read has to stay inline in <head>, a bundled script runs too late
+      expect(read(p), p).toMatch(/<script>[^<]*localStorage\.getItem\('theme'\)/);
+    }
+  });
+
+  test('every page has its own canonical URL', () => {
+    const canonicals = PAGES.map((p) => read(p).match(/rel="canonical" href="([^"]+)"/)?.[1]);
+    expect(new Set(canonicals).size).toBe(PAGES.length);
+    for (const c of canonicals) expect(c).toBeTruthy();
+  });
+
+  test('every page has its own title', () => {
+    const titles = PAGES.map((p) => read(p).match(/<title>([^<]*)<\/title>/)?.[1]);
+    for (const t of titles) expect(t).toBeTruthy();
+    expect(new Set(titles).size).toBe(PAGES.length);
+  });
+
+  test('no curly apostrophes anywhere', () => {
+    for (const p of PAGES) expect(read(p), p).not.toMatch(/[‘’]/);
+  });
+
+  test('em dashes only on the conversational page', () => {
+    for (const p of PAGES) {
+      const count = (read(p).match(/—/g) ?? []).length;
+      expect(count, p).toBe(p.includes('conversational') ? 2 : 0);
+    }
+  });
+
+  test('install works from every page', () => {
+    for (const p of PAGES) expect(read(p), p).toContain(`href="${baseFrom()}/#install"`);
+  });
+
+  test('every group page keeps going to its two siblings and the full grid', () => {
+    for (const group of GROUPS) {
+      const html = read(`dist/${group.slug}/index.html`);
+      const siblings = siblingsOf(group.slug).map((g) => g.slug);
+      // the page links to its own URL from the canonical tag, so only the other five are telling
+      for (const other of GROUPS.filter((g) => g.slug !== group.slug)) {
+        const linked = html.includes(`href="${baseFrom()}/${other.slug}/"`);
+        expect(linked, `${group.slug} -> ${other.slug}`).toBe(siblings.includes(other.slug));
+      }
+      expect(html, group.slug).toContain(`${baseFrom()}/#whats-inside"`);
+    }
+  });
+
+  test('no separator line spans the full viewport width', () => {
+    for (const p of PAGES) expect(read(p), p).not.toMatch(/<section[^>]*border-t/);
   });
 });

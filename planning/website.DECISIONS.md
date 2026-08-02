@@ -23,10 +23,12 @@ replicates that: short texts, icons, animated terminal demos. Never long prose.
 
 ## Site structure
 
-Scope update (2026-07-31): the homepage carries the whole pitch, plus six group pages —
-`/task-workflow`, `/pr-review-assistants`, `/fresh-eyes-review`, `/context-hygiene`,
-`/skills-docs-authoring`, `/conversational-language`. Update 2026-08-01: the group pages now
-carry per-skill blocks (template in `website.DESIGN.md`, copy draft in `website.COPY.md` §14);
+Scope update (2026-07-31, final shape after the 2026-08-02 merge): a homepage overview (hero,
+problem, six-card group grid, principles, philosophy, rules, feedback) routes into six group
+pages — `/task-workflow`, `/pr-review-assistants`, `/fresh-eyes-review`, `/context-hygiene`,
+`/skills-docs-authoring`, `/conversational-language` — which carry the per-skill blocks and
+demos (template in `website.DESIGN.md`, copy in `website.COPY.md` §14) and end with a
+"Keep going" footer linking the next two groups and the homepage grid.
 `/pr-review-assistants` covers only the three §6 skills so far, not yet the ticket-review trio
 in the table below. `/rules`, `/core-concepts` and the catalog stay deferred, kept here as the
 plan for that expansion. Approved block order and copy: `website.COPY.md`; skeleton:
@@ -68,7 +70,7 @@ visual language everywhere; never long prose.
   agent-branded chrome, but Claude Code-adjacent palette/feel for familiarity. Simplicity and
   elegance over 1:1 mimicry.
 - Hero demo: use-conversational-language (before/after of an AI-sounding vs human PR reply) —
-  graspable in seconds with zero context. The workflow section opens with the refine-ticket
+  graspable in seconds with zero context. /task-workflow carries the refine-ticket
   grilling demo (one question at a time, each with a recommendation).
 - Seven demos: the hero on the homepage, the other six on their group pages (lineup and scripts
   in `website.DESIGN.md` / `website.COPY.md`). Any further group page gets at least one demo of
@@ -81,7 +83,10 @@ visual language everywhere; never long prose.
   `--panel-2 #1C2128` (chips), `--border #30363D`, `--text #E6EDF3`, `--muted #8B949E`,
   `--green #3FB950`, `--blue #58A6FF`, `--orange #D29922`, `--purple #BC8CFF`,
   `--pink #F97583`, `--radius 10px`. GitHub-dark palette, terminal-green accent, monospace
-  accents. Font stacks modernized in the design session, superseding the deck's Courier New/Arial:
+  accents. Since the 2026-08 theme work each color is a `light-dark()` pair — these deck values
+  are the dark side, paired with GitHub-light counterparts, toggle in the nav
+  (details in `website.DESIGN.md`). Font stacks modernized in the design session, superseding
+  the deck's Courier New/Arial:
   mono `ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace`, sans
   `system-ui, -apple-system, "Segoe UI", Arial, sans-serif`. The reference HTML's `:root` is
   authoritative if it and this list diverge, except the font stacks, where this list wins.
@@ -118,9 +123,9 @@ Settled in the 2026-07-26 design session:
   marketing site rather than copied from the slides.
 - Font stacks: modern system stacks (see Tech); role structure unchanged — mono for
   display/accents/terminals, sans for body.
-- Navigation: minimal top bar — wordmark, a link per group page, GitHub link with star count,
-  install button anchoring to the hero install terminal from every page. Nothing else; no
-  hamburger or dropdowns.
+- Navigation: minimal top bar — wordmark (← back arrow prefix on group pages), theme toggle,
+  GitHub link with star count, install button anchoring to the hero install terminal from every
+  page. No page links, nothing else; no hamburger or dropdowns.
 - Motion: the demo players carry all animation. Beyond them only a CSS blinking cursor in the
   hero and quiet hover states; no scroll-triggered effects.
 - Layout, hero, signature element, TUI demo chrome, per-group hues, and the demo lineup are

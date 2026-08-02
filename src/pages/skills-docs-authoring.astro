@@ -3,10 +3,12 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import SkillBlock from '../components/SkillBlock.astro';
 import DemoPlayer from '../components/DemoPlayer.astro';
+import KeepGoing from '../components/KeepGoing.astro';
 ---
 <Base
   title="Skills & docs authoring · agent-toolkit"
-  description="Create and continuously improve the skills and docs your agents rely on"
+  description="Write skills and docs your agents actually follow, and turn every correction into a lasting lesson."
+  back
 >
   <PageHeader title="Skills & docs authoring" heading="Create and continuously improve the skills and docs your agents rely on">
     <p class="text-muted">
@@ -40,4 +42,5 @@ import DemoPlayer from '../components/DemoPlayer.astro';
         Read more about the authoring skills &rarr;</a>
     </div>
   </section>
+  <KeepGoing current="skills-docs-authoring" />
 </Base>

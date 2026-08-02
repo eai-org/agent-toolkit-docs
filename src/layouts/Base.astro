@@ -1,8 +1,8 @@
 ---
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
-interface Props { title: string; description: string }
-const { title, description } = Astro.props;
+interface Props { title: string; description: string; back?: boolean }
+const { title, description, back = false } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <html lang="en">
@@ -19,12 +19,20 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:image" content={new URL(`${base}/social-card.png`, Astro.site)} />
     <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>
+      // runs before the first paint, so a stored theme never flashes the other one first
+      try {
+        const pref = localStorage.getItem('theme');
+        if (pref === 'light' || pref === 'dark') document.documentElement.dataset.theme = pref;
+      } catch {}
+    </script>
+    <noscript><style>.theme-toggle { display: none }</style></noscript>
     <!-- GoatCounter analytics, enable before launch (see AGENTS.md):
     <script data-goatcounter="https://GOATCOUNTER_CODE.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
     -->
   </head>
   <body>
-    <Nav />
+    <Nav back={back} />
     <main><slot /></main>
     <footer class="border-t border-border text-center py-5 font-mono text-[13px] text-muted">
       agent-toolkit · MIT
