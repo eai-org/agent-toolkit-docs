@@ -11,20 +11,37 @@ import KeepGoing from '../components/KeepGoing.astro';
   back
 >
   <PageHeader title="Conversational language" heading="Texts that sound like a real human typed them">
-    <p class="text-muted">We often ask AI to help draft texts that other people will read:</p>
+    <p class="text-muted">
+      We often ask AI to help draft texts that other people will read: chat replies, PR comments,
+      commit messages. The agent is great at drafting them quickly, but not at matching the tone
+      to the context: a chat reply doesn't want the polish of a README, yet everything comes out
+      in the same overly formal, fancy prose that readers recognize as AI at a glance.
+    </p>
+    <p class="text-muted mt-3">
+      The skill and rule below take the best of both worlds: the agent's speed, your voice.
+    </p>
   </PageHeader>
   <SkillBlock name="use-conversational-language" color="blue">
     <p class="text-muted mb-4">
       Tells the agent to write in simple, human language instead of sophisticated AI prose full
-      of — em dashes — and fancy terms.
+      of — em dashes — and fancy terms. It adapts the voice to the kind of text (a PR comment, a
+      chat reply, a code comment) and changes the wording only, never the content: you still
+      review every text before it goes out.
     </p>
     <DemoPlayer cast="07-explain-refactor" cols={72} rows={16} label="use-conversational-language rewriting a refactor explanation" />
   </SkillBlock>
   <SkillBlock name="write-realistic-texts" color="blue" rule>
     <p class="text-muted">
-      Opt-in rule that applies the human voice automatically whenever a text is meant for other
-      humans (code comments, PR replies, chat messages…).
+      Opt-in rule that applies the skill automatically whenever the agent writes something a
+      human will read as if a person wrote it, even when writing wasn't the task you gave it.
     </p>
   </SkillBlock>
+  <section class="px-6">
+    <div class="max-w-page mx-auto border-t border-border py-8">
+      <a class="more-link" target="_blank" rel="noopener"
+        href="https://medium.com/engineering-in-the-age-of-ai/how-to-use-ai-to-generate-texts-that-sound-like-a-human-would-actually-write-them-c7eef78e0b42">
+        Read more about the conversational voice &rarr;</a>
+    </div>
+  </section>
   <KeepGoing current="conversational-language" />
 </Base>

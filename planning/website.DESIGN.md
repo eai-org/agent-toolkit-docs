@@ -126,6 +126,15 @@ Keep-going footer — sans-serif h2, muted intro, bulleted mono rule names, each
 /rules (still deferred) would frame everything as opt-in; its demo shows a rule steering behavior
 (git-read-only-by-default declining an unrequested push and asking for confirmation).
 
+## About page (2026-08-03)
+
+`/about`, the nav's only page link (between the theme toggle and GitHub, on every page).
+Standard shell: back-arrow wordmark, PageHeader (h1 + h2 + muted intro), then a 3-col grid
+(stacks on mobile) of channel cards in the group-card look — Medium green, Discord purple,
+LinkedIn blue, each an external link closing on a mono blue action line — then a
+hairline-separated Free software block (orange kicker) ending on the repo link. No demos, no
+Keep-going footer. Copy in COPY §15.
+
 ## Demo lineup (v1, one spec file each)
 
 The hero demo lives on the homepage, the other fifteen on their group pages; scripts are written

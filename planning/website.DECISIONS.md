@@ -34,6 +34,11 @@ in the table below. `/rules`, `/core-concepts` and the catalog stay deferred, ke
 plan for that expansion. Approved block order and copy: `website.COPY.md`; skeleton:
 `website.DESIGN.md`.
 
+2026-08-03: `/about` added alongside the group pages, linked from the nav on every page. It
+introduces Engineering in the Age of AI (the community behind the toolkit), links its Medium
+publication, Discord server and LinkedIn page, and closes on the MIT free-software blurb
+(copy in `website.COPY.md` §15, layout in `website.DESIGN.md`).
+
 Pages as planned for the expansion:
 
 | Page | Content |
