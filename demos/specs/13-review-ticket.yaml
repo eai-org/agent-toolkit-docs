@@ -1,9 +1,11 @@
 cols: 72
-rows: 8
+rows: 10
 seed: 13-review-ticket
 events:
   - input: 1234-users.TICKET.md
     skill: /review-ticket
   - spinner: Comparing the ticket against the codebase…
+  - spinner: Challenging 3 candidate questions…
+  - output: '1 answered by the backend repo, 2 to raise'
   - output: '2 questions to resolve before starting'
   - output: Saved 1234-users.TICKET-REVIEW.md with briefing and questions

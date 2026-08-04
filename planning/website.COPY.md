@@ -462,12 +462,15 @@ demo renders muted.
 
 - review-ticket (under Extra workflow skills): A triage glance before anyone picks a ticket up:
   compares it against the codebase and reports whether it's ready, plus the questions worth
-  asking whoever owns the requirements. Verdict and briefing land in a **TICKET-REVIEW.md**
-  next to the ticket. Demo:
+  asking whoever owns the requirements. Each question survived an adversarial hunt for its answer
+  across code, tracker, designs and docs, so you're never asked what the sources could have
+  answered. Verdict and briefing land in a **TICKET-REVIEW.md** next to the ticket. Demo:
 
 ```
 > /review-ticket 1234-users.TICKET.md
 ✻ Comparing the ticket against the codebase…
+✻ Challenging 3 candidate questions…
+⏺ 1 answered by the backend repo, 2 to raise
 ⏺ 2 questions to resolve before starting
 ⏺ Saved 1234-users.TICKET-REVIEW.md with briefing and questions
 ```

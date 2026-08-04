@@ -97,9 +97,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <p class="text-muted mb-4">
       A triage glance before anyone picks a ticket up: compares it against the codebase and
       reports whether it's ready, plus the questions worth asking whoever owns the requirements.
-      Verdict and briefing land in a <b class="sk">TICKET-REVIEW.md</b> next to the ticket.
+      Each question survived an adversarial hunt for its answer across code, tracker, designs and
+      docs, so you're never asked what the sources could have answered. Verdict and briefing land
+      in a <b class="sk">TICKET-REVIEW.md</b> next to the ticket.
     </p>
-    <DemoPlayer cast="13-review-ticket" cols={72} rows={8} label="review-ticket delivering its triage verdict" />
+    <DemoPlayer cast="13-review-ticket" cols={72} rows={10} label="review-ticket delivering its triage verdict" />
   </SkillBlock>
   <section class="px-6">
     <div class="max-w-page mx-auto border-t border-border py-8">
