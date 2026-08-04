@@ -1,0 +1,26 @@
+planning/website.COPY.md
+  s_8bfc9d8ea2a3a6::t_51710d39dd75e6 433-437,440-443
+  s_8bfc9d8ea2a3a6::t_cada1286d14ef5 444-446
+demos/specs/11-handover.yaml
+  s_8bfc9d8ea2a3a6::t_01ab6faeb4d523 2,10-14
+  s_8bfc9d8ea2a3a6::t_cd6414573dfd39 5,7-9
+src/pages/task-workflow.astro
+  s_8bfc9d8ea2a3a6::t_b357465663c17d 81
+  s_8bfc9d8ea2a3a6::t_9ddbb48fed84bf 75-79
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "0c3a702deea099871489d793bbf56e65412adc9d",
+  "prompts": {},
+  "sessions": {
+    "s_8bfc9d8ea2a3a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e20061a0-ecd2-4dc7-85ae-8b338e70a569",
+        "model": "claude-opus-5"
+      },
+      "human_author": "stefanoslig <stefanoslignos@gmail.com>"
+    }
+  }
+}
