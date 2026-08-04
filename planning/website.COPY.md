@@ -430,14 +430,20 @@ demo renders muted.
   link `See the fresh eyes review →` to `/fresh-eyes-review/`, same tab): First step of
   **Consolidate**: before handing over, let a sub-agent with a clean context review the
   changeset. It catches what the session that wrote the code misses.
-- handover: Closes the task. The agent gathers the decisions made along the way, from the ticket
-  to the session itself, matches the plan against the actual diff and writes a **HANDOVER.md**:
-  a paste-ready PR description with real test evidence and known gaps, so reviewers never
-  reconstruct intent from the diff. Demo:
+- handover: Closes the task. Give it a ticket id, or nothing at all, and it finds the task's
+  planning files, gathers the decisions made along the way, from the ticket to the session
+  itself, matches the plan against the actual diff and writes a **HANDOVER.md**: a paste-ready
+  PR description with the decisions worth knowing, where to look and what's still open, so
+  reviewers never reconstruct intent from the diff. Demo:
 
 ```
-> /handover
-✻ Reading the diff, the plan and the decisions…
+> /handover 1234
+✻ Reading the task artifacts, the related ticket and the diff…
+⏺ Found the ticket, requirements and plan for 1234-users
+⏺ One thing the plan doesn't cover: the retry in exporter.ts:88
+  ❯ 1. Ask me why it's there (recommended)
+    2. Ship it flagged as unexplained
+> 2
 ⏺ Saved 1234-users.HANDOVER.md, paste-ready as your PR description
 ```
 

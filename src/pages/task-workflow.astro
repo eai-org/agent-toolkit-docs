@@ -72,12 +72,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </SkillBlock>
   <SkillBlock name="handover" color="green">
     <p class="text-muted mb-4">
-      Closes the task. The agent gathers the decisions made along the way, from the ticket to the
-      session itself, matches the plan against the actual diff and writes a
-      <b class="sk">HANDOVER.md</b>: a paste-ready PR description with real test evidence and
-      known gaps, so reviewers never reconstruct intent from the diff.
+      Closes the task. Give it a ticket id, or nothing at all, and it finds the task's planning
+      files, gathers the decisions made along the way, from the ticket to the session itself,
+      matches the plan against the actual diff and writes a <b class="sk">HANDOVER.md</b>: a
+      paste-ready PR description with the decisions worth knowing, where to look and what's
+      still open, so reviewers never reconstruct intent from the diff.
     </p>
-    <DemoPlayer cast="11-handover" cols={72} rows={7} label="handover saving a paste-ready PR description" />
+    <DemoPlayer cast="11-handover" cols={72} rows={14} label="handover flagging an unexplained deviation, then saving a paste-ready PR description" />
   </SkillBlock>
   <section class="px-6">
     <div class="max-w-page mx-auto border-t border-border py-10">
