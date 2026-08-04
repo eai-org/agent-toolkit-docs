@@ -6,7 +6,7 @@ approval history: 2026-07-27 copy session including block order; §5-§10 page m
 2026-07-31; §5-§8 page URLs and titles 2026-08-01; group cards (§2b), slimmed homepage and the
 four reworked meta descriptions 2026-08-02. `website.DESIGN.md` holds layout/visuals,
 `website.DECISIONS.md` the tech and scope. The site is a homepage overview plus one page per skill group (§5-§10, no `/rules` page
-yet). Homepage block order: §1 hero, §2 problem, §2b card grid, §3 principles, §4 philosophy,
+yet) and an About page (§15). Homepage block order: §1 hero, §2 problem, §2b card grid, §3 principles, §4 philosophy,
 §11 rules, §12 feedback. The §5-§10 blocks and their demos live only on their group pages,
 structured per §14. Bullet items render as the deck pattern:
 **bold lead** followed by a muted detail span (no literal dash between them). Skill names in
@@ -16,11 +16,11 @@ pink for the stiff AI reply and green for the human one.
 
 ## 0. Nav (every page)
 
-- Wordmark (mono green, links home): agent-toolkit — prefixed with a ← arrow on group pages
+- Wordmark (mono green, links home): agent-toolkit — prefixed with a ← arrow on subpages
 - Theme toggle (icon-only: dark/light/system)
+- About us, to `/about` — the only page link (added 2026-08-03)
 - GitHub, with the star count appended (`★ 1,284`), to the repo
 - Install button, to the hero install terminal
-- No page links.
 
 ## 1. Hero (centered)
 
@@ -302,11 +302,19 @@ Demo window (traffic-light dots, two exchanges):
 ## 10. Conversational voice (blue)
 
 - Heading: Texts that sound like a real human typed them
-- Intro (muted): We often ask AI to help draft texts that other people will read:
+- Intro (muted, two paragraphs, revamped 2026-08-03 after the voice article): (1) We often ask
+  AI to help draft texts that other people will read: chat replies, PR comments, commit
+  messages. The agent is great at drafting them quickly, but not at matching the tone to the
+  context: a chat reply doesn't want the polish of a README, yet everything comes out in the
+  same overly formal, fancy prose that readers recognize as AI at a glance. (2) The skill and
+  rule below take the best of both worlds: the agent's speed, your voice.
 - **use-conversational-language** tells the agent to write in simple, human language instead of
-  sophisticated AI prose full of — em dashes — and fancy terms
-- **write-realistic-texts** opt-in rule that applies the human voice automatically whenever a
-  text is meant for other humans (code comments, PR replies, chat messages…)
+  sophisticated AI prose full of — em dashes — and fancy terms. It adapts the voice to the kind
+  of text (a PR comment, a chat reply, a code comment) and changes the wording only, never the
+  content: you still review every text before it goes out.
+- **write-realistic-texts** opt-in rule that applies the skill automatically whenever the agent
+  writes something a human will read as if a person wrote it, even when writing wasn't the task
+  you gave it.
 - Demo (two exchanges, pink/green ⏺ like the hero):
 
 ```
@@ -320,8 +328,8 @@ Demo window (traffic-light dots, two exchanges):
 ```
 
 - Page `/conversational-language` — title `Conversational language · agent-toolkit`; meta
-  description `Texts that sound like a real human typed them, not sophisticated AI prose.`; no
-  footer link.
+  description `Texts that sound like a real human typed them, not sophisticated AI prose.`;
+  footer link (`target="_blank"`): [Read more about the conversational voice →](https://medium.com/engineering-in-the-age-of-ai/how-to-use-ai-to-generate-texts-that-sound-like-a-human-would-actually-write-them-c7eef78e0b42)
 
 ## 11. Opinionated rules (pink)
 
@@ -475,3 +483,26 @@ demo renders muted.
   deviations: the page-level article link sits in the intro as a more-link line, not a closing
   block, and a compact rules subsection (h2, muted intro, three rule bullets with per-rule
   GitHub links) sits before the Keep-going footer.
+
+## 15. About page (added 2026-08-03)
+
+- Page `/about` — title `About us · agent-toolkit`; meta description `agent-toolkit is made by
+  Engineering in the Age of AI: every skill and rule is used, tested and refined in real-world
+  projects, and released as free software under the MIT license.` Reached only via the nav (§0).
+- h1 `About us`, h2 `Engineering in the Age of AI`; intro (muted): Engineering in the Age of AI
+  explores the craft of software engineering in the era of the biggest technology shift since
+  the internet. agent-toolkit is the part we practice daily: every skill and rule is used,
+  tested and refined in real-world projects.
+- Three channel cards (§2b card look, external links, `target="_blank"`, 3-col on desktop);
+  the action is the card's mono blue bottom line:
+
+| kicker (hue) | title | line | action → href |
+|---|---|---|---|
+| Medium (green) | Read the articles | The ideas behind the toolkit, in depth: context hygiene, agentic skills, real-world AI workflows. | Read on Medium → https://medium.com/engineering-in-the-age-of-ai |
+| Discord (purple) | Join the community | Questions, feedback and shop talk with people using AI agents in real projects. | Join the server → https://discord.com/invite/QaMTM8Cqy5 |
+| LinkedIn (blue) | Follow the updates | New articles and toolkit news, where your feed already is. | Follow us → https://www.linkedin.com/company/engineering-in-the-age-of-ai/ |
+
+- Closing block, kicker `Free software` (orange): We love open-sourcing what we build.
+  agent-toolkit is completely free software, released under the MIT license. Link (mono blue,
+  to the repo): Browse the source on GitHub →
+- No demos, no Keep-going footer.

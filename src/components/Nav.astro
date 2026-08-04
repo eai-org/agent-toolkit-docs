@@ -13,6 +13,7 @@ const stars = await starLabel();
     </a>
     <div class="flex items-center gap-4">
       <ThemeToggle />
+      <a href={`${base}/about/`} class="font-mono text-[13px] text-text no-underline hover:text-green">About us</a>
       <a href="https://github.com/eai-org/agent-toolkit" class="font-mono text-[13px] text-text no-underline hover:text-green">
         GitHub{stars && <span class="text-muted"> {stars}</span>}
       </a>

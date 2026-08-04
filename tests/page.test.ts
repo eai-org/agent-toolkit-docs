@@ -23,6 +23,8 @@ const MEMORY_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257';
 const RPA_ARTICLE =
   'https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427';
+const VOICE_ARTICLE =
+  'https://medium.com/engineering-in-the-age-of-ai/how-to-use-ai-to-generate-texts-that-sound-like-a-human-would-actually-write-them-c7eef78e0b42';
 
 // titles carry the entity encoding of the built HTML
 const groupPages = [
@@ -122,7 +124,7 @@ const groupPages = [
     emDashes: 2,
     skills: ['use-conversational-language'],
     rules: ['write-realistic-texts'],
-    articles: [],
+    articles: [VOICE_ARTICLE],
     internalLinkLabels: [],
   },
 ];
@@ -251,8 +253,44 @@ d('homepage', () => {
   });
 });
 
+d('about page', () => {
+  const doc = () => read('dist/about/index.html');
+
+  test('carries its title and meta description', () => {
+    expect(doc()).toContain('<title>About us · agent-toolkit</title>');
+    expect(doc()).toContain(
+      '<meta name="description" content="agent-toolkit is made by Engineering in the Age of AI: every skill and rule is used, tested and refined in real-world projects, and released as free software under the MIT license.">',
+    );
+  });
+
+  test('"About us" is the only h1, over the EAI heading', () => {
+    const headings = [...doc().matchAll(/<h1[^>]*>([^<]*)<\/h1>/g)].map((m) => m[1]);
+    expect(headings).toEqual(['About us']);
+    expect(doc()).toContain('>Engineering in the Age of AI</h2>');
+  });
+
+  test('links the three channels', () => {
+    expect(doc()).toContain('href="https://medium.com/engineering-in-the-age-of-ai"');
+    expect(doc()).toContain('href="https://discord.com/invite/QaMTM8Cqy5"');
+    expect(doc()).toContain('href="https://www.linkedin.com/company/engineering-in-the-age-of-ai/"');
+  });
+
+  test('closes on the free software blurb', () => {
+    expect(doc()).toMatch(/released\s+under the MIT license/);
+    expect(doc()).toContain('href="https://github.com/eai-org/agent-toolkit"');
+  });
+
+  test('plays no demos', () => {
+    expect(casts(doc())).toEqual([]);
+  });
+});
+
 d('site-wide', () => {
-  const PAGES = ['dist/index.html', ...GROUPS.map((g) => `dist/${g.slug}/index.html`)];
+  const PAGES = [
+    'dist/index.html',
+    'dist/about/index.html',
+    ...GROUPS.map((g) => `dist/${g.slug}/index.html`),
+  ];
 
   test('every page was built', () => {
     for (const p of PAGES) expect(existsSync(p), p).toBe(true);
@@ -302,6 +340,10 @@ d('site-wide', () => {
 
   test('install works from every page', () => {
     for (const p of PAGES) expect(read(p), p).toContain(`href="${baseFrom()}/#install"`);
+  });
+
+  test('the nav reaches the About page from every page', () => {
+    for (const p of PAGES) expect(read(p), p).toContain(`href="${baseFrom()}/about/"`);
   });
 
   test('every group page keeps going to its two siblings and the full grid', () => {

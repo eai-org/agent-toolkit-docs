@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+
+const channels = [
+  {
+    kicker: 'Medium',
+    hue: 'text-green',
+    title: 'Read the articles',
+    line: 'The ideas behind the toolkit, in depth: context hygiene, agentic skills, real-world AI workflows.',
+    action: 'Read on Medium',
+    href: 'https://medium.com/engineering-in-the-age-of-ai',
+  },
+  {
+    kicker: 'Discord',
+    hue: 'text-purple',
+    title: 'Join the community',
+    line: 'Questions, feedback and shop talk with people using AI agents in real projects.',
+    action: 'Join the server',
+    href: 'https://discord.com/invite/QaMTM8Cqy5',
+  },
+  {
+    kicker: 'LinkedIn',
+    hue: 'text-blue',
+    title: 'Follow the updates',
+    line: 'New articles and toolkit news, where your feed already is.',
+    action: 'Follow us',
+    href: 'https://www.linkedin.com/company/engineering-in-the-age-of-ai/',
+  },
+];
+---
+<Base
+  title="About us · agent-toolkit"
+  description="agent-toolkit is made by Engineering in the Age of AI: every skill and rule is used, tested and refined in real-world projects, and released as free software under the MIT license."
+  back
+>
+  <PageHeader title="About us" heading="Engineering in the Age of AI">
+    <p class="text-muted">
+      Engineering in the Age of AI explores the craft of software engineering in the era of the
+      biggest technology shift since the internet. agent-toolkit is the part we practice daily:
+      every skill and rule is used, tested and refined in real-world projects.
+    </p>
+  </PageHeader>
+  <section class="px-6 pb-14">
+    <div class="max-w-page mx-auto grid md:grid-cols-3 gap-3">
+      {channels.map((c) => (
+        <a href={c.href} target="_blank" rel="noopener"
+           class="flex flex-col bg-panel border border-border rounded-card px-4 py-3 no-underline text-text hover:border-muted">
+          <div class:list={['kicker', c.hue]}>{c.kicker}</div>
+          <div class="font-bold">{c.title}</div>
+          <p class="text-muted text-[13px] leading-snug mt-1">{c.line}</p>
+          <div class="mt-auto pt-2.5 font-mono text-[12px] text-blue">{c.action} &rarr;</div>
+        </a>
+      ))}
+    </div>
+  </section>
+  <Section kicker="Free software" color="orange">
+    <p class="text-muted mb-3">
+      We love open-sourcing what we build. agent-toolkit is completely free software, released
+      under the MIT license.
+    </p>
+    <a class="more-link" target="_blank" rel="noopener"
+       href="https://github.com/eai-org/agent-toolkit">Browse the source on GitHub &rarr;</a>
+  </Section>
+</Base>
