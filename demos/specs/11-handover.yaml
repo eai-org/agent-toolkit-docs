@@ -1,8 +1,15 @@
 cols: 72
-rows: 7
+rows: 14
 seed: 11-handover
 events:
-  - input: ''
+  - input: '1234'
     skill: /handover
-  - spinner: Reading the diff, the plan and the decisions…
+  - spinner: Reading the task artifacts, the related ticket and the diff…
+  - output: Found the ticket, requirements and plan for 1234-users
+  - output: "One thing the plan doesn't cover: the retry in exporter.ts:88"
+  - options:
+      - text: Ask me why it's there
+        recommended: true
+      - text: Ship it flagged as unexplained
+  - input: '2'
   - output: Saved 1234-users.HANDOVER.md, paste-ready as your PR description
