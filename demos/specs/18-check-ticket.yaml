@@ -1,0 +1,12 @@
+cols: 72
+rows: 12
+seed: 18-check-ticket
+events:
+  - input: 1234-users.TICKET.md
+    skill: /check-ticket-implementation
+  - spinner: Splitting the ticket into requirement blocks…
+  - spinner: Judging 8 blocks against the working tree…
+  - output: 5 ✅ done · 2 🟡 partial · 1 🟥 not done
+  - output: 'Needs attention: CSV export, audit log entry'
+  - output: '🟡 CSV export: the endpoint ignores the format param, so it always returns JSON (src/users/export.controller.ts:41)'
+  - output: Saved 1234-users.TICKET-STATUS.md

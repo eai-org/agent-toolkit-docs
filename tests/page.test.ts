@@ -21,6 +21,8 @@ const CONTEXT_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949';
 const MEMORY_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257';
+const PR_REVIEW_ARTICLE =
+  'https://medium.com/engineering-in-the-age-of-ai/let-ai-speed-up-both-sides-of-your-code-reviews-while-you-stay-in-full-control-3b059506ef39';
 const RPA_ARTICLE =
   'https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427';
 const VOICE_ARTICLE =
@@ -43,6 +45,7 @@ const groupPages = [
       '11-handover.cast',
       '12-manual-test.cast',
       '13-review-ticket.cast',
+      '18-check-ticket.cast',
     ],
     emDashes: 0,
     skills: [
@@ -52,6 +55,7 @@ const groupPages = [
       'handover',
       'create-manual-test-instructions',
       'review-ticket',
+      'check-ticket-implementation',
     ],
     rules: [],
     articles: [WORKFLOW_ARTICLE, RPA_ARTICLE],
@@ -69,7 +73,7 @@ const groupPages = [
     emDashes: 0,
     skills: ['fetch-pr-review', 'refine-pr-review', 'review-code-assistant'],
     rules: [],
-    articles: [],
+    articles: [PR_REVIEW_ARTICLE],
     internalLinkLabels: [],
   },
   {
@@ -296,14 +300,14 @@ d('site-wide', () => {
     for (const p of PAGES) expect(existsSync(p), p).toBe(true);
   });
 
-  test('all seventeen casts play, each on exactly one page', () => {
+  test('all eighteen casts play, each on exactly one page', () => {
     const seen = new Map<string, string[]>();
     for (const p of PAGES) {
       for (const m of new Set(casts(read(p)))) {
         seen.set(m, [...(seen.get(m) ?? []), p]);
       }
     }
-    expect(seen.size).toBe(17);
+    expect(seen.size).toBe(18);
     for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
   });
 

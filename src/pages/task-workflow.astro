@@ -103,6 +103,22 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </p>
     <DemoPlayer cast="13-review-ticket" cols={72} rows={10} label="review-ticket delivering its triage verdict" />
   </SkillBlock>
+  <SkillBlock name="check-ticket-implementation" color="green">
+    <p class="text-muted mb-3">
+      Answers one question: how much of this ticket is already built? It splits the ticket into
+      individual requirements and judges each one against the code, so the verdict lands per
+      requirement instead of on the ticket as a whole: done, partially done, not done, or not
+      verifiable from the code, each with a short note and the <b class="sk">file:line</b> where it
+      was checked.
+    </p>
+    <p class="text-muted mb-4">
+      The report goes into a <b class="sk">TICKET-STATUS.md</b>, headed by the tally and the
+      requirements that need attention. Useful when you pick up a branch someone else started, or
+      before you call a ticket finished. It writes that one file and nothing else: your code and
+      the ticket stay untouched.
+    </p>
+    <DemoPlayer cast="18-check-ticket" cols={72} rows={12} label="check-ticket-implementation reporting a verdict per requirement" />
+  </SkillBlock>
   <section class="px-6">
     <div class="max-w-page mx-auto border-t border-border py-8">
       <a class="more-link" target="_blank" rel="noopener"

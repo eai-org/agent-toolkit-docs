@@ -136,8 +136,8 @@ Demo window (traffic-light dots, two exchanges):
 
 ## 6. Review assistants (orange)
 
-Rewritten 2026-08-06 from the PR-review article (unpublished; add a "Read more about the PR
-review skills →" footer link when it goes live).
+Rewritten 2026-08-06 from the PR-review article, linked in the footer since it went live
+2026-08-07.
 
 - Heading: Help on both sides of the code review
 - Intro (muted, two paragraphs, bold as marked): (1) Now that AI helps developers push code
@@ -203,7 +203,8 @@ review skills →" footer link when it goes live).
 - Page `/pr-review-assistants` — title `PR review assistants · agent-toolkit`; meta description
   `Code review is the new bottleneck. These skills assist both sides of it: triage the feedback
   your PR gets, and prepare your review of someone else's code. The agent suggests, you
-  decide.`; no footer link.
+  decide.`;
+  footer link (`target="_blank"`): [Read more about the PR review skills →](https://medium.com/engineering-in-the-age-of-ai/let-ai-speed-up-both-sides-of-your-code-reviews-while-you-stay-in-full-control-3b059506ef39)
 
 ## 7. Fresh eyes review (orange)
 
@@ -513,6 +514,28 @@ demo renders muted.
 ⏺ 2 questions to resolve before starting
 ⏺ Saved 1234-users.TICKET-REVIEW.md with briefing and questions
 ```
+
+- check-ticket-implementation (under Extra workflow skills, added 2026-08-07), two paragraphs:
+  (1) Answers one question: how much of this ticket is already built? It splits the ticket into
+  individual requirements and judges each one against the code, so the verdict lands per
+  requirement instead of on the ticket as a whole: done, partially done, not done, or not
+  verifiable from the code, each with a short note and the **file:line** where it was checked.
+  (2) The report goes into a **TICKET-STATUS.md**, headed by the tally and the requirements that
+  need attention. Useful when you pick up a branch someone else started, or before you call a
+  ticket finished. It writes that one file and nothing else: your code and the ticket stay
+  untouched. Demo:
+
+```
+> /check-ticket-implementation 1234-users.TICKET.md
+✻ Splitting the ticket into requirement blocks…
+✻ Judging 8 blocks against the working tree…
+⏺ 5 ✅ done · 2 🟡 partial · 1 🟥 not done
+⏺ Needs attention: CSV export, audit log entry
+⏺ 🟡 CSV export: the endpoint ignores the format param, so it always
+  returns JSON (src/users/export.controller.ts:41)
+⏺ Saved 1234-users.TICKET-STATUS.md
+```
+
 - fresh-eyes-review: One command: the sub-agent reviews the changeset and comes back with its
   findings, sorted by severity. You choose which ones to address.
 - /context-hygiene intro, two paragraphs: (1) AI agents work at their best when the context

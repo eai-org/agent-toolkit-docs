@@ -5,7 +5,10 @@
   asking: `planning/website.COPY.md` copy, `planning/website.DESIGN.md` layout/visuals,
   `planning/website.DECISIONS.md` scope and tech.
 - Copy rules: no dashes as punctuation, straight apostrophes. The em dashes in the conversational
-  bullet and the pink demo replies are deliberate.
+  bullet and the pink demo replies are deliberate. Name what the reader would type or see
+  (`/create-implementation-plan`, `PR-REVIEW.md`), never an abstract stand-in ("the task
+  workflow"), and show the same command in that skill's demo. Skill blocks stop at what the reader
+  needs to pick the skill; the mechanics stay behind the `Read the SKILL.md` link.
 - Never guess a skill's behavior in copy or demo specs: read its `SKILL.md` in
   `../agent-toolkit/skills/` and the articles linked from
   `../agent-toolkit/docs/core-philosophy.md`.

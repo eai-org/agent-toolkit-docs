@@ -137,7 +137,7 @@ Keep-going footer. Copy in COPY §15.
 
 ## Demo lineup (v1, one spec file each)
 
-The hero demo lives on the homepage, the other sixteen on their group pages; scripts are written
+The hero demo lives on the homepage, the other seventeen on their group pages; scripts are written
 out in `website.COPY.md`.
 
 1. use-conversational-language two-exchange "draft an answer" — hero.
@@ -168,6 +168,9 @@ out in `website.COPY.md`.
 17. review-code-assistant surfacing one grounded finding with its green paste-ready suggested
     comment (spec `17-review-code-assistant`, added 2026-08-06) — /pr-review-assistants, second
     demo on that page.
+18. check-ticket-implementation reporting the tally, the requirements needing attention and one
+    partial block with its evidence ref (spec `18-check-ticket`, added 2026-08-07) —
+    /task-workflow, under Extra workflow skills. Only demo carrying status emoji.
 
 The flow demos (2, 3, 8, 9) close with the skill's real hand-off suggestion, rendered muted:
 `Next: /clear, then <command for the next phase>`.

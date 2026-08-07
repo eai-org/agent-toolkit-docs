@@ -21,7 +21,7 @@ export const GROUPS: Group[] = [
     hue: 'green',
     title: 'Refine, plan, act, consolidate',
     line: 'Turn a ticket into requirements, a plan, then code, with a clean handoff at every step.',
-    count: '6 skills',
+    count: '7 skills',
   },
   {
     slug: 'pr-review-assistants',

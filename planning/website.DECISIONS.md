@@ -29,9 +29,11 @@ pages — `/task-workflow`, `/pr-review-assistants`, `/fresh-eyes-review`, `/con
 `/skills-docs-authoring`, `/conversational-language` — which carry the per-skill blocks and
 demos (template in `website.DESIGN.md`, copy in `website.COPY.md` §14) and end with a
 "Keep going" footer linking the next two groups and the homepage grid.
-`/pr-review-assistants` covers only the three §6 skills so far, not yet the ticket-review trio
-in the table below. `/rules`, `/core-concepts` and the catalog stay deferred, kept here as the
-plan for that expansion. Approved block order and copy: `website.COPY.md`; skeleton:
+`/pr-review-assistants` covers only the three §6 skills. The ticket-review skills went to
+`/task-workflow` instead, under "Extra workflow skills": review-ticket (2026-08-05) and
+check-ticket-implementation (2026-08-07), both closer to a developer's own task than to
+reviewing a PR. `/rules`, `/core-concepts` and the catalog stay deferred, kept here as the plan
+for that expansion. Approved block order and copy: `website.COPY.md`; skeleton:
 `website.DESIGN.md`.
 
 2026-08-03: `/about` added alongside the group pages, linked from the nav on every page. It
@@ -44,8 +46,8 @@ Pages as planned for the expansion:
 | Page | Content |
 |---|---|
 | `/core-concepts` | The five pillars, marketing style: icons + short texts. NOT a render of `docs/core-philosophy.md` (that doc is agent-facing source material informing the copy; llms.txt generates from it). The deck shows only four principles — it predates pillar 5 (generic beats specific); core-philosophy.md is the authority: five pillars |
-| `/task-workflow` | RPA flagship: fetch-ticket, refine-ticket, create-implementation-plan, create-manual-test-instructions. Includes the Refine/Plan/Act flow diagram from the deck |
-| `/pr-review-assistants` | Incoming PR (fetch-pr-review, refine-pr-review); reviewing others' code (review-code-assistant); tickets (review-ticket, verify-understanding, check-ticket-implementation) |
+| `/task-workflow` | RPA flagship: fetch-ticket, refine-ticket, create-implementation-plan, create-manual-test-instructions. Includes the Refine/Plan/Act flow diagram from the deck. Extra workflow skills: review-ticket, check-ticket-implementation |
+| `/pr-review-assistants` | Incoming PR (fetch-pr-review, refine-pr-review); reviewing others' code (review-code-assistant) |
 | `/fresh-eyes-review` | fresh-eyes-review — separate concept: validating your own work with a clean context |
 | `/conversational-language` | use-conversational-language (+ write-realistic-texts rule). Proven crowd favorite |
 | `/context-hygiene` | context-checkup, memory-doctor |
@@ -53,7 +55,9 @@ Pages as planned for the expansion:
 | `/rules` | Opt-in rules, clearly framed as opt-in. Adapted pattern: links go to rule files (rules have no SKILL.md); the demo shows a rule steering behavior, e.g. git-read-only-by-default declining an unrequested push and asking for explicit confirmation |
 | catalog page | Full skill/rule reference, generated at build time from SKILL.md frontmatter and rule files — cannot drift from the repo |
 
-run-nx-checks: catalog only, no marketing section.
+run-nx-checks: catalog only, no marketing section. Same for verify-understanding (2026-08-07):
+it is a teach-back conversation with the developer rather than a skill that produces a file, so
+it doesn't sell well in the demo format. Revisit when the catalog page lands.
 
 Expanded, the group pages all follow the same pattern as the homepage sections, one level
 deeper: icon + short marketing text per skill, at least one terminal demo, links to each skill's
@@ -142,6 +146,10 @@ Settled in the 2026-07-26 design session:
 
 Short, human, non-salesy. No dashes as punctuation of any kind (literal names keep their
 hyphens); straight apostrophes. Narrative follows the conference deck / core-philosophy pillars.
+Concrete over abstract: name what the reader would type or see (`/create-implementation-plan`),
+never a stand-in for it ("the task workflow"), and show the same command in that skill's demo.
+Skill blocks stop at what the reader needs to pick the skill; the mechanics stay behind the
+SKILL.md link.
 Install section covers all four channels: install.sh, agentwheel, skills.sh, Claude Code plugin
 marketplace.
 
