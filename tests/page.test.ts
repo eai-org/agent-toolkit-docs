@@ -62,10 +62,10 @@ const groupPages = [
     slug: 'pr-review-assistants',
     title: 'PR review assistants · agent-toolkit',
     description:
-      "Code review is still a key part of most teams' workflow. These skills assist in both directions: when others leave feedback on your PRs, and when you review someone else's code.",
+      "Code review is the new bottleneck. These skills assist both sides of it: triage the feedback your PR gets, and prepare your review of someone else's code. The agent suggests, you decide.",
     pageTitle: 'PR review assistants',
     heading: 'Help on both sides of the code review',
-    casts: ['03-pr-review.cast'],
+    casts: ['03-pr-review.cast', '17-review-code-assistant.cast'],
     emDashes: 0,
     skills: ['fetch-pr-review', 'refine-pr-review', 'review-code-assistant'],
     rules: [],
@@ -296,14 +296,14 @@ d('site-wide', () => {
     for (const p of PAGES) expect(existsSync(p), p).toBe(true);
   });
 
-  test('all sixteen casts play, each on exactly one page', () => {
+  test('all seventeen casts play, each on exactly one page', () => {
     const seen = new Map<string, string[]>();
     for (const p of PAGES) {
       for (const m of new Set(casts(read(p)))) {
         seen.set(m, [...(seen.get(m) ?? []), p]);
       }
     }
-    expect(seen.size).toBe(16);
+    expect(seen.size).toBe(17);
     for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
   });
 

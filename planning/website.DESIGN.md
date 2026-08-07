@@ -137,14 +137,15 @@ Keep-going footer. Copy in COPY §15.
 
 ## Demo lineup (v1, one spec file each)
 
-The hero demo lives on the homepage, the other fifteen on their group pages; scripts are written
+The hero demo lives on the homepage, the other sixteen on their group pages; scripts are written
 out in `website.COPY.md`.
 
 1. use-conversational-language two-exchange "draft an answer" — hero.
 2. refine-ticket grilling (one question, recommendation, then the save and the next-step
    hand-off) — /task-workflow.
 3. fetch-pr-review → /clear → refine-pr-review triage (comment 3/12: address / partial / push
-   back) — /pr-review-assistants.
+   back; extended 2026-08-06 through the verdict pick to the ANSWERS and REQUIREMENTS saves and
+   the /create-implementation-plan hand-off) — /pr-review-assistants.
 4. fresh-eyes-review returning 3 findings with address options — /fresh-eyes-review.
 5. context-checkup audit with a proposed trim, accepted, ending on the savings line —
    /context-hygiene.
@@ -164,8 +165,11 @@ out in `website.COPY.md`.
     /skills-docs-authoring.
 16. memory-doctor relocating one block into its doc (spec `16-memory-doctor`) —
     /context-hygiene, second demo on that page.
+17. review-code-assistant surfacing one grounded finding with its green paste-ready suggested
+    comment (spec `17-review-code-assistant`, added 2026-08-06) — /pr-review-assistants, second
+    demo on that page.
 
-The flow demos (2, 8, 9) close with the skill's real hand-off suggestion, rendered muted:
+The flow demos (2, 3, 8, 9) close with the skill's real hand-off suggestion, rendered muted:
 `Next: /clear, then <command for the next phase>`.
 
 The git-read-only-by-default demo was tied to the /rules page and is deferred with it.

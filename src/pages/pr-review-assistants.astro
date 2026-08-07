@@ -7,35 +7,52 @@ import KeepGoing from '../components/KeepGoing.astro';
 ---
 <Base
   title="PR review assistants · agent-toolkit"
-  description="Code review is still a key part of most teams' workflow. These skills assist in both directions: when others leave feedback on your PRs, and when you review someone else's code."
+  description="Code review is the new bottleneck. These skills assist both sides of it: triage the feedback your PR gets, and prepare your review of someone else's code. The agent suggests, you decide."
   back
 >
   <PageHeader title="PR review assistants" heading="Help on both sides of the code review">
+    <p class="text-muted mb-3">
+      Now that AI helps developers push code faster, there is more to review than ever: code
+      review is the new bottleneck.
+    </p>
     <p class="text-muted">
-      Code review is still a key part of most teams' workflow. These skills assist in both
-      directions: when <b>others leave feedback on your PRs</b>, and when <b>you review someone
-      else's code</b>.
+      These skills assist in both directions: when <b>others leave feedback on your PRs</b>, and
+      when <b>you review someone else's code</b>. Unlike fully automated review bots, they work
+      with you, locally: the agent suggests, you decide, and nothing reaches your teammates
+      without passing through your hands.
     </p>
   </PageHeader>
   <SkillBlock name="fetch-pr-review" color="orange">
     <p class="text-muted">
-      Downloads all the comments your PR received into a self-contained document that
-      <b class="sk">refine-pr-review</b> can consume.
+      Give it a PR link and it downloads all the feedback your PR received into a self-contained
+      <b class="sk">PR-REVIEW.md</b>. Works with GitHub, Azure DevOps or whatever platform your
+      agent can access (private repos need the right access tokens or MCP server configured).
+      Fetching is all it does: the thinking happens in a fresh session.
     </p>
   </SkillBlock>
   <SkillBlock name="refine-pr-review" color="orange">
     <p class="text-muted mb-4">
-      Assists you in triaging the feedback, comment by comment: address, partial or push back. It
-      drafts each reply and collects the accepted changes into requirements you can feed back into
-      the task workflow.
+      Goes through that file with you, comment by comment. For each one the agent reads the code
+      the comment is about, then says what it would do: address it, address part of it, or push
+      back, with its reasoning and a reply you can post. The debatable ones come one at a time,
+      the obvious ones in a single batch, so you spend your time where it matters. You end up
+      with two files: an <b class="sk">ANSWERS.md</b> with a reply per comment, to paste once
+      your fixes are in, and a <b class="sk">REQUIREMENTS.md</b> with the changes you accepted,
+      ready to hand to <b class="sk">/create-implementation-plan</b>. Your PR is never touched.
     </p>
-    <DemoPlayer cast="03-pr-review" cols={72} rows={18} label="fetch-pr-review and refine-pr-review triaging comments" />
+    <DemoPlayer cast="03-pr-review" cols={72} rows={26} label="fetch-pr-review and refine-pr-review triaging the feedback into drafted replies and requirements" />
   </SkillBlock>
   <SkillBlock name="review-code-assistant" color="orange">
-    <p class="text-muted">
-      Reviews someone else's PR locally (works for self-review too), suggesting human-voiced
-      comments and explanations. <b>You</b> decide what to post.
+    <p class="text-muted mb-4">
+      Prepares a review with you, locally in your terminal, and posts nothing. Point it at a PR
+      link or a branch: it reads the same diff the platform shows, the PR intent and the
+      project's convention docs, then suggests candidate comments in a human voice, ordered
+      exactly like the diff so you can scroll the PR and the terminal side by side. A comment
+      may only exist when it points to concrete evidence: an actual failure, a cited convention,
+      a provable simplification. Zero comments is a valid outcome. <b>You</b> decide what to
+      post.
     </p>
+    <DemoPlayer cast="17-review-code-assistant" cols={72} rows={14} label="review-code-assistant suggesting a grounded finding with a paste-ready comment" />
   </SkillBlock>
   <KeepGoing current="pr-review-assistants" />
 </Base>

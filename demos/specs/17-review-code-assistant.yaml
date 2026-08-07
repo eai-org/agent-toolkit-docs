@@ -1,0 +1,12 @@
+cols: 72
+rows: 14
+seed: 17-review-code-assistant
+events:
+  - input: https://github.com/project/repo/pull/5678
+    skill: /review-code-assistant
+  - spinner: Diffing 5678-orders against main, reading the PR intent…
+  - spinner: Running the project conventions against every changed file…
+  - output: 'Adds the pending_review status to the order list. 1 comment:'
+  - output: "1 · src/orders/order-list.component.ts:87 checks status === 'pending' but the new status is 'pending_review', so these orders would silently disappear from the list"
+  - output: 'Suggested comment: "looks like this checks for ''pending'' but the new status is ''pending_review'', so these orders would disappear from the list"'
+    color: green
