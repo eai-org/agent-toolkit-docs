@@ -136,35 +136,74 @@ Demo window (traffic-light dots, two exchanges):
 
 ## 6. Review assistants (orange)
 
+Rewritten 2026-08-06 from the PR-review article (unpublished; add a "Read more about the PR
+review skills →" footer link when it goes live).
+
 - Heading: Help on both sides of the code review
-- Intro (muted): Code review is still a key part of most teams' workflow. These skills assist in
-  both directions: when **others leave feedback on your PRs**, and when **you review someone
-  else's code**. (bold as marked)
-- **fetch-pr-review** downloads all the comments your PR received into a self-contained document
-  that refine-pr-review can consume
-- **refine-pr-review** assists you in triaging the feedback, comment by comment: address,
-  partial or push back
-- **review-code-assistant** reviews someone else's PR locally (works for self-review too),
-  suggesting human-voiced comments and explanations. **You** decide what to post
-- Demo (two steps with /clear between):
+- Intro (muted, two paragraphs, bold as marked): (1) Now that AI helps developers push code
+  faster, there is more to review than ever: code review is the new bottleneck. (2) These
+  skills assist in both directions: when **others leave feedback on your PRs**, and when **you
+  review someone else's code**. Unlike fully automated review bots, they work with you,
+  locally: the agent suggests, you decide, and nothing reaches your teammates without passing
+  through your hands.
+- **fetch-pr-review** (no demo): Give it a PR link and it downloads all the feedback your PR
+  received into a self-contained **PR-REVIEW.md**. Works with GitHub, Azure DevOps or whatever
+  platform your agent can access (private repos need the right access tokens or MCP server
+  configured). Fetching is all it does: the thinking happens in a fresh session.
+- **refine-pr-review**: Goes through that file with you, comment by comment. For each one the
+  agent reads the code the comment is about, then says what it would do: address it, address
+  part of it, or push back, with its reasoning and a reply you can post. The debatable ones come
+  one at a time, the obvious ones in a single batch, so you spend your time where it matters.
+  You end up with two files: an **ANSWERS.md** with a reply per comment, to paste once your
+  fixes are in, and a **REQUIREMENTS.md** with the changes you accepted, ready to hand to
+  **/create-implementation-plan** (named as plain mono text, not linked: the sibling-links test
+  limits internal links to the Keep-going siblings). Your PR is never touched. Demo (two steps
+  with /clear between, extended 2026-08-06 to the output files and the hand-off line):
 
 ```
 > /fetch-pr-review https://github.com/project/repo/pull/1234
-✻ Fetching comments…
-⏺ Saved to 1234-users.PR-REVIEW.md
+✻ Fetching threads, verdicts and bot comments…
+⏺ Saved 1234-users.PR-REVIEW.md: 12 comments, bots kept separate
 > /clear
 > /refine-pr-review 1234-users.PR-REVIEW.md
-✻ Reading 12 comments…
+✻ Reading the code behind each comment…
 ⏺ Comment 3/12: "serializeUsers should live in the service layer"
   ❯ 1. address (recommended)
     2. address partially
     3. push back
+> 1
+✻ Working through the remaining comments…
+⏺ Saved 1234-users.PR-REVIEW.ANSWERS.md: a drafted reply per comment
+⏺ Saved 1234-users.PR-REVIEW.REQUIREMENTS.md: the accepted changes
+⏺ Next: /clear, then /create-implementation-plan
+  1234-users.PR-REVIEW.REQUIREMENTS.md          (muted)
+```
+
+- **review-code-assistant**: Prepares a review with you, locally in your terminal, and posts
+  nothing. Point it at a PR link or a branch: it reads the same diff the platform shows, the PR
+  intent and the project's convention docs, then suggests candidate comments in a human voice,
+  ordered exactly like the diff so you can scroll the PR and the terminal side by side. A
+  comment may only exist when it points to concrete evidence: an actual failure, a cited
+  convention, a provable simplification. Zero comments is a valid outcome. **You** decide what
+  to post. Demo (added 2026-08-06; the suggested comment renders green, the human-voice color):
+
+```
+> /review-code-assistant https://github.com/project/repo/pull/5678
+✻ Diffing 5678-orders against main, reading the PR intent…
+✻ Running the project conventions against every changed file…
+⏺ Adds the pending_review status to the order list. 1 comment:
+⏺ 1 · src/orders/order-list.component.ts:87 checks status === 'pending'
+  but the new status is 'pending_review', so these orders would
+  silently disappear from the list
+⏺ (green) Suggested comment: "looks like this checks for 'pending' but
+  the new status is 'pending_review', so these orders would disappear
+  from the list"
 ```
 
 - Page `/pr-review-assistants` — title `PR review assistants · agent-toolkit`; meta description
-  `Code review is still a key part of most teams' workflow. These skills assist in both
-  directions: when others leave feedback on your PRs, and when you review someone else's code.`;
-  no footer link.
+  `Code review is the new bottleneck. These skills assist both sides of it: triage the feedback
+  your PR gets, and prepare your review of someone else's code. The agent suggests, you
+  decide.`; no footer link.
 
 ## 7. Fresh eyes review (orange)
 
@@ -474,8 +513,6 @@ demo renders muted.
 ⏺ 2 questions to resolve before starting
 ⏺ Saved 1234-users.TICKET-REVIEW.md with briefing and questions
 ```
-- refine-pr-review, second sentence added to the §6 bullet: It drafts each reply and collects the
-  accepted changes into requirements you can feed back into the task workflow.
 - fresh-eyes-review: One command: the sub-agent reviews the changeset and comes back with its
   findings, sorted by severity. You choose which ones to address.
 - /context-hygiene intro, two paragraphs: (1) AI agents work at their best when the context

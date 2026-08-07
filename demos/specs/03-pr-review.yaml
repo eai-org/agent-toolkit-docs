@@ -1,18 +1,24 @@
 cols: 72
-rows: 18
+rows: 26
 seed: 03-pr-review
 events:
   - input: https://github.com/project/repo/pull/1234
     skill: /fetch-pr-review
-  - spinner: Fetching comments…
-  - output: Saved to 1234-users.PR-REVIEW.md
+  - spinner: Fetching threads, verdicts and bot comments…
+  - output: 'Saved 1234-users.PR-REVIEW.md: 12 comments, bots kept separate'
   - input: /clear
   - input: 1234-users.PR-REVIEW.md
     skill: /refine-pr-review
-  - spinner: Reading 12 comments…
+  - spinner: Reading the code behind each comment…
   - output: 'Comment 3/12: "serializeUsers should live in the service layer"'
   - options:
       - text: address
         recommended: true
       - text: address partially
       - text: push back
+  - input: '1'
+  - spinner: Working through the remaining comments…
+  - output: 'Saved 1234-users.PR-REVIEW.ANSWERS.md: a drafted reply per comment'
+  - output: 'Saved 1234-users.PR-REVIEW.REQUIREMENTS.md: the accepted changes'
+  - output: 'Next: /clear, then /create-implementation-plan 1234-users.PR-REVIEW.REQUIREMENTS.md'
+    color: muted
