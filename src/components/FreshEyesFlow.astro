@@ -1,0 +1,40 @@
+<div class="my-4">
+  <div class="relative aspect-[900/210] lg:aspect-[900/175] max-md:hidden">
+    <svg class="absolute inset-0 h-full w-full text-muted" viewBox="0 0 900 175" preserveAspectRatio="none" fill="none" aria-hidden="true">
+      <defs>
+        <marker id="fe-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+          <path d="M0 1 L8 5 L0 9" fill="none" stroke="currentColor" stroke-width="1.3"/>
+        </marker>
+      </defs>
+      <line x1="365" y1="42" x2="550" y2="64" stroke="currentColor" stroke-width="1.3" marker-end="url(#fe-arrow)"/>
+      <line x1="550" y1="111" x2="368" y2="133" stroke="currentColor" stroke-width="1.3" marker-end="url(#fe-arrow)"/>
+    </svg>
+    <div class="stage border-orange absolute inset-y-0 left-0 w-[40%]">
+      <b class="text-orange">Authoring session</b>
+      <span>The session that did the work (or has the reference: the TICKET, REQUIREMENTS, PLAN, etc.) and knows the goal. This is where you launch <b class="file">/fresh-eyes-review</b>.</span>
+      <div class="mt-auto pt-1 text-muted text-[12px] leading-snug">Receives the findings from the reviewing session and judges them, recommending which ones to address.</div>
+    </div>
+    <div class="stage border-pink absolute right-0 top-1/2 w-[38%] -translate-y-1/2">
+      <b class="text-pink">Reviewing session</b>
+      <span>A clean context: it sees the changes, has full access to the codebase, and gets a summary of the goal (or the TICKET). It never sees the authoring session's reasoning: no PLAN or similar docs.</span>
+    </div>
+    <span class="absolute left-[51%] top-[23%] -translate-x-1/2 -translate-y-1/2 rotate-[7deg] text-[12px] text-muted">the changes and their goal</span>
+    <span class="absolute left-[51%] top-[62%] -translate-x-1/2 -translate-y-1/2 -rotate-[7deg] text-[12px] text-muted">the findings</span>
+  </div>
+  <div class="grid gap-1.5 md:hidden">
+    <div class="stage border-orange">
+      <b class="text-orange">Authoring session</b>
+      <span>The session that did the work (or has the reference: the TICKET, REQUIREMENTS, PLAN, etc.) and knows the goal. This is where you launch <b class="file">/fresh-eyes-review</b>.</span>
+    </div>
+    <span class="text-center text-[12px] text-muted">&darr; the changes and their goal</span>
+    <div class="stage border-pink">
+      <b class="text-pink">Reviewing session</b>
+      <span>A clean context: it sees the changes, has full access to the codebase, and gets a summary of the goal (or the TICKET). It never sees the authoring session's reasoning: no PLAN or similar docs.</span>
+    </div>
+    <span class="text-center text-[12px] text-muted">&darr; the findings</span>
+    <div class="stage border-orange">
+      <b class="text-orange">Authoring session</b>
+      <span>Receives the findings from the reviewing session and judges them, recommending which ones to address.</span>
+    </div>
+  </div>
+</div>

@@ -2,27 +2,77 @@
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import SkillBlock from '../components/SkillBlock.astro';
+import FreshEyesFlow from '../components/FreshEyesFlow.astro';
 import DemoPlayer from '../components/DemoPlayer.astro';
 import KeepGoing from '../components/KeepGoing.astro';
 ---
 <Base
   title="Fresh eyes review · agent-toolkit"
-  description="A fresh perspective works for AI just like it does for humans: a sub-agent with a clean context, seeing only the changeset and a minimal description, catches surprisingly more regressions and issues than the session that wrote the code."
+  description="An AI agent reviewing its own code will tell you everything looks fine, while a fresh session finds the real problems. One command spawns a reviewing session with a clean context: it sees the changes but never the author's reasoning, and catches what the author can't."
   back
 >
   <PageHeader title="Fresh eyes review" heading="Let a sub-agent review the code">
-    <p class="text-muted">
-      A fresh perspective works for AI just like it does for humans: a sub-agent with a clean
-      context, seeing only the changeset and a minimal description, catches surprisingly more
-      regressions and issues than the session that wrote the code.
+    <p class="text-muted mb-3">
+      Ask an AI agent to review the code it just wrote, and it will not find much. Show the
+      same changes to a fresh session, and it will return with many more findings. Some valid,
+      some minor, others just noise. Even the best models behave like this: the authoring
+      session is biased by its own reasoning.
     </p>
+    <p class="text-muted">
+      After all, people are no different: finding mistakes in your own text is hard, while a
+      colleague often spots them more easily. This skill gives your agent that colleague: a
+      sub-agent that starts with a clean context.
+    </p>
+    <FreshEyesFlow />
   </PageHeader>
   <SkillBlock name="fresh-eyes-review" color="orange">
-    <p class="text-muted mb-4">
-      One command: the sub-agent reviews the changeset and comes back with its findings, sorted by
-      severity. You choose which ones to address.
+    <p class="text-muted mb-3">
+      Run it from your main session and tell it what to review: it can be a branch, a commit,
+      a git diff, a couple of files, even a document (for example a PLAN.md). Or just invoke
+      it without arguments and it will figure out what to review on its own and ask you to
+      confirm the prompt for the reviewing session. Approve it, or tweak it first, and the
+      review will start in a clean context.
     </p>
-    <DemoPlayer cast="04-fresh-eyes" cols={72} rows={10} label="fresh-eyes-review returning three findings" />
+    <p class="text-muted mb-3">
+      The reviewing session sees the changes and their goal, and is free to check the whole
+      codebase. What it never sees is the <strong>reasoning</strong> of the authoring session
+      (no plan, notes, chat history, etc.). This part matters: hand it the reasoning that
+      produced a bug, and chances are that it will overlook the bug for the same reason the
+      authoring session did.
+    </p>
+    <p class="text-muted mb-4">
+      Findings come back to the main session: each one points at a file and describes how it
+      actually breaks. No minor style nitpicks, no vague concerns, and "nothing found" is a
+      valid answer by design. The reviewing session can't always distinguish a bug from an
+      intentional choice, so the judgment is left to the main authoring session, which knows
+      more about the task and will help you judge each finding. Then you decide what needs to
+      be addressed.
+    </p>
+    <DemoPlayer cast="04-fresh-eyes" cols={72} rows={25} label="fresh-eyes-review reviewing a named branch in a clean context and judging the findings" />
   </SkillBlock>
+  <section class="px-6">
+    <div class="max-w-page mx-auto border-t border-border py-10">
+      <h2 class="text-2xl font-bold mb-3">More than a code reviewer</h2>
+      <p class="text-muted mb-3">
+        Reviewing code is the classic case, but not the only one! You can easily point it at
+        a document: type <b class="sk">/fresh-eyes-review the PLAN.md against the
+        REQUIREMENTS.md</b> even before any code is written. The same works for a
+        requirements doc against its original ticket, and so on.
+      </p>
+      <p class="text-muted">
+        Other skills also use <b class="sk">/fresh-eyes-review</b> as a building block: they
+        pass in the changes, the goal and the review instructions themselves, and the review
+        runs as one step of a bigger workflow (fresh context included). Any agent that can
+        spawn sub-agents can do this.
+      </p>
+    </div>
+  </section>
+  <section class="px-6">
+    <div class="max-w-page mx-auto border-t border-border py-8">
+      <a class="more-link" target="_blank" rel="noopener"
+        href="https://medium.com/@borzifrancesco/more-powerful-ai-reviews-with-fresh-eyes-bfad221748c0">
+        Read more about reviewing with fresh eyes &rarr;</a>
+    </div>
+  </section>
   <KeepGoing current="fresh-eyes-review" />
 </Base>

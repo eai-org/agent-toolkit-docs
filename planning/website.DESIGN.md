@@ -123,6 +123,23 @@ as a more-link line instead of a closing block, and a compact rules subsection s
 Keep-going footer — sans-serif h2, muted intro, bulleted mono rule names, each with its own
 `Read the rule →` link.
 
+/fresh-eyes-review deviations (revamp 2026-08-14, diagram reshaped to the user's sketch
+2026-08-15): a round-trip flow diagram closing the intro (`FreshEyesFlow.astro`): one tall
+full-height Authoring session `.stage` box (orange) on the left with its run text at the top
+and its judging text pinned to the bottom (`mt-auto` div, since `.stage > span` would
+override the margin), a smaller vertically centered Reviewing session box (pink) on the
+right, joined by two diagonal SVG arrows (muted currentColor stroke, marker arrowheads) —
+out of the tall box's upper edge, back into its lower edge — each with a muted label rotated
+along it; the desktop layout is a fixed-aspect relative container with absolutely positioned
+boxes so the percentage-anchored arrows stay attached at any width — 900/175 at lg (keeps the
+gap between the tall box's two texts at roughly 3-4 line breaks, per user 2026-08-15) and a
+taller 900/210 in the md range, where the wrapped texts need the room (the SVG viewBox stays
+900x175 and stretches, which shifts the arrow angles a couple of degrees there); below md
+it swaps for three stacked boxes (the judging text as its own Authoring session box) with
+centered `↓ label` lines between them (unlike the RPAC strip, which hides its arrows on
+mobile); a non-skill closing subsection "More than a code reviewer" (sans-serif h2 + muted
+paragraphs, no GitHub link) between the skill block and the page-level article link.
+
 /rules (still deferred) would frame everything as opt-in; its demo shows a rule steering behavior
 (git-read-only-by-default declining an unrequested push and asking for confirmation).
 
@@ -146,7 +163,10 @@ out in `website.COPY.md`.
 3. fetch-pr-review → /clear → refine-pr-review triage (comment 3/12: address / partial / push
    back; extended 2026-08-06 through the verdict pick to the ANSWERS and REQUIREMENTS saves and
    the /create-implementation-plan hand-off) — /pr-review-assistants.
-4. fresh-eyes-review returning 3 findings with address options — /fresh-eyes-review.
+4. fresh-eyes-review invoked with an explicit target (the 4521-archive branch, per user
+   2026-08-15 so the demo shows the input mode the copy leads with), prompt approval, then 3
+   findings judged against the task, one dismissed as intentional (extended 2026-08-14 from
+   the single findings line) — /fresh-eyes-review.
 5. context-checkup audit with a proposed trim, accepted, ending on the savings line —
    /context-hygiene.
 6. self-improve turning a correction into a doc diff — /skills-docs-authoring.
