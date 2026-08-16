@@ -25,6 +25,8 @@ const PR_REVIEW_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/let-ai-speed-up-both-sides-of-your-code-reviews-while-you-stay-in-full-control-3b059506ef39';
 const RPA_ARTICLE =
   'https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427';
+const FRESH_EYES_ARTICLE =
+  'https://medium.com/@borzifrancesco/more-powerful-ai-reviews-with-fresh-eyes-bfad221748c0';
 const VOICE_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/how-to-use-ai-to-generate-texts-that-sound-like-a-human-would-actually-write-them-c7eef78e0b42';
 
@@ -80,14 +82,14 @@ const groupPages = [
     slug: 'fresh-eyes-review',
     title: 'Fresh eyes review · agent-toolkit',
     description:
-      'A fresh perspective works for AI just like it does for humans: a sub-agent with a clean context, seeing only the changeset and a minimal description, catches surprisingly more regressions and issues than the session that wrote the code.',
+      "An AI agent reviewing its own code will tell you everything looks fine, while a fresh session finds the real problems. One command spawns a reviewing session with a clean context: it sees the changes but never the author's reasoning, and catches what the author can't.",
     pageTitle: 'Fresh eyes review',
     heading: 'Let a sub-agent review the code',
     casts: ['04-fresh-eyes.cast'],
     emDashes: 0,
     skills: ['fresh-eyes-review'],
     rules: [],
-    articles: [],
+    articles: [FRESH_EYES_ARTICLE],
     internalLinkLabels: [],
   },
   {

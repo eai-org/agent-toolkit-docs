@@ -208,26 +208,94 @@ Rewritten 2026-08-06 from the PR-review article, linked in the footer since it w
 
 ## 7. Fresh eyes review (orange)
 
+Revamped 2026-08-14 alongside the "More powerful AI reviews with fresh eyes" article; the page
+copy stays plain and newcomer-friendly, it does not quote the article.
+
 - Heading: Let a sub-agent review the code
-- Intro (muted): A fresh perspective works for AI just like it does for humans: a sub-agent with
-  a clean context, seeing only the changeset and a minimal description, catches surprisingly
-  more regressions and issues than the session that wrote the code.
-- No bullet list.
+The two contexts are named "authoring session" and "reviewing session" (per user, 2026-08-14),
+never "the session that did the work" or "the reviewer"; the user's own rewording (2026-08-15)
+also uses "your main session" / "the main authoring session" for the authoring side, so those
+casual variants are fine.
+
+The whole page copy below is the user's own rewording (2026-08-15), applied with grammar fixes
+only; do not reword it without asking.
+
+- Intro (muted, two paragraphs): Ask an AI agent to review the code it just wrote, and it will
+  not find much. Show the same changes to a fresh session, and it will return with many more
+  findings. Some valid, some minor, others just noise. Even the best models behave like this:
+  the authoring session is biased by its own reasoning. / After all, people are no different:
+  finding mistakes in your own text is hard, while a colleague often spots them more easily.
+  This skill gives your agent that colleague: a sub-agent that starts with a clean context.
+- Flow diagram closing the intro (round trip per the user's sketch, 2026-08-15): one tall
+  Authoring session box on the left, a smaller Reviewing session box on the right, two
+  diagonal arrows out of the tall box's upper edge and back into its lower edge, a label along
+  each. On mobile the loop unrolls into three stacked boxes (the judging text becomes its own
+  Authoring session box) with `↓ label` lines between them.
+  - Authoring session (orange, tall): top text: The session that did the work (or has the
+    reference: the TICKET, REQUIREMENTS, PLAN, etc.) and knows the goal. This is where you
+    launch `/fresh-eyes-review` (mono).; bottom text: Receives the findings from the reviewing
+    session and judges them, recommending which ones to address. (both texts per user,
+    2026-08-15, uppercase doc names included; gap between them roughly 3-4 line breaks)
+  - Arrow out, down right, label `the changes and their goal`
+  - Reviewing session (pink, middle right): A clean context: it sees the changes, has full
+    access to the codebase, and gets a summary of the goal (or the TICKET). It never sees the
+    authoring session's reasoning: no PLAN or similar docs. (user's draft, 2026-08-15,
+    grammar smoothed)
+  - Arrow back, down left, label `the findings`
+- **fresh-eyes-review** (three paragraphs; leads with how to invoke it, per user 2026-08-15:
+  the copy must say you can name what to review in the command and that inferring is the
+  no-input fallback): Run it from your main session and tell it what to review: it can be a
+  branch, a commit, a git diff, a couple of files, even a document (for example a PLAN.md).
+  Or just invoke it without arguments and it will figure out what to review on its own and
+  ask you to confirm the prompt for the reviewing session. Approve it, or tweak it first, and
+  the review will start in a clean context. / The reviewing session sees the changes and
+  their goal, and is free to check the whole codebase. What it never sees is the
+  **reasoning** (bold on page) of the authoring session (no plan, notes, chat history, etc.).
+  This part matters: hand it the reasoning that produced a bug, and chances are that it will
+  overlook the bug for the same reason the authoring session did. / Findings come back to the
+  main session: each one points at a file and describes how it actually breaks. No minor
+  style nitpicks, no vague concerns, and "nothing found" is a valid answer by design. The
+  reviewing session can't always distinguish a bug from an intentional choice, so the
+  judgment is left to the main authoring session, which knows more about the task and will
+  help you judge each finding. Then you decide what needs to be addressed.
+- Closing subsection "More than a code reviewer" (sans-serif h2, muted, no skill link, two
+  paragraphs): Reviewing code is the classic case, but not the only one! You can easily point
+  it at a document: type `/fresh-eyes-review the PLAN.md against the REQUIREMENTS.md` (mono,
+  the whole typed command) even before any code is written. The same works for a requirements
+  doc against its original ticket, and so on. / Other skills also use `/fresh-eyes-review` as
+  a building block: they pass in the changes, the goal and the review instructions
+  themselves, and the review runs as one step of a bigger workflow (fresh context included).
+  Any agent that can spawn sub-agents can do this.
 - Demo:
 
 ```
-> /fresh-eyes-review
-✻ Spawning one subagent to review the changes with a clean context…
-⏺ The subagent returned with 3 new findings: 1 major and 2 minor
-  ❯ 1. Address all of them (recommended)
-    2. Address only the major issue
-    3. Chat about this
+> /fresh-eyes-review the 4521-archive branch
+✻ Collecting the diff on 4521-archive…
+⏺ The reviewing session will get: the diff on 4521-archive (6 files),
+  the goal ("orders can be archived from the list") and the review
+  rules. Not the plan, not this session's notes.
+  ❯ 1. Spawn the reviewing session (recommended)
+    2. Change the prompt
+> 1
+✻ Reviewing with fresh eyes in a clean context…
+⏺ The reviewing session found 3 issues. Judged against the task:
+⏺ 1 · src/orders/archive.service.ts:58 archived orders still count
+  toward the open-orders badge
+⏺ 2 · src/orders/order-list.query.ts:31 filtering on archived_at
+  without an index scans the whole table
+⏺ (muted) 3 · "archiving has no undo": intentional, undo is out of scope for
+  this ticket
+  ❯ 1. Fix 1 and 2, dismiss 3 (recommended)
+    2. Fix all three
+    3. Chat about the findings
 ```
 
 - Page `/fresh-eyes-review` — title `Fresh eyes review · agent-toolkit`; meta description
-  `A fresh perspective works for AI just like it does for humans: a sub-agent with a clean
-  context, seeing only the changeset and a minimal description, catches surprisingly more
-  regressions and issues than the session that wrote the code.`; no footer link.
+  `An AI agent reviewing its own code will tell you everything looks fine, while a fresh
+  session finds the real problems. One command spawns a reviewing session with a clean
+  context: it sees the changes but never the author's reasoning, and catches what the author
+  can't.`;
+  footer link (`target="_blank"`): [Read more about reviewing with fresh eyes →](https://medium.com/@borzifrancesco/more-powerful-ai-reviews-with-fresh-eyes-bfad221748c0)
 
 ## 8. Context & memory hygiene (blue)
 
