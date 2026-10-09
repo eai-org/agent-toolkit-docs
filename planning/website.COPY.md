@@ -370,6 +370,10 @@ only; do not reword it without asking.
 ⏺ Step 1: rename CLAUDE.md to AGENTS.md and turn CLAUDE.md into a
   pointer to it. Apply?
 > y
+⏺ Step 2: move 4 sections into docs/, linked from AGENTS.md. Apply?
+> y
+⏺ Step 3: add the agent entries to .gitignore. Apply?
+> y
 ⏺ Done. All steps applied, every reference checked.
 ⏺ (muted) Next: /memory-doctor, then /context-checkup
 ```

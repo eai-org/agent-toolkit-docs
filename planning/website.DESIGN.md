@@ -197,7 +197,7 @@ out in `website.COPY.md`.
     partial block with its evidence ref (spec `18-check-ticket`, added 2026-08-07) —
     /task-workflow, under Extra workflow skills. Only demo carrying status emoji.
 19. agentify-project audit, the multi-select menu rendered single-select with All
-    recommended, the first step proposed and approved, the run confirmed, then the
+    recommended, each of the three steps proposed and approved, the run confirmed, then the
     memory-doctor and context-checkup hand-off (spec `19-agentify-project`, added 2026-10-09) —
     /context-hygiene, first demo on that page.
 20. maintainer-review verdict, one blocking finding, one walked comment answered but still

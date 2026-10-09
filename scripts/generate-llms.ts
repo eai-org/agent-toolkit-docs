@@ -55,6 +55,7 @@ const install = [
 ].join('\n\n');
 
 const pages = [
+  `- [agent-toolkit](${SITE}${BASE}/): Minimalistic skills and rules for AI coding agents that assist your daily work in any software engineering project`,
   ...GROUPS.map((g) => `- [${g.title}](${SITE}${BASE}/${g.slug}/): ${g.line}`),
   `- [About us](${SITE}${BASE}/about/)`,
 ];

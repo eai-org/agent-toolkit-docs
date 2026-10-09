@@ -40,5 +40,7 @@ d('llms.txt', () => {
       'git clone https://github.com/eai-org/agent-toolkit.git && cd agent-toolkit && ./install.sh',
     );
     for (const slug of [...GROUPS.map((g) => g.slug), 'about']) expect(llms(), slug).toContain(`/${slug}/`);
+    const root = llms().match(/\]\((\S+\/)about\/\)/)![1];
+    expect(llms(), 'homepage').toContain(`](${root}):`);
   });
 });

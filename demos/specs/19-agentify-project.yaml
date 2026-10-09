@@ -1,5 +1,5 @@
 cols: 72
-rows: 21
+rows: 29
 seed: 19-agentify-project
 events:
   - input: ''
@@ -14,6 +14,10 @@ events:
       - text: Gitignore hygiene
   - input: '1'
   - output: 'Step 1: rename CLAUDE.md to AGENTS.md and turn CLAUDE.md into a pointer to it. Apply?'
+  - input: y
+  - output: 'Step 2: move 4 sections into docs/, linked from AGENTS.md. Apply?'
+  - input: y
+  - output: 'Step 3: add the agent entries to .gitignore. Apply?'
   - input: y
   - output: 'Done. All steps applied, every reference checked.'
   - output: 'Next: /memory-doctor, then /context-checkup'
