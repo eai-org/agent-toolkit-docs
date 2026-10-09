@@ -18,22 +18,39 @@ import KeepGoing from '../components/KeepGoing.astro';
       in the same overly formal, fancy prose that readers recognize as AI at a glance.
     </p>
     <p class="text-muted mt-3">
-      The skill and rule below take the best of both worlds: the agent's speed, your voice.
+      The skill and rules below take the best of both worlds: the agent's speed, your voice.
     </p>
   </PageHeader>
   <SkillBlock name="use-conversational-language" color="blue">
-    <p class="text-muted mb-4">
+    <p class="text-muted mb-3">
       Tells the agent to write in simple, human language instead of sophisticated AI prose full
       of — em dashes — and fancy terms. It adapts the voice to the kind of text (a PR comment, a
-      chat reply, a code comment) and changes the wording only, never the content: you still
-      review every text before it goes out.
+      chat reply, a commit message, a code comment) and changes the wording only, never the
+      content: you still review every text before it goes out.
+    </p>
+    <p class="text-muted mb-4">
+      Other skills use it too: /handover writes your PR description with it, and review skills
+      like /review-code-assistant and /refine-pr-review word the comments and replies they draft
+      for you with it.
     </p>
     <DemoPlayer cast="07-explain-refactor" cols={72} rows={16} label="use-conversational-language rewriting a refactor explanation" />
   </SkillBlock>
   <SkillBlock name="write-realistic-texts" color="blue" rule>
     <p class="text-muted">
-      Opt-in rule that applies the skill automatically whenever the agent writes something a
-      human will read as if a person wrote it, even when writing wasn't the task you gave it.
+      Opt-in rule that applies the skill automatically whenever the agent writes something other
+      people will read as if you wrote it, like a commit message, a PR comment or a chat message,
+      even when writing wasn't the task you gave it. Before it posts a comment, a PR description
+      or a chat message for you, it shows you the exact wording and waits for your go-ahead.
+      Asking it to approve a PR or close a ticket doesn't approve the comment that goes with it.
+    </p>
+  </SkillBlock>
+  <SkillBlock name="no-nonsense-comments" color="blue" rule>
+    <p class="text-muted">
+      Opt-in rule for code comments: the agent writes one only when a future reader with no idea
+      of your session still needs it, like a non-obvious why or an easily missed edge case. No
+      notes about the session ("as discussed", "now also handles X") and no lines that restate
+      the code. The comments it keeps go through the skill above, so they read like a colleague
+      jotted them down.
     </p>
   </SkillBlock>
   <section class="px-6">

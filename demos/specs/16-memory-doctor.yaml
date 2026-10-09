@@ -1,5 +1,5 @@
 cols: 72
-rows: 11
+rows: 12
 seed: 16-memory-doctor
 events:
   - input: ''
@@ -11,3 +11,4 @@ events:
         recommended: true
       - text: Archive it
       - text: Keep it
+      - text: Something else

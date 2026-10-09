@@ -1,5 +1,5 @@
 cols: 72
-rows: 25
+rows: 26
 seed: 04-fresh-eyes
 events:
   - input: 'the 4521-archive branch'
@@ -14,7 +14,7 @@ events:
   - spinner: Reviewing with fresh eyes in a clean context…
   - output: 'The reviewing session found 3 issues. Judged against the task:'
   - output: '1 · src/orders/archive.service.ts:58 archived orders still count toward the open-orders badge'
-  - output: '2 · src/orders/order-list.query.ts:31 filtering on archived_at without an index scans the whole table'
+  - output: '2 · db/seed/orders.sql has no archived_at values, so the seeded list never shows an archived order and the archive filter can''t be tried locally'
   - output: '3 · "archiving has no undo": intentional, undo is out of scope for this ticket'
     color: muted
   - options:

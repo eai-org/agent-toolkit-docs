@@ -32,7 +32,9 @@ import KeepGoing from '../components/KeepGoing.astro';
     <p class="text-muted mb-4">
       Creates or edits skills on top of <b class="sk">compact-docs-writer</b>, adding the
       skill-specific craft: a sharp description (the most expensive text, loaded in every
-      session), the right trigger type, and progressive disclosure.
+      session), the right trigger type, and progressive disclosure. Before showing you the draft
+      it checks the skill against itself, and every edit to an existing skill comes with a version
+      bump, so you never have to remember it.
     </p>
     <DemoPlayer cast="15-create-skill" cols={72} rows={11} label="compact-skill-creator asking the trigger type, then drafting the skill" />
   </SkillBlock>
@@ -40,9 +42,11 @@ import KeepGoing from '../components/KeepGoing.astro';
     <p class="text-muted mb-4">
       When the agent makes a mistake or doesn't behave the way you want, this skill captures the
       lesson as a diff to the skill or doc that should have prevented it. You approve where it
-      lands, and the mistake doesn't repeat.
+      lands, and the mistake doesn't repeat. Other skills feed it too: memory-doctor moves stray
+      memories into the right doc through it, and refine-pr-review hands it the lessons from a PR
+      review.
     </p>
-    <DemoPlayer cast="06-self-improve" cols={72} rows={17} label="self-improve capturing a lesson as a doc diff" />
+    <DemoPlayer cast="06-self-improve" cols={72} rows={14} label="self-improve capturing a lesson as a doc diff" />
   </SkillBlock>
   <section class="px-6">
     <div class="max-w-page mx-auto border-t border-border py-10">
@@ -56,7 +60,7 @@ import KeepGoing from '../components/KeepGoing.astro';
           <a class="more-link" target="_blank" rel="noopener"
             href="https://github.com/eai-org/agent-toolkit/blob/main/rules/compact-governing-docs.md">Read the rule &rarr;</a></li>
         <li><b class="sk">self-contained-docs</b>
-          <span class="text-muted">planning docs carry everything a fresh session needs, and nothing more.</span>
+          <span class="text-muted">planning docs, and prompts that hand work to a fresh session, carry everything that session needs and nothing more. Prompts are written with <b class="sk">/prepare-prompt</b>.</span>
           <a class="more-link" target="_blank" rel="noopener"
             href="https://github.com/eai-org/agent-toolkit/blob/main/rules/self-contained-docs.md">Read the rule &rarr;</a></li>
         <li><b class="sk">self-improve-on-correction</b>

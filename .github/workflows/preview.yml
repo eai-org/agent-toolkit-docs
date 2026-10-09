@@ -30,6 +30,8 @@ jobs:
           TOOLKIT_DIR: toolkit
           SITE_BASE: /
       - run: npx vitest run
+        env:
+          TOOLKIT_DIR: toolkit
       - id: deploy
         uses: cloudflare/wrangler-action@v3
         with:

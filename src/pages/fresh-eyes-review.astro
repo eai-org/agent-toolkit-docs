@@ -35,10 +35,14 @@ import KeepGoing from '../components/KeepGoing.astro';
     </p>
     <p class="text-muted mb-3">
       The reviewing session sees the changes and their goal, and is free to check the whole
-      codebase. What it never sees is the <strong>reasoning</strong> of the authoring session
-      (no plan, notes, chat history, etc.). This part matters: hand it the reasoning that
-      produced a bug, and chances are that it will overlook the bug for the same reason the
-      authoring session did.
+      codebase. It also looks for what the change forgot: when a file format, a payload or a
+      config changes, it checks the samples, fixtures and docs that should have changed with it.
+      What it never sees is the <strong>reasoning</strong> of the authoring session (no plan,
+      notes, chat history, etc.). This part matters: hand it the reasoning that produced a bug,
+      and chances are that it will overlook the bug for the same reason the authoring session
+      did. It doesn't leave anything behind in your project: the tests it runs keep their reports
+      out of it, and if it still creates a file, that file is removed before the findings come
+      back (any file it changed is pointed out to you).
     </p>
     <p class="text-muted mb-4">
       Findings come back to the main session: each one points at a file and describes how it
@@ -48,7 +52,7 @@ import KeepGoing from '../components/KeepGoing.astro';
       more about the task and will help you judge each finding. Then you decide what needs to
       be addressed.
     </p>
-    <DemoPlayer cast="04-fresh-eyes" cols={72} rows={25} label="fresh-eyes-review reviewing a named branch in a clean context and judging the findings" />
+    <DemoPlayer cast="04-fresh-eyes" cols={72} rows={26} label="fresh-eyes-review reviewing a named branch in a clean context and judging the findings" />
   </SkillBlock>
   <section class="px-6">
     <div class="max-w-page mx-auto border-t border-border py-10">
@@ -60,17 +64,25 @@ import KeepGoing from '../components/KeepGoing.astro';
         requirements doc against its original ticket, and so on.
       </p>
       <p class="text-muted">
-        Other skills also use <b class="sk">/fresh-eyes-review</b> as a building block: they
-        pass in the changes, the goal and the review instructions themselves, and the review
-        runs as one step of a bigger workflow (fresh context included). Any agent that can
-        spawn sub-agents can do this.
+        Other skills use <b class="sk">/fresh-eyes-review</b> as a building block.
+        <a class="more-link" target="_blank" rel="noopener"
+          href="https://github.com/eai-org/agent-toolkit/blob/main/skills/self-review/SKILL.md">/self-review</a> runs it on your branch before you open a PR,
+        <a class="more-link" target="_blank" rel="noopener"
+          href="https://github.com/eai-org/agent-toolkit/blob/main/skills/harden-artifact/SKILL.md">/harden-artifact</a> runs it on a REQUIREMENTS.md or PLAN.md against its
+        ticket, and
+        <a class="more-link" target="_blank" rel="noopener"
+          href="https://github.com/eai-org/agent-toolkit/blob/main/skills/maintainer-review/SKILL.md">/maintainer-review</a> uses it to double check its own findings on someone
+        else's PR, even when it found nothing. They pass in the changes, the goal and the review
+        instructions themselves, so the review starts without asking you to confirm the prompt.
+        Works with any agent that can spawn sub-agents. If yours can't, the review runs in the same
+        session and the result is flagged as weaker.
       </p>
     </div>
   </section>
   <section class="px-6">
     <div class="max-w-page mx-auto border-t border-border py-8">
       <a class="more-link" target="_blank" rel="noopener"
-        href="https://medium.com/@borzifrancesco/more-powerful-ai-reviews-with-fresh-eyes-bfad221748c0">
+        href="https://medium.com/engineering-in-the-age-of-ai/more-powerful-ai-reviews-with-fresh-eyes-bfad221748c0">
         Read more about reviewing with fresh eyes &rarr;</a>
     </div>
   </section>

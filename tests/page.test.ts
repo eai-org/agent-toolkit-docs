@@ -24,9 +24,12 @@ const MEMORY_ARTICLE =
 const PR_REVIEW_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/let-ai-speed-up-both-sides-of-your-code-reviews-while-you-stay-in-full-control-3b059506ef39';
 const RPA_ARTICLE =
-  'https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427';
+  'https://medium.com/engineering-in-the-age-of-ai/the-refine-plan-act-pattern-for-agentic-ai-coding-59ee013e4427';
 const FRESH_EYES_ARTICLE =
-  'https://medium.com/@borzifrancesco/more-powerful-ai-reviews-with-fresh-eyes-bfad221748c0';
+  'https://medium.com/engineering-in-the-age-of-ai/more-powerful-ai-reviews-with-fresh-eyes-bfad221748c0';
+const HANDOVER_ARTICLE =
+  'https://medium.com/engineering-in-the-age-of-ai/the-missing-step-in-agentic-coding-the-handover-d1963c3d2c1d';
+const GRILL_ME_SOURCE = 'https://github.com/mattpocock/skills';
 const VOICE_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/how-to-use-ai-to-generate-texts-that-sound-like-a-human-would-actually-write-them-c7eef78e0b42';
 
@@ -47,20 +50,25 @@ const groupPages = [
       '11-handover.cast',
       '12-manual-test.cast',
       '13-review-ticket.cast',
+      '21-verify-understanding.cast',
       '18-check-ticket.cast',
     ],
     emDashes: 0,
     skills: [
       'fetch-ticket',
+      'attach-to-ticket',
       'refine-ticket',
       'create-implementation-plan',
       'handover',
       'create-manual-test-instructions',
       'review-ticket',
+      'verify-understanding',
       'check-ticket-implementation',
+      'grill-me',
+      'prepare-prompt',
     ],
     rules: [],
-    articles: [WORKFLOW_ARTICLE, RPA_ARTICLE],
+    articles: [WORKFLOW_ARTICLE, RPA_ARTICLE, HANDOVER_ARTICLE, GRILL_ME_SOURCE],
     internalLinkLabels: ['See the fresh eyes review'],
     noSkillLinks: ['fresh-eyes-review'],
   },
@@ -71,9 +79,9 @@ const groupPages = [
       "Code review is the new bottleneck. These skills assist both sides of it: triage the feedback your PR gets, and prepare your review of someone else's code. The agent suggests, you decide.",
     pageTitle: 'PR review assistants',
     heading: 'Help on both sides of the code review',
-    casts: ['03-pr-review.cast', '17-review-code-assistant.cast'],
+    casts: ['03-pr-review.cast', '17-review-code-assistant.cast', '20-maintainer-review.cast'],
     emDashes: 0,
-    skills: ['fetch-pr-review', 'refine-pr-review', 'review-code-assistant'],
+    skills: ['fetch-pr-review', 'refine-pr-review', 'review-code-assistant', 'maintainer-review'],
     rules: [],
     articles: [PR_REVIEW_ARTICLE],
     internalLinkLabels: [],
@@ -87,7 +95,7 @@ const groupPages = [
     heading: 'Let a sub-agent review the code',
     casts: ['04-fresh-eyes.cast'],
     emDashes: 0,
-    skills: ['fresh-eyes-review'],
+    skills: ['fresh-eyes-review', 'self-review', 'harden-artifact', 'maintainer-review'],
     rules: [],
     articles: [FRESH_EYES_ARTICLE],
     internalLinkLabels: [],
@@ -96,12 +104,12 @@ const groupPages = [
     slug: 'context-hygiene',
     title: 'Context hygiene · agent-toolkit',
     description:
-      'See what auto-loads into your agent before you even type, and trim it without breaking anything.',
+      'Give your project a lean agent setup, see what auto-loads before you even type, and trim it.',
     pageTitle: 'Context hygiene skills',
     heading: 'Your context is often cluttered before you even type',
-    casts: ['05-context-checkup.cast', '16-memory-doctor.cast'],
+    casts: ['19-agentify-project.cast', '05-context-checkup.cast', '16-memory-doctor.cast'],
     emDashes: 0,
-    skills: ['context-checkup', 'memory-doctor'],
+    skills: ['agentify-project', 'context-checkup', 'memory-doctor'],
     rules: [],
     articles: [CONTEXT_ARTICLE, MEMORY_ARTICLE],
     internalLinkLabels: [],
@@ -129,7 +137,7 @@ const groupPages = [
     casts: ['07-explain-refactor.cast'],
     emDashes: 2,
     skills: ['use-conversational-language'],
-    rules: ['write-realistic-texts'],
+    rules: ['write-realistic-texts', 'no-nonsense-comments'],
     articles: [VOICE_ARTICLE],
     internalLinkLabels: [],
   },
@@ -254,6 +262,12 @@ d('homepage', () => {
     expect(read('dist/index.html')).toContain('https://github.com/eai-org/agent-toolkit/tree/main#rules');
   });
 
+  test('the rules block links the mothertongue rule', () => {
+    expect(read('dist/index.html')).toContain(
+      'href="https://github.com/eai-org/agent-toolkit/blob/main/docs/use-my-mothertongue-rule.md"',
+    );
+  });
+
   test('no em dashes left on the homepage', () => {
     expect((read('dist/index.html').match(/—/g) ?? []).length).toBe(0);
   });
@@ -302,14 +316,14 @@ d('site-wide', () => {
     for (const p of PAGES) expect(existsSync(p), p).toBe(true);
   });
 
-  test('all eighteen casts play, each on exactly one page', () => {
+  test('all twenty-one casts play, each on exactly one page', () => {
     const seen = new Map<string, string[]>();
     for (const p of PAGES) {
       for (const m of new Set(casts(read(p)))) {
         seen.set(m, [...(seen.get(m) ?? []), p]);
       }
     }
-    expect(seen.size).toBe(18);
+    expect(seen.size).toBe(21);
     for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
   });
 

@@ -84,8 +84,8 @@ their demos live on the group pages. Block order:
    a 2-col grid, each linking its group page (copy in `website.COPY.md` §2b).
 4. Principles (green): six panes in a 2-col grid, three inline Medium links, no footer link.
 5. Philosophy (green): "A toolkit, not a framework", comparison panels, no quote.
-6. Opinionated rules (pink, short: no heading, no demo, footer link to the README rules section
-   on GitHub).
+6. Opinionated rules (pink, short: no heading, no demo, a muted use-my-mothertongue line with
+   its GitHub link after the bullets, footer link to the README rules section on GitHub).
 7. Share your feedback (green, centered): kicker + one line + "Open an issue →" (GitHub issues).
 8. Mono footer (`agent-toolkit · MIT`). No standalone install section (hero covers it, nav
    install button anchors to the hero terminal) and no credits section.
@@ -138,7 +138,7 @@ taller 900/210 in the md range, where the wrapped texts need the room (the SVG v
 it swaps for three stacked boxes (the judging text as its own Authoring session box) with
 centered `↓ label` lines between them (unlike the RPAC strip, which hides its arrows on
 mobile); a non-skill closing subsection "More than a code reviewer" (sans-serif h2 + muted
-paragraphs, no GitHub link) between the skill block and the page-level article link.
+paragraphs, whose building-block paragraph links three SKILL.md files on GitHub) between the skill block and the page-level article link.
 
 /rules (still deferred) would frame everything as opt-in; its demo shows a rule steering behavior
 (git-read-only-by-default declining an unrequested push and asking for confirmation).
@@ -154,22 +154,25 @@ Keep-going footer. Copy in COPY §15.
 
 ## Demo lineup (v1, one spec file each)
 
-The hero demo lives on the homepage, the other seventeen on their group pages; scripts are written
+The hero demo lives on the homepage, the other twenty on their group pages; scripts are written
 out in `website.COPY.md`.
 
 1. use-conversational-language two-exchange "draft an answer" — hero.
 2. refine-ticket grilling (one question, recommendation, then the save and the next-step
    hand-off) — /task-workflow.
-3. fetch-pr-review → /clear → refine-pr-review triage (comment 3/12: address / partial / push
-   back; extended 2026-08-06 through the verdict pick to the ANSWERS and REQUIREMENTS saves and
-   the /create-implementation-plan hand-off) — /pr-review-assistants.
+3. fetch-pr-review → /clear → refine-pr-review triage (the comment quoted by its opening words,
+   a muted reasoning line, address / partial (recommended) / push back, the typed 2, then the
+   batch confirmation, extended 2026-10-09; extended 2026-08-06 through the verdict pick to the
+   ANSWERS and REQUIREMENTS saves and the /create-implementation-plan hand-off) —
+   /pr-review-assistants.
 4. fresh-eyes-review invoked with an explicit target (the 4521-archive branch, per user
    2026-08-15 so the demo shows the input mode the copy leads with), prompt approval, then 3
    findings judged against the task, one dismissed as intentional (extended 2026-08-14 from
    the single findings line) — /fresh-eyes-review.
 5. context-checkup audit with a proposed trim, accepted, ending on the savings line —
    /context-hygiene.
-6. self-improve turning a correction into a doc diff — /skills-docs-authoring.
+6. self-improve turning a correction into a doc diff, ending on the "Not applied yet" word-delta
+   line with no options menu (2026-10-09) — /skills-docs-authoring.
 7. use-conversational-language two-exchange "explain the refactor" — /conversational-language.
 8. fetch-ticket saving a ticket into a self-contained file, then the next-step hand-off —
    /task-workflow.
@@ -178,22 +181,36 @@ out in `website.COPY.md`.
 10. plain-prompt plan execution running the checks (no skill invoked) — /task-workflow.
 11. handover saving a paste-ready PR description — /task-workflow.
 12. create-manual-test-instructions saving a manual test file — /task-workflow.
-13. review-ticket delivering its triage verdict — /task-workflow.
+13. review-ticket delivering its triage verdict, closing on the muted `/verify-understanding`
+    hand-off — /task-workflow.
 14. compact-docs-writer minimal rewrite diff with a measured word delta (spec `14-compact-doc`) —
     /skills-docs-authoring.
 15. compact-skill-creator trigger-type intake, then the drafted skill (spec `15-create-skill`) —
     /skills-docs-authoring.
-16. memory-doctor relocating one block into its doc (spec `16-memory-doctor`) —
-    /context-hygiene, second demo on that page.
-17. review-code-assistant surfacing one grounded finding with its green paste-ready suggested
-    comment (spec `17-review-code-assistant`, added 2026-08-06) — /pr-review-assistants, second
+16. memory-doctor relocating one block into its doc, four options ending in "Something else"
+    (spec `16-memory-doctor`) — /context-hygiene, third demo on that page.
+17. review-code-assistant surfacing one grounded finding as three outputs: the heading line, the
+    expected-vs-actual explanation and the green paste-ready suggested comment (spec
+    `17-review-code-assistant`, added 2026-08-06) — /pr-review-assistants, second
     demo on that page.
 18. check-ticket-implementation reporting the tally, the requirements needing attention and one
     partial block with its evidence ref (spec `18-check-ticket`, added 2026-08-07) —
     /task-workflow, under Extra workflow skills. Only demo carrying status emoji.
+19. agentify-project audit, the multi-select menu rendered single-select with All
+    recommended, the first step proposed and approved, the run confirmed, then the
+    memory-doctor and context-checkup hand-off (spec `19-agentify-project`, added 2026-10-09) —
+    /context-hygiene, first demo on that page.
+20. maintainer-review verdict, one blocking finding, one walked comment answered but still
+    applying, then the recommended next action (spec `20-maintainer-review`, added 2026-10-09) —
+    /pr-review-assistants, third demo on that page.
+21. verify-understanding teach-back: the developer explains the 1234-users export, is
+    corrected from the review, and gets the open question to raise with the PO, then the
+    refine-ticket hand-off (spec `21-verify-understanding`, added 2026-10-09) — /task-workflow,
+    under Extra workflow skills.
 
 The flow demos (2, 3, 8, 9) close with the skill's real hand-off suggestion, rendered muted:
-`Next: /clear, then <command for the next phase>`.
+`Next: /clear, then <command for the next phase>`. Demos 13, 19, 20 and 21 also close on a
+muted `Next:` line naming the next step, without the `/clear`.
 
 The git-read-only-by-default demo was tied to the /rules page and is deferred with it.
 

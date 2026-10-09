@@ -5,7 +5,7 @@ events:
   - input: ''
     skill: /context-checkup
   - spinner: Measuring what auto-loads…
-  - output: '18.4k tokens at startup. Top cost: the unused "jira" MCP server (6.2k)'
+  - output: 'Tool search is off, so MCP schemas load eagerly. Top cost: the unused "jira" MCP server (6.2k of 18.4k)'
   - options:
       - text: Disable it in this project
         recommended: true

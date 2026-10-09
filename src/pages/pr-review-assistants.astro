@@ -38,14 +38,18 @@ import KeepGoing from '../components/KeepGoing.astro';
       the obvious ones in a single batch, so you spend your time where it matters. You end up
       with two files: an <b class="sk">ANSWERS.md</b> with a reply per comment, to paste once
       your fixes are in, and a <b class="sk">REQUIREMENTS.md</b> with the changes you accepted,
-      ready to hand to <b class="sk">/create-implementation-plan</b>. Your PR is never touched.
+      ready to apply right away when the fixes are small, or to hand to
+      <b class="sk">/create-implementation-plan</b> when they need a plan. Comments that point at a
+      habit, not a one off slip, end up as lessons at the bottom of <b class="sk">ANSWERS.md</b>,
+      ready for <b class="sk">/self-improve</b> so your agent doesn't repeat them on the next task.
+      Your PR is never touched.
     </p>
-    <DemoPlayer cast="03-pr-review" cols={72} rows={26} label="fetch-pr-review and refine-pr-review triaging the feedback into drafted replies and requirements" />
+    <DemoPlayer cast="03-pr-review" cols={72} rows={32} label="fetch-pr-review and refine-pr-review triaging the feedback into drafted replies and requirements" />
   </SkillBlock>
   <SkillBlock name="review-code-assistant" color="orange">
     <p class="text-muted mb-4">
-      Prepares a review with you, locally in your terminal, and posts nothing. Point it at a PR
-      link or a branch: it reads the same diff the platform shows, the PR intent and the
+      A quick pass that prepares a review with you, locally in your terminal, and posts nothing.
+      Point it at a PR link or a branch: it reads the same diff the platform shows, the PR intent and the
       project's convention docs, then suggests candidate comments in a human voice, ordered
       exactly like the diff so you can scroll the PR and the terminal side by side. A comment
       may only exist when it points to concrete evidence: an actual failure, a cited convention,
@@ -53,6 +57,23 @@ import KeepGoing from '../components/KeepGoing.astro';
       post.
     </p>
     <DemoPlayer cast="17-review-code-assistant" cols={72} rows={14} label="review-code-assistant suggesting a grounded finding with a paste-ready comment" />
+  </SkillBlock>
+  <SkillBlock name="maintainer-review" color="orange">
+    <p class="text-muted mb-3">
+      For when the merge is your call. Give it a link to someone else's PR and it reads everything
+      first: the description, every linked issue and PR, and every comment, bot comments
+      included. For each comment it checks two things: was it answered, and does it still apply
+      to the latest code. A claim like "fixed in the latest push" is something to verify, never a
+      fact, whoever wrote it.
+    </p>
+    <p class="text-muted mb-4">
+      Then it reviews the diff the same way <b class="sk">/review-code-assistant</b> does, and lets
+      a sub-agent with fresh eyes double check its own findings before you see them. You get one
+      verdict: does anything block the merge? Nothing gets posted, approved or pushed until you
+      say so, and you see the wording first. If you ask, it can push a fix to the contributor's
+      branch, without ever rewriting their history.
+    </p>
+    <DemoPlayer cast="20-maintainer-review" cols={72} rows={14} label="maintainer-review delivering its verdict, a walked comment and the next action" />
   </SkillBlock>
   <section class="px-6">
     <div class="max-w-page mx-auto border-t border-border py-8">

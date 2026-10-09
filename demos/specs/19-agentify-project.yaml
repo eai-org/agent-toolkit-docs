@@ -1,0 +1,20 @@
+cols: 72
+rows: 21
+seed: 19-agentify-project
+events:
+  - input: ''
+    skill: /agentify-project
+  - spinner: Auditing the agent setup…
+  - output: 'CLAUDE.md is 180 lines and there is no AGENTS.md. What should I fix?'
+  - options:
+      - text: All
+        recommended: true
+      - text: 'Entry files: AGENTS.md plus a CLAUDE.md pointer'
+      - text: Slim AGENTS.md into linked docs
+      - text: Gitignore hygiene
+  - input: '1'
+  - output: 'Step 1: rename CLAUDE.md to AGENTS.md and turn CLAUDE.md into a pointer to it. Apply?'
+  - input: y
+  - output: 'Done. All steps applied, every reference checked.'
+  - output: 'Next: /memory-doctor, then /context-checkup'
+    color: muted

@@ -33,6 +33,8 @@ jobs:
         env:
           TOOLKIT_DIR: toolkit
       - run: npx vitest run
+        env:
+          TOOLKIT_DIR: toolkit
       - name: Render hero gif for the toolkit README
         run: |
           curl -sSL -o agg https://github.com/asciinema/agg/releases/latest/download/agg-x86_64-unknown-linux-gnu

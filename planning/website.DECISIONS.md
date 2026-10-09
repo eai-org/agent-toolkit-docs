@@ -29,7 +29,9 @@ pages — `/task-workflow`, `/pr-review-assistants`, `/fresh-eyes-review`, `/con
 `/skills-docs-authoring`, `/conversational-language` — which carry the per-skill blocks and
 demos (template in `website.DESIGN.md`, copy in `website.COPY.md` §14) and end with a
 "Keep going" footer linking the next two groups and the homepage grid.
-`/pr-review-assistants` covers only the three §6 skills. The ticket-review skills went to
+`/pr-review-assistants`
+covers the three §6 skills plus maintainer-review (added 2026-10-09; a later page
+restructuring may move it). The ticket-review skills went to
 `/task-workflow` instead, under "Extra workflow skills": review-ticket (2026-08-05) and
 check-ticket-implementation (2026-08-07), both closer to a developer's own task than to
 reviewing a PR. `/rules`, `/core-concepts` and the catalog stay deferred, kept here as the plan
@@ -45,19 +47,20 @@ Pages as planned for the expansion:
 
 | Page | Content |
 |---|---|
-| `/core-concepts` | The five pillars, marketing style: icons + short texts. NOT a render of `docs/core-philosophy.md` (that doc is agent-facing source material informing the copy; llms.txt generates from it). The deck shows only four principles — it predates pillar 5 (generic beats specific); core-philosophy.md is the authority: five pillars |
-| `/task-workflow` | RPA flagship: fetch-ticket, refine-ticket, create-implementation-plan, create-manual-test-instructions. Includes the Refine/Plan/Act flow diagram from the deck. Extra workflow skills: review-ticket, check-ticket-implementation |
-| `/pr-review-assistants` | Incoming PR (fetch-pr-review, refine-pr-review); reviewing others' code (review-code-assistant) |
+| `/core-concepts` | The five pillars, marketing style: icons + short texts. NOT a render of `docs/core-philosophy.md` (that doc is agent-facing source material informing the copy; llms.txt opens with it, followed by a generated skills, rules, install and pages index). The deck shows only four principles — it predates pillar 5 (generic beats specific); core-philosophy.md is the authority: five pillars |
+| `/task-workflow` | RPAC flagship: fetch-ticket, attach-to-ticket, refine-ticket, create-implementation-plan, the Execute-the-plan block, a cross-link to /fresh-eyes-review, handover. Includes the Refine/Plan/Act flow diagram from the deck. Extra workflow skills: create-manual-test-instructions, review-ticket, verify-understanding, check-ticket-implementation, grill-me, prepare-prompt |
+| `/pr-review-assistants` | Incoming PR (fetch-pr-review, refine-pr-review); reviewing others' code (review-code-assistant); deciding the merge (maintainer-review) |
 | `/fresh-eyes-review` | fresh-eyes-review — separate concept: validating your own work with a clean context |
-| `/conversational-language` | use-conversational-language (+ write-realistic-texts rule). Proven crowd favorite |
-| `/context-hygiene` | context-checkup, memory-doctor |
+| `/conversational-language` | use-conversational-language (+ write-realistic-texts and no-nonsense-comments rules). Proven crowd favorite |
+| `/context-hygiene` | agentify-project, context-checkup, memory-doctor |
 | `/skills-docs-authoring` | compact-skill-creator, compact-docs-writer, self-improve |
 | `/rules` | Opt-in rules, clearly framed as opt-in. Adapted pattern: links go to rule files (rules have no SKILL.md); the demo shows a rule steering behavior, e.g. git-read-only-by-default declining an unrequested push and asking for explicit confirmation |
 | catalog page | Full skill/rule reference, generated at build time from SKILL.md frontmatter and rule files — cannot drift from the repo |
 
-run-nx-checks: catalog only, no marketing section. Same for verify-understanding (2026-08-07):
-it is a teach-back conversation with the developer rather than a skill that produces a file, so
-it doesn't sell well in the demo format. Revisit when the catalog page lands.
+run-nx-checks: catalog only, no marketing section; revisit when the catalog page lands.
+verify-understanding was parked the same way on 2026-08-07 (a teach-back conversation, no file,
+thought not to sell in the demo format); decision 2026-10-09: it is shown on /task-workflow with
+a teach-back demo (lineup 21).
 
 Expanded, the group pages all follow the same pattern as the homepage sections, one level
 deeper: icon + short marketing text per skill, at least one terminal demo, links to each skill's
@@ -157,7 +160,9 @@ marketplace.
 
 - Privacy-friendly, cookie-free analytics from day one: GoatCounter (decided in the design
   session) — the marketing bet must be measurable (visits, referrers, pages).
-- `llms.txt` at site root, generated at build time from `docs/core-philosophy.md`.
+- `llms.txt` at site root, generated at build time: `docs/core-philosophy.md` with its relative
+  links rewritten to GitHub, followed by a generated index of every skill and rule with its
+  description, the install commands, and the site's pages (index added 2026-10-09).
 - Pages URL added to the GitHub repo header.
 - Launch promo planned with v1: dev.to crossposts, Show HN, r/ClaudeAI. Hard rule: the site is
   complete (homepage, group pages, all demos) before any promo goes out.
