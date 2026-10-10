@@ -1,5 +1,5 @@
 cols: 72
-rows: 26
+rows: 32
 seed: 03-pr-review
 events:
   - input: https://github.com/project/repo/pull/1234
@@ -10,13 +10,17 @@ events:
   - input: 1234-users.PR-REVIEW.md
     skill: /refine-pr-review
   - spinner: Reading the code behind each comment…
-  - output: 'Comment 3/12: "serializeUsers should live in the service layer"'
+  - output: 'The comment "serializeUsers should live in the service layer":'
+  - output: 'Moving it is right, but the CSV export reuses it, so keep a thin wrapper'
+    color: muted
   - options:
       - text: address
+      - text: partial
         recommended: true
-      - text: address partially
       - text: push back
-  - input: '1'
+  - input: '2'
+  - output: '8 more look straightforward to address: confirm them all?'
+  - input: y
   - spinner: Working through the remaining comments…
   - output: 'Saved 1234-users.PR-REVIEW.ANSWERS.md: a drafted reply per comment'
   - output: 'Saved 1234-users.PR-REVIEW.REQUIREMENTS.md: the accepted changes'

@@ -20,7 +20,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </p>
     <p class="text-muted">
       They are based on the <a class="more-link" target="_blank" rel="noopener"
-        href="https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427">RPAC
+        href="https://medium.com/engineering-in-the-age-of-ai/the-refine-plan-act-pattern-for-agentic-ai-coding-59ee013e4427">RPAC
         pattern</a>: Refine, Plan, Act, Consolidate. Misunderstandings surface in a reviewable
       document before any code is written, and a failed attempt costs a retry from the last file,
       not the whole task.
@@ -35,15 +35,26 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <p class="text-muted mb-4">
       Every task starts with a ticket. This skill downloads it from Jira, GitHub, Azure DevOps or
       similar into a self-contained <b class="sk">TICKET.md</b>, attachments and linked tickets
-      included. No tracker? Write the file by hand and the workflow stays the same.
+      included. No tracker? Write the file by hand and the workflow stays the same. An attachment
+      it can't download gets flagged, so you can add it with <b class="sk">/attach-to-ticket</b>.
     </p>
     <DemoPlayer cast="08-fetch-ticket" cols={72} rows={9} label="fetch-ticket downloading a ticket into a self-contained file" />
+  </SkillBlock>
+  <SkillBlock name="attach-to-ticket" color="green">
+    <p class="text-muted">
+      Some attachments never make it through the fetch: a screenshot from a chat, a file behind a
+      login. Paste it, or give its path or link, and the agent saves it next to
+      <b class="sk">TICKET.md</b> and adds it to the ticket file with a short caption, so the next
+      session sees it too. It asks before filling a missing attachment or writing a caption. It
+      only touches your local files: your tracker stays untouched.
+    </p>
   </SkillBlock>
   <SkillBlock name="refine-ticket" color="green">
     <p class="text-muted mb-4">
       Defines the <b>WHAT</b>. The agent checks the ticket against the actual codebase and
       interviews you, one question at a time, each with a recommended answer. No silent
-      assumptions: you decide. The result is a validated <b class="sk">REQUIREMENTS.md</b>.
+      assumptions: you decide. The result is a validated <b class="sk">REQUIREMENTS.md</b>. No
+      ticket yet? Give it a raw idea and it grills you on the goal and the scope first.
     </p>
     <DemoPlayer cast="02-refine-ticket" cols={72} rows={13} label="refine-ticket asking a grilling question" />
   </SkillBlock>
@@ -70,13 +81,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       review the changeset. It catches what the session that wrote the code misses.
     </p>
   </SkillBlock>
-  <SkillBlock name="handover" color="green">
+  <SkillBlock name="handover" color="green"
+    article="https://medium.com/engineering-in-the-age-of-ai/the-missing-step-in-agentic-coding-the-handover-d1963c3d2c1d"
+    articleLabel="Read more about handover">
     <p class="text-muted mb-4">
       Closes the task. Give it a ticket id, or nothing at all, and it finds the task's planning
       files, gathers the decisions made along the way, from the ticket to the session itself,
       matches the plan against the actual diff and writes a <b class="sk">HANDOVER.md</b>: a
       paste-ready PR description with the decisions worth knowing, where to look and what's
-      still open, so reviewers never reconstruct intent from the diff.
+      still open, so reviewers never reconstruct intent from the diff. Your repo has a PR
+      template? It fills that in instead, ticking only the boxes it can back up.
     </p>
     <DemoPlayer cast="11-handover" cols={72} rows={14} label="handover flagging an unexplained deviation, then saving a paste-ready PR description" />
   </SkillBlock>
@@ -88,8 +102,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </section>
   <SkillBlock name="create-manual-test-instructions" color="green">
     <p class="text-muted mb-4">
-      Turns the requirements into a concise <b class="sk">MANUAL-TEST.md</b> a non-author can
-      follow: what changed, how to get there, before vs after, and what to verify.
+      Turns a ticket or its requirements into a concise <b class="sk">MANUAL-TEST.md</b> a
+      non-author can follow: what changed, how to get there, before vs after, and what to verify.
     </p>
     <DemoPlayer cast="12-manual-test" cols={72} rows={8} label="create-manual-test-instructions saving a manual test file" />
   </SkillBlock>
@@ -98,10 +112,25 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       A triage glance before anyone picks a ticket up: compares it against the codebase and
       reports whether it's ready, plus the questions worth asking whoever owns the requirements.
       Each question survived an adversarial hunt for its answer across code, tracker, designs and
-      docs, so you're never asked what the sources could have answered. Verdict and briefing land
-      in a <b class="sk">TICKET-REVIEW.md</b> next to the ticket.
+      docs, so you're never asked what the sources could have answered. A gap that is another
+      team's or another repo's to fix comes back as a handoff, with a message ready to send to its
+      owner. Verdict and briefing land in a <b class="sk">TICKET-REVIEW.md</b> next to the ticket,
+      and /refine-ticket picks it up later, starting from whether those questions got an answer.
     </p>
-    <DemoPlayer cast="13-review-ticket" cols={72} rows={10} label="review-ticket delivering its triage verdict" />
+    <DemoPlayer cast="13-review-ticket" cols={72} rows={11} label="review-ticket delivering its triage verdict" />
+  </SkillBlock>
+  <SkillBlock name="verify-understanding" color="green">
+    <p class="text-muted mb-4">
+      The other skills write files for the next agent session. This one is for you. Run it on the
+      <b class="sk">TICKET-REVIEW.md</b>, right after the review or days later just before you
+      start coding. It asks you to explain the feature in your own words: who uses it, what they
+      see and do, why it exists, and what each ticket adds. Then it digs into one weak spot at a
+      time and corrects you using only the review and the tickets, saying so when they don't
+      settle something instead of making up an answer. It plays the part of that last chat with
+      your product owner before development starts. It writes no files: the conversation is the
+      point.
+    </p>
+    <DemoPlayer cast="21-verify-understanding" cols={72} rows={19} label="verify-understanding correcting a teach-back from the ticket review" />
   </SkillBlock>
   <SkillBlock name="check-ticket-implementation" color="green">
     <p class="text-muted mb-3">
@@ -114,10 +143,39 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <p class="text-muted mb-4">
       The report goes into a <b class="sk">TICKET-STATUS.md</b>, headed by the tally and the
       requirements that need attention. Useful when you pick up a branch someone else started, or
-      before you call a ticket finished. It writes that one file and nothing else: your code and
-      the ticket stay untouched.
+      before you call a ticket finished. Give it a ticket link and it fetches the ticket first.
+      Apart from that, the report is the only file it writes: your code and the ticket stay
+      untouched.
     </p>
     <DemoPlayer cast="18-check-ticket" cols={72} rows={12} label="check-ticket-implementation reporting a verdict per requirement" />
+  </SkillBlock>
+  <SkillBlock name="grill-me" color="green" article="https://github.com/mattpocock/skills"
+    articleLabel="See the original by Matt Pocock">
+    <p class="text-muted mb-3">
+      The interview that refine-ticket and create-implementation-plan run, on its own. Bring any
+      plan, design or idea and say <b class="sk">grill me</b>: the agent asks one question at a
+      time, each with its recommended answer, until every branch is settled. What the code can
+      answer, it looks up instead of asking you. Want a REQUIREMENTS.md at the end? Use
+      refine-ticket instead.
+    </p>
+    <p class="text-muted">
+      This skill was originally created by
+      <a class="more-link" target="_blank" rel="noopener" href="https://github.com/mattpocock">Matt Pocock</a>.
+      We made it available in this toolkit with one small edit: it words its questions with
+      <a class="more-link" target="_blank" rel="noopener"
+        href="https://github.com/eai-org/agent-toolkit/blob/main/skills/explain-in-simple-language/SKILL.md">/explain-in-simple-language</a>,
+      so they are easy to follow.
+    </p>
+  </SkillBlock>
+  <SkillBlock name="prepare-prompt" color="green">
+    <p class="text-muted">
+      Every phase above ends with a ready command for the next session. For anything else there's
+      this skill: when a fresh session should continue the work, check it, or pick up what was
+      left open, it writes the prompt to paste there. It keeps only what the next session can't
+      find on its own, points at files instead of pasting them, and checks every path and command
+      it prints. Asking a new session to check the work? It leaves out its own conclusions, so
+      they can't steer the check.
+    </p>
   </SkillBlock>
   <section class="px-6">
     <div class="max-w-page mx-auto border-t border-border py-8">

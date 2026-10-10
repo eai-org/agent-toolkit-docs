@@ -7,7 +7,7 @@ import KeepGoing from '../components/KeepGoing.astro';
 ---
 <Base
   title="Context hygiene · agent-toolkit"
-  description="See what auto-loads into your agent before you even type, and trim it without breaking anything."
+  description="Give your project a lean agent setup, see what auto-loads before you even type, and trim it."
   back
 >
   <PageHeader title="Context hygiene skills" heading="Your context is often cluttered before you even type">
@@ -18,8 +18,9 @@ import KeepGoing from '../components/KeepGoing.astro';
     </p>
     <p class="text-muted">
       Much of that context is spent before you even type: governing docs, skills, MCP servers
-      and auto-memory all load at startup. These two skills tackle the two places where clutter
-      builds up: your setup and your agent's memory.
+      and auto-memory all load at startup. Run these three skills from time to time to keep it in
+      check: one measures what loads and trims it, one clears out what your agent saved on its own,
+      and one gives your project a lean setup to start from.
     </p>
   </PageHeader>
   <SkillBlock name="context-checkup" color="blue"
@@ -44,7 +45,18 @@ import KeepGoing from '../components/KeepGoing.astro';
       Memory works best as an inbox, not a filing cabinet: entries land, get reviewed and move
       on.
     </p>
-    <DemoPlayer cast="16-memory-doctor" cols={72} rows={11} label="memory-doctor relocating a block" />
+    <DemoPlayer cast="16-memory-doctor" cols={72} rows={12} label="memory-doctor relocating a block" />
+  </SkillBlock>
+  <SkillBlock name="agentify-project" color="blue">
+    <p class="text-muted mb-4">
+      Gets a project ready for a team where everyone may use a different agent. It audits the
+      current setup, then moves it step by step to one shared, lean structure: a short AGENTS.md
+      linking to detail docs that load only when needed, a CLAUDE.md that points to it, skills
+      every agent can find, and the right gitignore entries. Run
+      <b class="sk">/agentify-project audit</b> any time to see what drifted. Each step waits for
+      your approval, and it never commits.
+    </p>
+    <DemoPlayer cast="19-agentify-project" cols={72} rows={29} label="agentify-project auditing the setup and applying each step on approval" />
   </SkillBlock>
   <KeepGoing current="context-hygiene" />
 </Base>

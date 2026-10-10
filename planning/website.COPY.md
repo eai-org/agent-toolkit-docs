@@ -71,12 +71,12 @@ Demo window (traffic-light dots, two exchanges):
 
 | page | kicker (hue) | title | line | count |
 |---|---|---|---|---|
-| `/task-workflow` | Task workflow (green) | Refine, plan, act, consolidate | Turn a ticket into requirements, a plan, then code, with a clean handoff at every step. | 6 skills |
-| `/pr-review-assistants` | PR reviews (orange) | Both sides of the review | Triage the feedback your PR gets and review someone else's code. | 3 skills |
-| `/fresh-eyes-review` | Fresh eyes review (pink) | Let a sub-agent review the code | A sub-agent with a clean context, seeing only the changeset, catches what the session that wrote the code misses. | 1 skill |
-| `/context-hygiene` | Context & memory (blue) | Keep the context lean | See what auto-loads before you even type, and trim it without breaking anything. | 2 skills |
+| `/task-workflow` | Task workflow (green) | Refine, plan, act, consolidate | Turn a ticket into requirements, a plan, then code, with a clean handoff at every step. | 11 skills |
+| `/pr-review-assistants` | PR reviews (orange) | Both sides of the review | Triage the feedback your PR gets, review someone else's code, and decide whether it merges. | 4 skills |
+| `/fresh-eyes-review` | Fresh eyes review (pink) | Let a sub-agent review the code | A sub-agent with a clean context sees your changes but not the reasoning behind them, so it catches what the session that wrote them misses. | 1 skill |
+| `/context-hygiene` | Context & memory (blue) | Keep the context lean | Give your project a lean agent setup, see what auto-loads before you even type, and trim it. | 3 skills |
 | `/skills-docs-authoring` | Skill & doc authoring (purple) | Teach your agent | Write skills and docs agents actually follow, and turn every correction into a lasting lesson. | 3 skills + 3 rules |
-| `/conversational-language` | Conversational voice (blue) | Texts that sound like a real human typed them | No em dashes, no "this valuable feedback". Just what you would have written yourself, faster. | 1 skill + 1 rule |
+| `/conversational-language` | Conversational voice (blue) | Texts that sound like a real human typed them | No em dashes, no "this valuable feedback". Just what you would have written yourself, faster. | 1 skill + 2 rules |
 
 ## 3. Principles (green)
 
@@ -86,11 +86,14 @@ Demo window (traffic-light dots, two exchanges):
   `target="_blank"`:
   1. **Keep the context window sharp** Atomic skills: one job each, nothing else loaded.
      [why →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949)
-  2. **Offload to files, pick up fresh** Every phase ends in a doc a new session can pick up.
-     [how →](https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427)
-  3. **Human in the loop** The agent recommends, you decide. Nothing runs behind your back.
+  2. **Offload to files, pick up fresh** Every phase ends in a doc a new session can pick up,
+     and a fresh session can check it.
+     [how →](https://medium.com/engineering-in-the-age-of-ai/the-refine-plan-act-pattern-for-agentic-ai-coding-59ee013e4427)
+  3. **Human in the loop** The agent recommends, you decide, and it explains things so you
+     get them on the first read. Nothing runs behind your back.
   4. **Never guess** It reads the existing code first and asks you when in doubt.
-  5. **Learn from mistakes** Every correction becomes a durable lesson.
+  5. **Learn from mistakes** Every correction, and every review finding you accept,
+     becomes a durable lesson.
      [more →](https://medium.com/engineering-in-the-age-of-ai/my-approach-to-agentic-skills-e08dc6c0d1cd)
   6. **Versatile by design** Any project, any stack, team or solo.
 - No footer link (no /core-concepts page; the Medium links cover further reading).
@@ -115,7 +118,7 @@ Demo window (traffic-light dots, two exchanges):
   1. The **Task workflow** skills are a set of utilities that support any developer through a
      standard development task, from fetching the ticket to handing the finished code over to
      review.
-  2. They are based on the [RPAC pattern](https://medium.com/@borzifrancesco/the-rpa-pattern-for-agentic-ai-coding-59ee013e4427):
+  2. They are based on the [RPAC pattern](https://medium.com/engineering-in-the-age-of-ai/the-refine-plan-act-pattern-for-agentic-ai-coding-59ee013e4427):
      Refine, Plan, Act, Consolidate. Misunderstandings surface in a reviewable document before
      any code is written, and a failed attempt costs a retry from the last file, not the whole
      task.
@@ -155,10 +158,15 @@ Rewritten 2026-08-06 from the PR-review article, linked in the footer since it w
   part of it, or push back, with its reasoning and a reply you can post. The debatable ones come
   one at a time, the obvious ones in a single batch, so you spend your time where it matters.
   You end up with two files: an **ANSWERS.md** with a reply per comment, to paste once your
-  fixes are in, and a **REQUIREMENTS.md** with the changes you accepted, ready to hand to
-  **/create-implementation-plan** (named as plain mono text, not linked: the sibling-links test
-  limits internal links to the Keep-going siblings). Your PR is never touched. Demo (two steps
-  with /clear between, extended 2026-08-06 to the output files and the hand-off line):
+  fixes are in, and a **REQUIREMENTS.md** with the changes you accepted, ready to apply right
+  away when the fixes are small, or to hand to **/create-implementation-plan** when they need a
+  plan (named as plain mono text, not linked: the sibling-links test limits internal links to
+  the Keep-going siblings). Comments that point at a habit, not a one off slip, end up as
+  lessons at the bottom of **ANSWERS.md**, ready for **/self-improve** (mono, not linked) so
+  your agent doesn't repeat them on the next task. Your PR is never touched. Demo (two steps
+  with /clear between, extended 2026-08-06 to the output files and the hand-off line, and
+  2026-10-09 to the quoted comment, a muted reasoning line, partial recommended and the batch
+  confirmation):
 
 ```
 > /fetch-pr-review https://github.com/project/repo/pull/1234
@@ -167,37 +175,68 @@ Rewritten 2026-08-06 from the PR-review article, linked in the footer since it w
 > /clear
 > /refine-pr-review 1234-users.PR-REVIEW.md
 ✻ Reading the code behind each comment…
-⏺ Comment 3/12: "serializeUsers should live in the service layer"
-  ❯ 1. address (recommended)
-    2. address partially
+⏺ The comment "serializeUsers should live in the service layer":
+⏺ (muted) Moving it is right, but the CSV export reuses it, so keep a thin
+  wrapper
+    1. address
+  ❯ 2. partial (recommended)
     3. push back
-> 1
+> 2
+⏺ 8 more look straightforward to address: confirm them all?
+> y
 ✻ Working through the remaining comments…
 ⏺ Saved 1234-users.PR-REVIEW.ANSWERS.md: a drafted reply per comment
 ⏺ Saved 1234-users.PR-REVIEW.REQUIREMENTS.md: the accepted changes
-⏺ Next: /clear, then /create-implementation-plan
-  1234-users.PR-REVIEW.REQUIREMENTS.md          (muted)
+⏺ (muted) Next: /clear, then /create-implementation-plan
+  1234-users.PR-REVIEW.REQUIREMENTS.md
 ```
 
-- **review-code-assistant**: Prepares a review with you, locally in your terminal, and posts
-  nothing. Point it at a PR link or a branch: it reads the same diff the platform shows, the PR
+- **review-code-assistant**: A quick pass that prepares a review with you, locally in your
+  terminal, and posts nothing. Point it at a PR link or a branch: it reads the same diff the
+  platform shows, the PR
   intent and the project's convention docs, then suggests candidate comments in a human voice,
   ordered exactly like the diff so you can scroll the PR and the terminal side by side. A
   comment may only exist when it points to concrete evidence: an actual failure, a cited
   convention, a provable simplification. Zero comments is a valid outcome. **You** decide what
-  to post. Demo (added 2026-08-06; the suggested comment renders green, the human-voice color):
+  to post. Demo (added 2026-08-06; heading line, expected-vs-actual explanation and the
+  suggested comment as three outputs since 2026-10-09; the suggested comment renders green, the
+  human-voice color):
 
 ```
 > /review-code-assistant https://github.com/project/repo/pull/5678
 ✻ Diffing 5678-orders against main, reading the PR intent…
 ✻ Running the project conventions against every changed file…
 ⏺ Adds the pending_review status to the order list. 1 comment:
-⏺ 1 · src/orders/order-list.component.ts:87 checks status === 'pending'
-  but the new status is 'pending_review', so these orders would
-  silently disappear from the list
-⏺ (green) Suggested comment: "looks like this checks for 'pending' but
-  the new status is 'pending_review', so these orders would disappear
-  from the list"
+⏺ 1 · src/orders/order-list.component.ts:87
+⏺ The list keeps only orders with status === 'pending', but this PR
+  adds 'pending_review': orders under review drop out of the list, with
+  no error.
+⏺ (green) Suggested comment: "should this also match 'pending_review'?
+  otherwise orders under review won't show up in the list"
+```
+
+- **maintainer-review** (added 2026-10-09), two paragraphs: (1) For when the merge is your
+  call. Give it a link to someone else's PR and it reads everything first: the description,
+  every linked issue and PR, and every comment, bot comments included. For each comment it
+  checks two things: was it answered, and does it still apply to the latest code. A claim like
+  "fixed in the latest push" is something to verify, never a fact, whoever wrote it. (2) Then
+  it reviews the diff the same way **/review-code-assistant** does, and lets a sub-agent with
+  fresh eyes double check its own findings before you see them. You get one verdict: does
+  anything block the merge? Nothing gets posted, approved or pushed until you say so, and you
+  see the wording first. If you ask, it can push a fix to the contributor's branch, without
+  ever rewriting their history. Demo:
+
+```
+> /maintainer-review https://github.com/project/repo/pull/912
+✻ Fetching the PR, 2 linked issues and 14 comments…
+✻ Checking every comment against the latest push…
+✻ Reviewing the diff, then double checking with fresh eyes…
+⏺ Verdict: blocks the merge until 1 is fixed
+⏺ 1 · src/billing/invoice.ts:212 the discount is applied after
+  rounding, so totals can be off by a cent (blocking)
+⏺ @dana, 3 Oct: "fixed in the latest push" answered, but still applies
+⏺ (muted) Next: draft a comment on 1 for the author. Nothing gets posted until
+  you say so.
 ```
 
 - Page `/pr-review-assistants` — title `PR review assistants · agent-toolkit`; meta description
@@ -249,23 +288,33 @@ only; do not reword it without asking.
   Or just invoke it without arguments and it will figure out what to review on its own and
   ask you to confirm the prompt for the reviewing session. Approve it, or tweak it first, and
   the review will start in a clean context. / The reviewing session sees the changes and
-  their goal, and is free to check the whole codebase. What it never sees is the
-  **reasoning** (bold on page) of the authoring session (no plan, notes, chat history, etc.).
-  This part matters: hand it the reasoning that produced a bug, and chances are that it will
-  overlook the bug for the same reason the authoring session did. / Findings come back to the
+  their goal, and is free to check the whole codebase. It also looks for what the change
+  forgot: when a file format, a payload or a config changes, it checks the samples, fixtures
+  and docs that should have changed with it. What it never sees is the **reasoning** (bold on
+  page) of the authoring session (no plan, notes, chat history, etc.). This part matters: hand
+  it the reasoning that produced a bug, and chances are that it will overlook the bug for the
+  same reason the authoring session did. It doesn't leave anything behind in your project: the
+  tests it runs keep their reports out of it, and if it still creates a file, that file is
+  removed before the findings come back (any file it changed is pointed out to you). /
+  Findings come back to the
   main session: each one points at a file and describes how it actually breaks. No minor
   style nitpicks, no vague concerns, and "nothing found" is a valid answer by design. The
   reviewing session can't always distinguish a bug from an intentional choice, so the
   judgment is left to the main authoring session, which knows more about the task and will
   help you judge each finding. Then you decide what needs to be addressed.
-- Closing subsection "More than a code reviewer" (sans-serif h2, muted, no skill link, two
-  paragraphs): Reviewing code is the classic case, but not the only one! You can easily point
+- Closing subsection "More than a code reviewer" (sans-serif h2, muted, two paragraphs):
+  Reviewing code is the classic case, but not the only one! You can easily point
   it at a document: type `/fresh-eyes-review the PLAN.md against the REQUIREMENTS.md` (mono,
   the whole typed command) even before any code is written. The same works for a requirements
-  doc against its original ticket, and so on. / Other skills also use `/fresh-eyes-review` as
-  a building block: they pass in the changes, the goal and the review instructions
-  themselves, and the review runs as one step of a bigger workflow (fresh context included).
-  Any agent that can spawn sub-agents can do this.
+  doc against its original ticket, and so on. / Other skills use `/fresh-eyes-review` (mono)
+  as a building block. /self-review runs it on your branch before you open a PR,
+  /harden-artifact runs it on a REQUIREMENTS.md or PLAN.md against its ticket, and
+  /maintainer-review uses it to double check its own findings on someone else's PR, even when
+  it found nothing. They pass in the changes, the goal and the review instructions themselves,
+  so the review starts without asking you to confirm the prompt. Works with any agent that can
+  spawn sub-agents. If yours can't, the review runs in the same session and the result is
+  flagged as weaker. (/self-review, /harden-artifact and /maintainer-review each link their
+  SKILL.md on GitHub, `target="_blank"`; no link to a group page.)
 - Demo:
 
 ```
@@ -281,8 +330,9 @@ only; do not reword it without asking.
 ⏺ The reviewing session found 3 issues. Judged against the task:
 ⏺ 1 · src/orders/archive.service.ts:58 archived orders still count
   toward the open-orders badge
-⏺ 2 · src/orders/order-list.query.ts:31 filtering on archived_at
-  without an index scans the whole table
+⏺ 2 · db/seed/orders.sql has no archived_at values, so the seeded list
+  never shows an archived order and the archive filter can't be tried
+  locally
 ⏺ (muted) 3 · "archiving has no undo": intentional, undo is out of scope for
   this ticket
   ❯ 1. Fix 1 and 2, dismiss 3 (recommended)
@@ -295,7 +345,7 @@ only; do not reword it without asking.
   session finds the real problems. One command spawns a reviewing session with a clean
   context: it sees the changes but never the author's reasoning, and catches what the author
   can't.`;
-  footer link (`target="_blank"`): [Read more about reviewing with fresh eyes →](https://medium.com/@borzifrancesco/more-powerful-ai-reviews-with-fresh-eyes-bfad221748c0)
+  footer link (`target="_blank"`): [Read more about reviewing with fresh eyes →](https://medium.com/engineering-in-the-age-of-ai/more-powerful-ai-reviews-with-fresh-eyes-bfad221748c0)
 
 ## 8. Context & memory hygiene (blue)
 
@@ -314,12 +364,14 @@ only; do not reword it without asking.
 ```
 > /context-checkup
 ✻ Measuring what auto-loads…
-⏺ 18.4k tokens at startup. Top cost: the unused "jira" MCP server (6.2k)
+⏺ Tool search is off, so MCP schemas load eagerly. Top cost: the
+  unused "jira" MCP server (6.2k of 18.4k)
   ❯ 1. Disable it in this project (recommended)
     2. Keep it
     3. Show the full report
 > 1
-⏺ Done. Next startup: 12.2k tokens. Reversible in .claude/settings.json
+⏺ Done. Next startup: 12.2k tokens. Reversible in
+  .claude/settings.json
 ```
 
 - Memory-doctor demo:
@@ -327,14 +379,44 @@ only; do not reword it without asking.
 ```
 > /memory-doctor
 ✻ Scanning the project memory…
-⏺ 7 blocks found. Block 1: "always mock the clock in unit tests" belongs in docs/unit-testing-guidelines.md
+⏺ 7 blocks found. Block 1: "always mock the clock in unit tests"
+  belongs in docs/unit-testing-guidelines.md
   ❯ 1. Move it there (recommended)
     2. Archive it
     3. Keep it
+    4. Something else
 ```
 
-- Page `/context-hygiene` — title `Context hygiene · agent-toolkit`; meta description `See what
-  auto-loads into your agent before you even type, and trim it without breaking anything.`; no
+- **agentify-project** (added 2026-10-09, last block, no article link): Gets a project ready
+  for a team where everyone may use a different agent. It audits the current setup, then moves
+  it step by step to one shared, lean structure: a short AGENTS.md linking to detail docs that
+  load only when needed, a CLAUDE.md that points to it, skills every agent can find, and the
+  right gitignore entries. Run **/agentify-project audit** (mono) any time to see what drifted.
+  Each step waits for your approval, and it never commits. Demo (runs the full mode; the real
+  menu is multi-select, rendered single-select with All):
+
+```
+> /agentify-project
+✻ Auditing the agent setup…
+⏺ CLAUDE.md is 180 lines and there is no AGENTS.md. What should I fix?
+  ❯ 1. All (recommended)
+    2. Entry files: AGENTS.md plus a CLAUDE.md pointer
+    3. Slim AGENTS.md into linked docs
+    4. Gitignore hygiene
+> 1
+⏺ Step 1: rename CLAUDE.md to AGENTS.md and turn CLAUDE.md into a
+  pointer to it. Apply?
+> y
+⏺ Step 2: move 4 sections into docs/, linked from AGENTS.md. Apply?
+> y
+⏺ Step 3: add the agent entries to .gitignore. Apply?
+> y
+⏺ Done. All steps applied, every reference checked.
+⏺ (muted) Next: /memory-doctor, then /context-checkup
+```
+
+- Page `/context-hygiene` — title `Context hygiene · agent-toolkit`; meta description `Give your
+  project a lean agent setup, see what auto-loads before you even type, and trim it.`; no
   footer link.
 
 ## 9. Skill & doc authoring (purple)
@@ -350,10 +432,14 @@ only; do not reword it without asking.
   is applied only after your approval.
 - **compact-skill-creator** creates or edits skills on top of compact-docs-writer, adding the
   skill-specific craft: a sharp description (the most expensive text, loaded in every session),
-  the right trigger type, and progressive disclosure.
+  the right trigger type, and progressive disclosure. Before showing you the draft it checks
+  the skill against itself, and every edit to an existing skill comes with a version bump, so
+  you never have to remember it.
 - **self-improve** when the agent makes a mistake or doesn't behave the way you want, this skill
   captures the lesson as a diff to the skill or doc that should have prevented it. You approve
-  where it lands, and the mistake doesn't repeat.
+  where it lands, and the mistake doesn't repeat. Other skills feed it too: memory-doctor moves
+  stray memories into the right doc through it, and refine-pr-review hands it the lessons from a
+  PR review.
 - compact-docs-writer demo (the rewrite renders as git diff lines: pink `-` on faint red
   background, green `+` on faint green):
 
@@ -378,19 +464,16 @@ only; do not reword it without asking.
 ```
 
 - self-improve demo (correction → lesson; the addition renders as a git diff line, green `+` on
-  faint green background):
+  faint green background; since 2026-10-09 it ends on the word delta, no options menu):
 
 ```
 > Some of the methods you generated are not called outside the service, change them to private
 ⏺ Done, buildHeader() and formatRow() are now private
 > /self-improve
-✻ Capturing the lesson…
+✻ Drafting via compact-docs-writer…
 ⏺ Suggested addition to docs/coding-standards.md:
 + Keep helper methods private unless they are used outside the class.
-  ❯ 1. Apply the diff (recommended)
-    2. Edit it first
-    3. Choose another location
-    4. Chat about this
+⏺ Not applied yet: +11 words, measured with wc -w. Apply?
 ```
 
 - Rules subsection, hairline-separated before the Keep-going footer — sans-serif h2
@@ -399,8 +482,9 @@ only; do not reword it without asking.
   [Read the rule →] link to its file under `rules/` on GitHub:
   - **compact-governing-docs** every edit to a skill or governing doc goes through the
     compaction skills first.
-  - **self-contained-docs** planning docs carry everything a fresh session needs, and nothing
-    more.
+  - **self-contained-docs** planning docs, and prompts that hand work to a fresh session, carry
+    everything that session needs and nothing more. Prompts are written with
+    **/prepare-prompt** (mono, not linked).
   - **self-improve-on-correction** when you correct the agent on something a doc governs, it
     offers to capture the lesson with /self-improve.
 - Page `/skills-docs-authoring` — title `Skills & docs authoring · agent-toolkit`; meta
@@ -415,14 +499,25 @@ only; do not reword it without asking.
   messages. The agent is great at drafting them quickly, but not at matching the tone to the
   context: a chat reply doesn't want the polish of a README, yet everything comes out in the
   same overly formal, fancy prose that readers recognize as AI at a glance. (2) The skill and
-  rule below take the best of both worlds: the agent's speed, your voice.
+  rules below take the best of both worlds: the agent's speed, your voice.
 - **use-conversational-language** tells the agent to write in simple, human language instead of
   sophisticated AI prose full of — em dashes — and fancy terms. It adapts the voice to the kind
-  of text (a PR comment, a chat reply, a code comment) and changes the wording only, never the
-  content: you still review every text before it goes out.
+  of text (a PR comment, a chat reply, a commit message, a code comment) and changes the wording
+  only, never the content: you still review every text before it goes out. Second paragraph,
+  before the demo (names plain, no links): Other skills use it too: /handover writes your PR
+  description with it, and review skills like /review-code-assistant and /refine-pr-review word
+  the comments and replies they draft for you with it.
 - **write-realistic-texts** opt-in rule that applies the skill automatically whenever the agent
-  writes something a human will read as if a person wrote it, even when writing wasn't the task
-  you gave it.
+  writes something other people will read as if you wrote it, like a commit message, a PR
+  comment or a chat message, even when writing wasn't the task you gave it. Before it posts a
+  comment, a PR description or a chat message for you, it shows you the exact wording and waits
+  for your go-ahead. Asking it to approve a PR or close a ticket doesn't approve the comment
+  that goes with it.
+- **no-nonsense-comments** (rule, added 2026-10-09, no demo) opt-in rule for code comments: the
+  agent writes one only when a future reader with no idea of your session still needs it, like
+  a non-obvious why or an easily missed edge case. No notes about the session ("as discussed",
+  "now also handles X") and no lines that restate the code. The comments it keeps go through
+  the skill above, so they read like a colleague jotted them down.
 - Demo (two exchanges, pink/green ⏺ like the hero):
 
 ```
@@ -448,6 +543,9 @@ only; do not reword it without asking.
 - **git-read-only-by-default** no commits, pushes or resets unless you asked for them
 - **no-ai-attribution** your work stays yours: no AI co-author, no "generated with" footer
 - **no-nonsense-comments** only comments a future reader with zero context still needs
+- After the bullets (muted, added 2026-10-09): Not a native English speaker? One more rule makes
+  your agent talk to you in your own language, while everything it writes into the project
+  stays in English. Link (`target="_blank"`): [Get the use-my-mothertongue rule →](https://github.com/eai-org/agent-toolkit/blob/main/docs/use-my-mothertongue-rule.md)
 - Footer link (`target="_blank"`, no /rules page): [Check the full list of available rules →](https://github.com/eai-org/agent-toolkit/tree/main#rules)
 
 ## 12. Share your feedback (green, centered)
@@ -484,7 +582,8 @@ demo renders muted.
 
 - fetch-ticket: Every task starts with a ticket. This skill downloads it from Jira, GitHub, Azure
   DevOps or similar into a self-contained **TICKET.md**, attachments and linked tickets included.
-  No tracker? Write the file by hand and the workflow stays the same. Demo:
+  No tracker? Write the file by hand and the workflow stays the same. An attachment it can't
+  download gets flagged, so you can add it with **/attach-to-ticket** (mono). Demo:
 
 ```
 > /fetch-ticket https://yourproject.atlassian.net/browse/XX-1234
@@ -493,9 +592,15 @@ demo renders muted.
 ⏺ Next: /clear, then /refine-ticket 1234-users.TICKET.md
 ```
 
+- attach-to-ticket (added 2026-10-09, no demo): Some attachments never make it through the
+  fetch: a screenshot from a chat, a file behind a login. Paste it, or give its path or link,
+  and the agent saves it next to **TICKET.md** and adds it to the ticket file with a short
+  caption, so the next session sees it too. It asks before filling a missing attachment or
+  writing a caption. It only touches your local files: your tracker stays untouched.
 - refine-ticket: Defines the **WHAT**. The agent checks the ticket against the actual codebase
   and interviews you, one question at a time, each with a recommended answer. No silent
-  assumptions: you decide. The result is a validated **REQUIREMENTS.md**. Demo:
+  assumptions: you decide. The result is a validated **REQUIREMENTS.md**. No ticket yet? Give
+  it a raw idea and it grills you on the goal and the scope first. Demo:
 
 ```
 > /refine-ticket 1234-users.TICKET.md
@@ -542,7 +647,10 @@ demo renders muted.
   planning files, gathers the decisions made along the way, from the ticket to the session
   itself, matches the plan against the actual diff and writes a **HANDOVER.md**: a paste-ready
   PR description with the decisions worth knowing, where to look and what's still open, so
-  reviewers never reconstruct intent from the diff. Demo:
+  reviewers never reconstruct intent from the diff. Your repo has a PR template? It fills that
+  in instead, ticking only the boxes it can back up. Block link (`target="_blank"`):
+  [Read more about handover →](https://medium.com/engineering-in-the-age-of-ai/the-missing-step-in-agentic-coding-the-handover-d1963c3d2c1d).
+  Demo:
 
 ```
 > /handover 1234
@@ -558,8 +666,8 @@ demo renders muted.
 - Extra workflow skills, a plain section after handover (sans-serif h2 like the page intro
   heading, muted intro): Not part of the main flow, but handy when the task calls for them.
 - create-manual-test-instructions (under Extra workflow skills, "Optional last step:" prefix
-  dropped): Turns the requirements into a concise **MANUAL-TEST.md** a non-author can follow:
-  what changed, how to get there, before vs after, and what to verify. Demo:
+  dropped): Turns a ticket or its requirements into a concise **MANUAL-TEST.md** a non-author
+  can follow: what changed, how to get there, before vs after, and what to verify. Demo:
 
 ```
 > /create-manual-test-instructions 1234-users.REQUIREMENTS.md
@@ -572,7 +680,10 @@ demo renders muted.
   compares it against the codebase and reports whether it's ready, plus the questions worth
   asking whoever owns the requirements. Each question survived an adversarial hunt for its answer
   across code, tracker, designs and docs, so you're never asked what the sources could have
-  answered. Verdict and briefing land in a **TICKET-REVIEW.md** next to the ticket. Demo:
+  answered. A gap that is another team's or another repo's to fix comes back as a handoff, with
+  a message ready to send to its owner. Verdict and briefing land in a **TICKET-REVIEW.md** next
+  to the ticket, and /refine-ticket (plain) picks it up later, starting from whether those
+  questions got an answer. Demo:
 
 ```
 > /review-ticket 1234-users.TICKET.md
@@ -581,6 +692,30 @@ demo renders muted.
 ⏺ 1 answered by the backend repo, 2 to raise
 ⏺ 2 questions to resolve before starting
 ⏺ Saved 1234-users.TICKET-REVIEW.md with briefing and questions
+⏺ (muted) Next: /verify-understanding 1234-users.TICKET-REVIEW.md
+```
+
+- verify-understanding (under Extra workflow skills, added 2026-10-09): The other skills write
+  files for the next agent session. This one is for you. Run it on the **TICKET-REVIEW.md**,
+  right after the review or days later just before you start coding. It asks you to explain the
+  feature in your own words: who uses it, what they see and do, why it exists, and what each
+  ticket adds. Then it digs into one weak spot at a time and corrects you using only the review
+  and the tickets, saying so when they don't settle something instead of making up an answer.
+  It plays the part of that last chat with your product owner before development starts. It
+  writes no files: the conversation is the point. Demo:
+
+```
+> /verify-understanding 1234-users.TICKET-REVIEW.md
+⏺ Tell me about this feature in your own words: who uses it, what they
+  do with it, and why it exists.
+> Admins export the user list so support can find inactive accounts
+⏺ Almost. The review says finance uses the export for license billing,
+  not support. So who needs it to be right every month?
+> Finance, so deleted users must not show up in it
+⏺ Right, that's the whole journey. Still open: the review doesn't say
+  whether users deleted mid-month count for that month's bill, ask your
+  PO before you start.
+⏺ (muted) Next: /refine-ticket 1234-users.TICKET.md
 ```
 
 - check-ticket-implementation (under Extra workflow skills, added 2026-08-07), two paragraphs:
@@ -590,8 +725,8 @@ demo renders muted.
   verifiable from the code, each with a short note and the **file:line** where it was checked.
   (2) The report goes into a **TICKET-STATUS.md**, headed by the tally and the requirements that
   need attention. Useful when you pick up a branch someone else started, or before you call a
-  ticket finished. It writes that one file and nothing else: your code and the ticket stay
-  untouched. Demo:
+  ticket finished. Give it a ticket link and it fetches the ticket first. Apart from that, the
+  report is the only file it writes: your code and the ticket stay untouched. Demo:
 
 ```
 > /check-ticket-implementation 1234-users.TICKET.md
@@ -604,14 +739,33 @@ demo renders muted.
 ⏺ Saved 1234-users.TICKET-STATUS.md
 ```
 
-- fresh-eyes-review: One command: the sub-agent reviews the changeset and comes back with its
-  findings, sorted by severity. You choose which ones to address.
+- grill-me (under Extra workflow skills, added 2026-10-09, no demo; block link
+  `target="_blank"`: [See the original by Matt Pocock →](https://github.com/mattpocock/skills)):
+  The interview that refine-ticket and create-implementation-plan run, on its own. Bring any
+  plan, design or idea and say **grill me** (mono): the agent asks one question at a time, each
+  with its recommended answer, until every branch is settled. What the code can answer, it looks
+  up instead of asking you. Want a REQUIREMENTS.md at the end? Use refine-ticket instead.
+  Second paragraph (credit, both links `target="_blank"`): This skill was originally created by
+  [Matt Pocock](https://github.com/mattpocock). We made it available in this toolkit with one
+  small edit: it words its questions with
+  [/explain-in-simple-language](https://github.com/eai-org/agent-toolkit/blob/main/skills/explain-in-simple-language/SKILL.md),
+  so they are easy to follow.
+- prepare-prompt (under Extra workflow skills, added 2026-10-09, no demo): Every phase above
+  ends with a ready command for the next session. For anything else there's this skill: when a
+  fresh session should continue the work, check it, or pick up what was left open, it writes
+  the prompt to paste there. It keeps only what the next session can't find on its own, points
+  at files instead of pasting them, and checks every path and command it prints. Asking a new
+  session to check the work? It leaves out its own conclusions, so they can't steer the check.
+- /fresh-eyes-review: full copy and demo script in §7.
 - /context-hygiene intro, two paragraphs: (1) AI agents work at their best when the context
   window is lean. Reasoning is sharpest in the first part of the window and degrades well
   before the hard limit, so every token you load has to earn its place. The smaller the
   context, the sharper the agent. (2) Much of that context is spent before you even type:
-  governing docs, skills, MCP servers and auto-memory all load at startup. These two skills
-  tackle the two places where clutter builds up: your setup and your agent's memory.
+  governing docs, skills, MCP servers and auto-memory all load at startup. Run these three
+  skills from time to time to keep it in check: one measures what loads and trims it, one
+  clears out what your agent saved on its own, and one gives your project a lean setup to start
+  from.
+- agentify-project is the last block on /context-hygiene: copy and demo script in §8.
 - context-checkup block link (`target="_blank"`): [Read more about the context window →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949)
 - memory-doctor: full description and second demo script in §8 (shipped 2026-08-02), demo label
   `memory-doctor relocating a block`. Block link

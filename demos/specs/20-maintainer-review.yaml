@@ -1,0 +1,14 @@
+cols: 72
+rows: 14
+seed: 20-maintainer-review
+events:
+  - input: https://github.com/project/repo/pull/912
+    skill: /maintainer-review
+  - spinner: Fetching the PR, 2 linked issues and 14 comments…
+  - spinner: Checking every comment against the latest push…
+  - spinner: Reviewing the diff, then double checking with fresh eyes…
+  - output: 'Verdict: blocks the merge until 1 is fixed'
+  - output: '1 · src/billing/invoice.ts:212 the discount is applied after rounding, so totals can be off by a cent (blocking)'
+  - output: '@dana, 3 Oct: "fixed in the latest push" answered, but still applies'
+  - output: 'Next: draft a comment on 1 for the author. Nothing gets posted until you say so.'
+    color: muted

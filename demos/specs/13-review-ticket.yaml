@@ -1,5 +1,5 @@
 cols: 72
-rows: 10
+rows: 11
 seed: 13-review-ticket
 events:
   - input: 1234-users.TICKET.md
@@ -9,3 +9,5 @@ events:
   - output: '1 answered by the backend repo, 2 to raise'
   - output: '2 questions to resolve before starting'
   - output: Saved 1234-users.TICKET-REVIEW.md with briefing and questions
+  - output: 'Next: /verify-understanding 1234-users.TICKET-REVIEW.md'
+    color: muted

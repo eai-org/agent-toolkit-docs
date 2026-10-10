@@ -21,22 +21,22 @@ export const GROUPS: Group[] = [
     hue: 'green',
     title: 'Refine, plan, act, consolidate',
     line: 'Turn a ticket into requirements, a plan, then code, with a clean handoff at every step.',
-    count: '7 skills',
+    count: '11 skills',
   },
   {
     slug: 'pr-review-assistants',
     kicker: 'PR reviews',
     hue: 'orange',
     title: 'Both sides of the review',
-    line: "Triage the feedback your PR gets and review someone else's code.",
-    count: '3 skills',
+    line: "Triage the feedback your PR gets, review someone else's code, and decide whether it merges.",
+    count: '4 skills',
   },
   {
     slug: 'fresh-eyes-review',
     kicker: 'Fresh eyes review',
     hue: 'pink',
     title: 'Let a sub-agent review the code',
-    line: 'A sub-agent with a clean context, seeing only the changeset, catches what the session that wrote the code misses.',
+    line: 'A sub-agent with a clean context sees your changes but not the reasoning behind them, so it catches what the session that wrote them misses.',
     count: '1 skill',
   },
   {
@@ -44,8 +44,8 @@ export const GROUPS: Group[] = [
     kicker: 'Context & memory',
     hue: 'blue',
     title: 'Keep the context lean',
-    line: 'See what auto-loads before you even type, and trim it without breaking anything.',
-    count: '2 skills',
+    line: 'Give your project a lean agent setup, see what auto-loads before you even type, and trim it.',
+    count: '3 skills',
   },
   {
     slug: 'skills-docs-authoring',
@@ -62,7 +62,7 @@ export const GROUPS: Group[] = [
     title: 'Texts that sound like a real human typed them',
     short: 'Texts that sound like real humans',
     line: 'No em dashes, no "this valuable feedback". Just what you would have written yourself, faster.',
-    count: '1 skill + 1 rule',
+    count: '1 skill + 2 rules',
   },
 ];
 

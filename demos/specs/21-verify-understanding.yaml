@@ -1,0 +1,13 @@
+cols: 72
+rows: 19
+seed: 21-verify-understanding
+events:
+  - input: 1234-users.TICKET-REVIEW.md
+    skill: /verify-understanding
+  - output: 'Tell me about this feature in your own words: who uses it, what they do with it, and why it exists.'
+  - input: Admins export the user list so support can find inactive accounts
+  - output: "Almost. The review says finance uses the export for license billing, not support. So who needs it to be right every month?"
+  - input: Finance, so deleted users must not show up in it
+  - output: "Right, that's the whole journey. Still open: the review doesn't say whether users deleted mid-month count for that month's bill, ask your PO before you start."
+  - output: 'Next: /refine-ticket 1234-users.TICKET.md'
+    color: muted

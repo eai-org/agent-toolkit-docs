@@ -7,6 +7,7 @@ events:
   - spinner: Diffing 5678-orders against main, reading the PR intent…
   - spinner: Running the project conventions against every changed file…
   - output: 'Adds the pending_review status to the order list. 1 comment:'
-  - output: "1 · src/orders/order-list.component.ts:87 checks status === 'pending' but the new status is 'pending_review', so these orders would silently disappear from the list"
-  - output: 'Suggested comment: "looks like this checks for ''pending'' but the new status is ''pending_review'', so these orders would disappear from the list"'
+  - output: '1 · src/orders/order-list.component.ts:87'
+  - output: "The list keeps only orders with status === 'pending', but this PR adds 'pending_review': orders under review drop out of the list, with no error."
+  - output: 'Suggested comment: "should this also match ''pending_review''? otherwise orders under review won''t show up in the list"'
     color: green
