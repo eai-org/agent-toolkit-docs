@@ -26,9 +26,18 @@ const clone = 'git clone https://github.com/eai-org/agent-toolkit.git && cd agen
     </div>
     <div class="text-green overflow-x-auto whitespace-nowrap">{clone}</div>
   </div>
-  <a class="more-link inline-block mt-3" href="https://github.com/eai-org/agent-toolkit#how-to-install-the-skills">
-    Other ways to install &rarr;
-  </a>
+  <p class="text-muted text-[13px] max-w-[600px] mx-auto mt-3">
+    On Claude Code it also adds a hook that pulls the repo and reruns your install once a day, so
+    your skills and rules follow the repo. Turn it off with
+    <code class="font-mono text-[12px] bg-panel2 border border-border rounded px-1.5 whitespace-nowrap">./install.sh --no-auto-update</code>.
+  </p>
+  <p class="font-mono text-[13px] text-muted mt-2">
+    Other ways to install:
+    <span class="whitespace-nowrap"><a class="more-link" href="https://github.com/eai-org/agent-toolkit/blob/main/docs/install-with-agentwheel.md">agentwheel</a> ·</span>
+    <span class="whitespace-nowrap"><a class="more-link" href="https://github.com/eai-org/agent-toolkit/blob/main/docs/install-skills.md#install-via-skillssh">skills.sh</a> ·</span>
+    <span class="whitespace-nowrap"><a class="more-link" href="https://github.com/eai-org/agent-toolkit/blob/main/docs/install-skills.md#install-via-claude-code-plugin-marketplace">Claude Code plugin</a> ·</span>
+    <a class="more-link whitespace-nowrap" href="https://github.com/eai-org/agent-toolkit#how-to-install-the-skills">README &rarr;</a>
+  </p>
   <p class="mt-5 text-[15px]">
     <span class="text-orange" aria-hidden="true">★</span>
     This toolkit is entirely open source and free to use.

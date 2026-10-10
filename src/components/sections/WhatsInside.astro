@@ -2,9 +2,13 @@
 import Section from '../Section.astro';
 import GroupCard from '../GroupCard.astro';
 import { GROUPS } from '../../data/groups';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <Section kicker="What's inside" color="blue" heading="Several groups of skills" id="whats-inside">
   <div class="grid md:grid-cols-2 gap-3 mt-4">
     {GROUPS.map((group) => <GroupCard group={group} />)}
   </div>
+  <p class="text-muted mt-4">
+    Looking for one skill by name? <a class="more-link" href={`${base}/skills/`}>Every skill and rule &rarr;</a>
+  </p>
 </Section>

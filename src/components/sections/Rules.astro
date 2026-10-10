@@ -1,5 +1,6 @@
 ---
 import Section from '../Section.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <Section kicker="Opinionated rules" color="pink">
   <p class="text-muted">
@@ -19,7 +20,9 @@ import Section from '../Section.astro';
       href="https://github.com/eai-org/agent-toolkit/blob/main/docs/use-my-mothertongue-rule.md">
       Get the use-my-mothertongue rule &rarr;</a>
   </p>
-  <p><a class="more-link" target="_blank" rel="noopener"
-    href="https://github.com/eai-org/agent-toolkit/tree/main#rules">
+  <p><a class="more-link" href={`${base}/skills/#rules`}>
     Check the full list of available rules &rarr;</a></p>
+  <p class="mt-2"><a class="more-link" target="_blank" rel="noopener"
+    href="https://github.com/eai-org/agent-toolkit/blob/main/docs/install-with-agentwheel.md">
+    Install skills and rules together with agentwheel &rarr;</a></p>
 </Section>

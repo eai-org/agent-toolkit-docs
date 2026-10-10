@@ -1,0 +1,17 @@
+---
+import { CATALOGUE_LINES } from '../data/catalogue';
+interface Props { name: string; line: string; github: string; page?: string; rule?: boolean }
+const { name, line, github, page, rule = false } = Astro.props;
+const entry = CATALOGUE_LINES[name];
+---
+<li>
+  {page ? (
+    <a class="text-blue no-underline hover:underline" href={page}><b class="sk">{name}</b></a>
+  ) : (
+    <a class="text-blue no-underline hover:underline" target="_blank" rel="noopener" href={github}><b class="sk">{name}</b></a>
+  )}{entry?.chip && <Fragment>{' '}<span class="chip font-mono text-[12px] font-bold">{entry.chip}</span></Fragment>}
+  <span class="text-muted">{line}{entry?.code && <Fragment>{' '}<code class="font-mono text-[12px] bg-panel2 border border-border rounded px-1.5 whitespace-nowrap">{entry.code}</code></Fragment>}</span>
+  {page && (
+    <a class="more-link" target="_blank" rel="noopener" href={github}>{rule ? 'Read the rule' : 'Read the SKILL.md'} &rarr;</a>
+  )}
+</li>

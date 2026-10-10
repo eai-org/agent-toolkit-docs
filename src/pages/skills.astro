@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import CatalogueRow from '../components/CatalogueRow.astro';
+import { GROUPS } from '../data/groups';
+import { CATALOGUE_DESCRIPTION, CATALOGUE_TITLE, SNIPPET, catalogueLine } from '../data/catalogue';
+import { GITHUB_BLOB, readToolkit } from '../lib/toolkit';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const { skills, rules } = readToolkit();
+const skillByName = new Map(skills.map((s) => [s.name, s]));
+
+const pageOf = new Map<string, string>();
+for (const g of GROUPS) for (const n of [...g.skills, ...g.rules]) pageOf.set(n, g.slug);
+const unplaced = skills.filter((s) => !pageOf.has(s.name));
+
+const hue = {
+  green: 'text-green', blue: 'text-blue', orange: 'text-orange',
+  purple: 'text-purple', pink: 'text-pink',
+};
+const skillUrl = (name: string) => `${GITHUB_BLOB}/skills/${name}/SKILL.md`;
+const ruleUrl = (name: string) => `${GITHUB_BLOB}/rules/${name}.md`;
+const pageUrl = (name: string) => {
+  const slug = pageOf.get(name);
+  return slug ? `${base}/${slug}/#${name}` : undefined;
+};
+---
+<Base title={`${CATALOGUE_TITLE} · agent-toolkit`} description={CATALOGUE_DESCRIPTION} back>
+  <PageHeader title="Skills and rules" heading="Every skill and rule, on one page">
+    <p class="text-muted">
+      Looking for one by name? This is everything the toolkit ships, grouped the way the pages
+      group them. Pick a name to jump to its page, or open its file on GitHub. The list is rebuilt
+      from the toolkit repo every night.
+    </p>
+  </PageHeader>
+  {GROUPS.map((group) => (
+    <section class="px-6">
+      <div class="max-w-page mx-auto border-t border-border py-10">
+        <div class:list={['kicker', hue[group.hue]]}>{group.kicker}</div>
+        <h2 class="text-2xl font-bold mb-3">
+          <a href={`${base}/${group.slug}/`} class="text-text no-underline hover:underline">{group.title}</a>
+        </h2>
+        <ul class="bullets my-4">
+          {group.skills.filter((n) => skillByName.has(n)).map((n) => (
+            <CatalogueRow name={n} line={catalogueLine(n, skillByName.get(n)!.description)} github={skillUrl(n)} page={pageUrl(n)} />
+          ))}
+        </ul>
+        <p><a class="more-link" href={`${base}/${group.slug}/`}>Open /{group.slug} &rarr;</a></p>
+      </div>
+    </section>
+  ))}
+  {unplaced.length > 0 && (
+    <section class="px-6">
+      <div class="max-w-page mx-auto border-t border-border py-10">
+        <div class="kicker text-text">Also in the toolkit</div>
+        <p class="text-muted">The SKILL.md says what each one does.</p>
+        <ul class="bullets my-4">
+          {unplaced.map((s) => (
+            <CatalogueRow name={s.name} line={catalogueLine(s.name, s.description)} github={skillUrl(s.name)} />
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+  <section id="rules" class="px-6">
+    <div class="max-w-page mx-auto border-t border-border py-10">
+      <div class="kicker text-pink">Opinionated rules</div>
+      <p class="text-muted">
+        Opt-in and installed separately: get them all with
+        <code class="font-mono text-[12px] bg-panel2 border border-border rounded px-1.5 whitespace-nowrap">./install-opinionated-rules.sh</code>
+        or pick only the ones you want.
+      </p>
+      <ul class="bullets my-4">
+        {rules.map((r) => (
+          <CatalogueRow rule name={r.name} line={catalogueLine(r.name, r.description)} github={ruleUrl(r.name)} page={pageUrl(r.name)} />
+        ))}
+        <CatalogueRow name={SNIPPET.name} line={SNIPPET.line} github={`${GITHUB_BLOB}/${SNIPPET.path}`} />
+      </ul>
+    </div>
+  </section>
+</Base>

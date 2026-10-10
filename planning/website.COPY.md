@@ -5,8 +5,7 @@ change syncs here (see AGENTS.md; process changed 2026-08-02, no approval gate s
 approval history: 2026-07-27 copy session including block order; §5-§10 page metadata
 2026-07-31; §5-§8 page URLs and titles 2026-08-01; group cards (§2b), slimmed homepage and the
 four reworked meta descriptions 2026-08-02. `website.DESIGN.md` holds layout/visuals,
-`website.DECISIONS.md` the tech and scope. The site is a homepage overview plus one page per skill group (§5-§10, no `/rules` page
-yet) and an About page (§15). Homepage block order: §1 hero, §2 problem, §2b card grid, §3 principles, §4 philosophy,
+`website.DECISIONS.md` the tech and scope. The site is a homepage overview plus one page per skill group (§5-§10), an About page (§15) and the generated catalogue `/skills/` (§16). Homepage block order: §1 hero, §2 problem, §2b card grid, §2c skills chain, §3 principles, §4 philosophy,
 §11 rules, §12 feedback. The §5-§10 blocks and their demos live only on their group pages,
 structured per §14. Bullet items render as the deck pattern:
 **bold lead** followed by a muted detail span (no literal dash between them). Skill names in
@@ -18,7 +17,9 @@ pink for the stiff AI reply and green for the human one.
 
 - Wordmark (mono green, links home): agent-toolkit — prefixed with a ← arrow on subpages
 - Theme toggle (icon-only: dark/light/system)
-- About us, to `/about` — the only page link (added 2026-08-03)
+- Skills, to `/skills/` (2026-10-10)
+- About us, to `/about` (added 2026-08-03); below `sm` it reads `About`
+- Below `sm` the GitHub link is the 16px Lucide icon, `aria-label="GitHub"`, instead of the word
 - GitHub, with the star count appended (`★ 1,284`), to the repo
 - Install button, to the hero install terminal
 
@@ -43,10 +44,19 @@ Demo window (traffic-light dots, two exchanges):
 - Chips: `Project-agnostic` (green) · `Works with any agent` (blue) · `MIT` (orange)
 - Install terminal (copy button): comment `# install with one command`, command
   `git clone https://github.com/eai-org/agent-toolkit.git && cd agent-toolkit && ./install.sh`
-- Below it, mono blue link: `Other ways to install →` — to the README install section on GitHub.
   (The sticky nav's install button anchors here from every page; the standalone "Get it" section
   was dropped.)
-- Star line (below the install link, orange ★): This toolkit is entirely open source and free to
+- Below it (muted sans 13px, max 600px, added 2026-10-10): On Claude Code it also adds a hook that
+  pulls the repo and reruns your install once a day, so your skills and rules follow the repo.
+  Turn it off with `./install.sh --no-auto-update`. (The command is an inline code chip, the
+  final period outside it.)
+- Below that, one mono line (added 2026-10-10, replaces the single 2026-07-27 link, Francesco's
+  2026-10-10 decision): `Other ways to install:` muted, then four blue links, same tab:
+  [agentwheel](https://github.com/eai-org/agent-toolkit/blob/main/docs/install-with-agentwheel.md) ·
+  [skills.sh](https://github.com/eai-org/agent-toolkit/blob/main/docs/install-skills.md#install-via-skillssh) ·
+  [Claude Code plugin](https://github.com/eai-org/agent-toolkit/blob/main/docs/install-skills.md#install-via-claude-code-plugin-marketplace) ·
+  [README →](https://github.com/eai-org/agent-toolkit#how-to-install-the-skills)
+- Star line (last in the hero, below these lines, orange ★): This toolkit is entirely open source and free to
   use. [Give us a star on GitHub](https://github.com/eai-org/agent-toolkit) to support us.
 
 ## 2. The problem (pink)
@@ -66,17 +76,39 @@ Demo window (traffic-light dots, two exchanges):
 - Six cards in a 2-col grid, one per group page; each card: kicker in the group hue, bold title,
   muted line, count bottom-left, blue `Open →`. The same cards, compact (kicker + title only),
   reappear two at a time in the "Keep going" footer of every group page (§14); there a title too
-  long for one line gets a compact stand-in — `/conversational-language`: "Texts that sound like
-  real humans". Card copy:
+  long for one line gets a compact stand-in — `/talking-to-humans`: "Your voice, clear explanations". Card copy:
 
-| page | kicker (hue) | title | line | count |
-|---|---|---|---|---|
-| `/task-workflow` | Task workflow (green) | Refine, plan, act, consolidate | Turn a ticket into requirements, a plan, then code, with a clean handoff at every step. | 11 skills |
-| `/pr-review-assistants` | PR reviews (orange) | Both sides of the review | Triage the feedback your PR gets, review someone else's code, and decide whether it merges. | 4 skills |
-| `/fresh-eyes-review` | Fresh eyes review (pink) | Let a sub-agent review the code | A sub-agent with a clean context sees your changes but not the reasoning behind them, so it catches what the session that wrote them misses. | 1 skill |
-| `/context-hygiene` | Context & memory (blue) | Keep the context lean | Give your project a lean agent setup, see what auto-loads before you even type, and trim it. | 3 skills |
-| `/skills-docs-authoring` | Skill & doc authoring (purple) | Teach your agent | Write skills and docs agents actually follow, and turn every correction into a lasting lesson. | 3 skills + 3 rules |
-| `/conversational-language` | Conversational voice (blue) | Texts that sound like a real human typed them | No em dashes, no "this valuable feedback". Just what you would have written yourself, faster. | 1 skill + 2 rules |
+| page | kicker (hue) | title | line |
+|---|---|---|---|
+| `/task-workflow` | Task workflow (green) | Refine, plan, act, consolidate | Turn a ticket into requirements, a plan, then reviewed code, with a clean handoff at every step. |
+| `/pr-review-assistants` | PR reviews (orange) | Both sides of the review | Triage the feedback your PR gets, review someone else's code, and decide whether it merges. |
+| `/fresh-eyes-review` | Fresh eyes review (pink) | Let a sub-agent review the code | A sub-agent with a clean context sees your changes but not the reasoning behind them, so it catches what the session that wrote them misses. |
+| `/context-hygiene` | Context & memory (blue) | Keep the context lean | Give your project a lean agent setup, see what auto-loads before you even type, and trim it. |
+| `/skills-docs-authoring` | Skill & doc authoring (purple) | Teach your agent | Write skills and docs agents actually follow, and turn every correction into a lasting lesson. |
+| `/talking-to-humans` | Talking to humans (blue) | Texts that sound like you, explanations you understand | Texts that sound like you typed them, and explanations people understand on the first read, even in a second language. |
+
+Under the grid (muted): Looking for one skill by name? [Every skill and rule →](`/skills/`)
+
+The card count is derived from the page's `skills` and `rules` arrays in `src/data/groups.ts` as "N skills + M rules" (singular for one, the rules part only when the page has rules).
+
+## 2c. How they fit together (purple)
+
+- Kicker: How they fit together
+- Heading: One routine, from ticket to pull request
+- Muted intro: Follow them in this order, and skip the steps a small task doesn't need.
+- Chips are mono, in the group hue ("Execute the plan" in the text colour), joined by muted →
+  arrows; each is a same-tab link to its block, `/<slug>/#<name>` ("Execute the plan" to
+  `/task-workflow/#act`). Rows:
+  - A task, start to finish: `/fetch-ticket` → `/refine-ticket` → `/create-implementation-plan` →
+    Execute the plan → `/self-review` → `/handover`
+  - Optional check: `/harden-artifact`
+  - Task by task: `/split-plan-tasks` → `/execute-plan-tasks`
+  - Before you pick the ticket up: `/review-ticket` → `/verify-understanding`, then muted, unlinked
+    "then `/refine-ticket`"
+  - When the review comes back: `/fetch-pr-review` → `/refine-pr-review`, then muted, unlinked
+    "then apply the changes, or plan them first with `/create-implementation-plan`"
+- Mono link, new tab: See how the skills connect, on GitHub →
+  (`https://github.com/eai-org/agent-toolkit/tree/main#artifact-relationships`)
 
 ## 3. Principles (green)
 
@@ -122,15 +154,18 @@ Demo window (traffic-light dots, two exchanges):
      Refine, Plan, Act, Consolidate. Misunderstandings surface in a reviewable document before
      any code is written, and a failed attempt costs a retry from the last file, not the whole
      task.
-- Flow: five equal-size stage boxes (stretch grid, arrows between). Bold marks: WHAT, HOW and
-  file names (file names also mono).
+- Flow: five equal-size stage boxes (stretch grid, arrows between), same-page links to the first
+  block of their phase (Ticket to fetch-ticket, Refine to refine-ticket, Plan to
+  create-implementation-plan, Act to Execute the plan, Consolidate to the Consolidate
+  cross-link). Bold marks: WHAT, HOW, file names and commands (file names and commands also mono).
   - **Ticket** (muted border): download **TICKET.md** from your tracking board or create it
     manually
   - **Refine** (green): defines the **WHAT** and outputs **REQUIREMENTS.md**
-  - **Plan** (blue): defines the **HOW** and outputs **PLAN.md** with the implementation steps
-  - **Act** (orange): executes the plan, writing code and running checks
-  - **Consolidate** (purple): stabilizes the work: review with fresh eyes, then hand over the
-    knowledge in **HANDOVER.md**
+  - **Plan** (blue): defines the **HOW** and outputs **PLAN.md**. Optional: **/harden-artifact** checks it with fresh eyes
+  - **Act** (orange): executes the plan, writing code and running checks. Or task by task:
+    **/split-plan-tasks**, then **/execute-plan-tasks**
+  - **Consolidate** (purple): stabilizes the work: review it with fresh eyes using
+    **/self-review**, then hand over the knowledge in **HANDOVER.md**
 - Demo scripts live with their block copy in §14.
 - Page `/task-workflow` — title `Task workflow · agent-toolkit`; meta description `Refine, plan,
   act, consolidate: turn a ticket into requirements, a plan, then reviewed code, with a clean
@@ -245,7 +280,7 @@ Rewritten 2026-08-06 from the PR-review article, linked in the footer since it w
   decide.`;
   footer link (`target="_blank"`): [Read more about the PR review skills →](https://medium.com/engineering-in-the-age-of-ai/let-ai-speed-up-both-sides-of-your-code-reviews-while-you-stay-in-full-control-3b059506ef39)
 
-## 7. Fresh eyes review (orange)
+## 7. Fresh eyes review (pink)
 
 Revamped 2026-08-14 alongside the "More powerful AI reviews with fresh eyes" article; the page
 copy stays plain and newcomer-friendly, it does not quote the article.
@@ -302,6 +337,46 @@ only; do not reword it without asking.
   reviewing session can't always distinguish a bug from an intentional choice, so the
   judgment is left to the main authoring session, which knows more about the task and will
   help you judge each finding. Then you decide what needs to be addressed.
+- **self-review** (new copy added 2026-10-10, not part of the user's 2026-08-15 wording above; pink
+  title, default GitHub link, no article link), three paragraphs: Run **/self-review** (mono) on
+  your branch before you ask anyone to review it. A sub-agent with a clean context checks the
+  changes the way a maintainer would: would anything here block the merge? It also checks them
+  against your project's own docs (contributing guide, code style) and looks for leftovers like
+  debug prints and stray TODOs. It gets the branch and a short summary of the goal, not the plan
+  or notes behind it. / Then you go through the findings one at a time, each with a recommended
+  answer: fix it, dismiss it with a reason a maintainer can follow, defer it to a follow-up, or
+  just discuss it. A fix gets a new round that checks the fix and what it touches, not the whole
+  branch again. / It all ends up in a short **SELF-REVIEW.md** (mono) you paste into the PR, so
+  whoever reviews your PR sees at a glance that the work was checked. Nothing is committed or
+  pushed for you, and the PR description itself is a job for
+  [/handover](/task-workflow/#handover) (same tab). Someone else's PR? That is what
+  [/maintainer-review](/pr-review-assistants/#maintainer-review) (same tab) is for.
+- Demo:
+
+```
+> /self-review
+⏺ (muted) Goal: export users as CSV, without deleted users
+✻ Reviewing 1234-users against main in a clean context…
+⏺ 2 findings. One at a time:
+⏺ 1 · src/users/exporter.ts:44 a leftover console.log dumps every row
+  ❯ 1. Fix it (recommended)
+    2. Dismiss
+    3. Defer
+    4. Discuss
+> 1
+⏺ 2 · src/users/exporter.ts:12 the empty-list guard repeats the
+  controller's check at export.controller.ts:30
+  ❯ 1. Dismiss: the nightly job calls it too, unguarded (recommended)
+    2. Fix it
+    3. Defer
+    4. Discuss
+> 1
+✻ Round 2, checking the fix and what it touches…
+⏺ Round 2 clean. Saved 1234-users.SELF-REVIEW.md: 1 fixed, 1 dismissed
+⏺ (muted) Commit the fix, then run /self-review again to stamp the report
+⏺ (muted) Run your checks, then paste the report into the PR. Never commit it.
+```
+
 - Closing subsection "More than a code reviewer" (sans-serif h2, muted, two paragraphs):
   Reviewing code is the classic case, but not the only one! You can easily point
   it at a document: type `/fresh-eyes-review the PLAN.md against the REQUIREMENTS.md` (mono,
@@ -313,8 +388,10 @@ only; do not reword it without asking.
   it found nothing. They pass in the changes, the goal and the review instructions themselves,
   so the review starts without asking you to confirm the prompt. Works with any agent that can
   spawn sub-agents. If yours can't, the review runs in the same session and the result is
-  flagged as weaker. (/self-review, /harden-artifact and /maintainer-review each link their
-  SKILL.md on GitHub, `target="_blank"`; no link to a group page.)
+  flagged as weaker. (/self-review links the self-review block on this page, `#self-review`;
+  /maintainer-review links its block on /pr-review-assistants,
+  `/pr-review-assistants/#maintainer-review`; /harden-artifact links its block on /task-workflow,
+  `/task-workflow/#harden-artifact`; all same tab.)
 - Demo:
 
 ```
@@ -438,8 +515,8 @@ only; do not reword it without asking.
 - **self-improve** when the agent makes a mistake or doesn't behave the way you want, this skill
   captures the lesson as a diff to the skill or doc that should have prevented it. You approve
   where it lands, and the mistake doesn't repeat. Other skills feed it too: memory-doctor moves
-  stray memories into the right doc through it, and refine-pr-review hands it the lessons from a
-  PR review.
+  stray memories into the right doc through it, and refine-pr-review, self-review and
+  harden-artifact hand it the lessons from a review.
 - compact-docs-writer demo (the rewrite renders as git diff lines: pink `-` on faint red
   background, green `+` on faint green):
 
@@ -478,10 +555,13 @@ only; do not reword it without asking.
 
 - Rules subsection, hairline-separated before the Keep-going footer — sans-serif h2
   `Opinionated rules that support this approach`; intro (muted): Optional and not installed by
-  default: three rules that support this authoring approach. Bullets, each closing with a mono
+  default: four rules that support this authoring approach. Bullets, each closing with a mono
   [Read the rule →] link to its file under `rules/` on GitHub:
   - **compact-governing-docs** every edit to a skill or governing doc goes through the
     compaction skills first.
+  - **read-other-repos-governing-docs** governing docs load on their own only in the project
+    you're working in, so before the agent edits another repo, like the one your skills live in,
+    it reads and follows that repo's **AGENTS.md** (mono) or **CLAUDE.md** (mono).
   - **self-contained-docs** planning docs, and prompts that hand work to a fresh session, carry
     everything that session needs and nothing more. Prompts are written with
     **/prepare-prompt** (mono, not linked).
@@ -491,22 +571,28 @@ only; do not reword it without asking.
   description `Write skills and docs your agents actually follow, and turn every correction into
   a lasting lesson.`; no footer link (the article link moved into the intro).
 
-## 10. Conversational voice (blue)
+## 10. Talking to humans (blue)
 
-- Heading: Texts that sound like a real human typed them
-- Intro (muted, two paragraphs, revamped 2026-08-03 after the voice article): (1) We often ask
-  AI to help draft texts that other people will read: chat replies, PR comments, commit
-  messages. The agent is great at drafting them quickly, but not at matching the tone to the
-  context: a chat reply doesn't want the polish of a README, yet everything comes out in the
-  same overly formal, fancy prose that readers recognize as AI at a glance. (2) The skill and
-  rules below take the best of both worlds: the agent's speed, your voice.
+- Heading: Texts that sound like you, explanations you understand
+- Intro (muted, two paragraphs, reframed 2026-10-09): (1) The agent writes two kinds of text for
+  people. Some go out under your name, like a PR comment or a commit message, so they should
+  sound like you. The rest is the agent explaining things: to you in the session, or to a
+  teammate who reads its ticket review or test steps. Those should be clear on the first read,
+  even for someone who reads English as a second language. (2) One skill for each, and opt-in
+  rules that apply them without being asked.
+- Subsection `Texts that go out under your name` (sans-serif h2, hairline above), intro (muted):
+  We often ask AI to help draft texts that other people will read: chat replies, PR comments,
+  commit messages. The agent is great at drafting them quickly, but not at matching the tone to
+  the context: a chat reply doesn't want the polish of a README, yet everything comes out in the
+  same overly formal, fancy prose that readers recognize as AI at a glance.
 - **use-conversational-language** tells the agent to write in simple, human language instead of
   sophisticated AI prose full of — em dashes — and fancy terms. It adapts the voice to the kind
   of text (a PR comment, a chat reply, a commit message, a code comment) and changes the wording
-  only, never the content: you still review every text before it goes out. Second paragraph,
-  before the demo (names plain, no links): Other skills use it too: /handover writes your PR
-  description with it, and review skills like /review-code-assistant and /refine-pr-review word
-  the comments and replies they draft for you with it.
+  only, never the content. Second paragraph, before the demo (names plain, no links): Other
+  skills use it too: /handover writes your PR description with it, and review skills like
+  /review-code-assistant and /refine-pr-review word the comments and replies they draft for you
+  with it. The block carries a second link after `Read the SKILL.md →` (`target="_blank"`):
+  [Read more about the conversational voice →](https://medium.com/engineering-in-the-age-of-ai/how-to-use-ai-to-generate-texts-that-sound-like-a-human-would-actually-write-them-c7eef78e0b42)
 - **write-realistic-texts** opt-in rule that applies the skill automatically whenever the agent
   writes something other people will read as if you wrote it, like a commit message, a PR
   comment or a chat message, even when writing wasn't the task you gave it. Before it posts a
@@ -521,18 +607,52 @@ only; do not reword it without asking.
 - Demo (two exchanges, pink/green ⏺ like the hero):
 
 ```
-> Help me explain to my colleagues why we needed this refactor
+> Write a message to my colleagues on why we needed this refactor
 ⏺ (pink) "As part of this refactoring initiative, we have extracted the serializeUsers() method
   into a dedicated shared service — a strategic change that enhances reusability and paves the
   way for JIRA-1234, where the newly extracted method will be leveraged."
-> /use-conversational-language Help me explain to my colleagues why we needed this refactor
+> /use-conversational-language Write a message to my colleagues on why we needed this refactor
 ✻ Drafting in a human voice…
 ⏺ (green) "extracted serializeUsers() to a shared service so we can reuse it in JIRA-1234"
 ```
 
-- Page `/conversational-language` — title `Conversational language · agent-toolkit`; meta
-  description `Texts that sound like a real human typed them, not sophisticated AI prose.`;
-  footer link (`target="_blank"`): [Read more about the conversational voice →](https://medium.com/engineering-in-the-age-of-ai/how-to-use-ai-to-generate-texts-that-sound-like-a-human-would-actually-write-them-c7eef78e0b42)
+- Subsection `Explanations written to be understood` (sans-serif h2, hairline above), intro
+  (muted, two paragraphs): (1) The agent explains things to someone who did not see the files
+  and tool output it just read. It tends to write in its own shorthand, so an answer can be
+  correct and still hard to follow. (2) Not a native English speaker? One more rule makes your
+  agent talk to you in your own language, while everything it writes into the project stays in
+  English. Inline link (`target="_blank"`): [Get the use-my-mothertongue rule →](https://github.com/eai-org/agent-toolkit/blob/main/docs/use-my-mothertongue-rule.md)
+- **explain-in-simple-language** (added 2026-10-10) Rewords answers, recaps and questions to you, and
+  documents a teammate reads, like a **TICKET-REVIEW.md** (mono) or test steps, so they are
+  understood on the first read. Ask with **/explain-in-simple-language** (mono), or let the agent
+  use it on its own. It changes the wording only, never the content, without dumbing it down or
+  hiding that an agent wrote it. Second paragraph, before the demo (names plain, no links): Most
+  skills in the toolkit use it when it's installed, from the questions /refine-ticket and
+  /create-implementation-plan ask you to the TICKET-REVIEW.md that /review-ticket writes.
+- Demo (before/after, pink/green ⏺ like the hero):
+
+```
+> Why do we pass the index here?
+⏺ (pink) The class serves both directions, and the index only matters in one
+  of them.
+> /explain-in-simple-language Why do we pass the index here?
+✻ Rewording for the first read…
+⏺ (green) The class does two jobs: reading the file the user uploads and
+  writing the one they download. The index only matters for the reading
+  job.
+```
+
+- **write-simple-explanations** (rule, added 2026-10-10, no demo) Opt-in rule that applies the skill
+  every time the agent asks you something, explains a decision, how something works or why
+  something failed, gives you a recap, or writes a document a person reads, like a ticket review
+  or test steps. It also kicks in when you ask for an explanation or say you didn't get it. Short
+  status lines ("done, tests pass") and documents written for other agents, like plans, stay as
+  they are, except the questions in them meant for you. Questions and messages to you need no
+  go-ahead.
+- Page `/talking-to-humans` — title `Talking to humans · agent-toolkit`; meta description
+  `Texts that sound like you typed them, and explanations people understand on the first read,
+  even in a second language.`; `/conversational-language` redirects here (Astro redirect stub);
+  no page-level footer link (the voice article is a block link on use-conversational-language).
 
 ## 11. Opinionated rules (pink)
 
@@ -546,7 +666,8 @@ only; do not reword it without asking.
 - After the bullets (muted, added 2026-10-09): Not a native English speaker? One more rule makes
   your agent talk to you in your own language, while everything it writes into the project
   stays in English. Link (`target="_blank"`): [Get the use-my-mothertongue rule →](https://github.com/eai-org/agent-toolkit/blob/main/docs/use-my-mothertongue-rule.md)
-- Footer link (`target="_blank"`, no /rules page): [Check the full list of available rules →](https://github.com/eai-org/agent-toolkit/tree/main#rules)
+- Footer link (same tab): [Check the full list of available rules →](`/skills/#rules`)
+- Second footer link, on its own line (`target="_blank"`, added 2026-10-10): [Install skills and rules together with agentwheel →](https://github.com/eai-org/agent-toolkit/blob/main/docs/install-with-agentwheel.md)
 
 ## 12. Share your feedback (green, centered)
 
@@ -563,17 +684,17 @@ No credits section. The page ends with the feedback block, then the mono footer:
 ## 14. Group page blocks (shipped 2026-08-02)
 
 Each group page opens with a big centered mono h1 title (titles below; no kicker), then the
-§5-§10 block heading demoted to h2 with its intro (/task-workflow keeps the flow strip), then
+§5-§10 block heading demoted to h2 with its intro (/task-workflow keeps the flow strip, whose boxes link to their phase), then
 one hairline-separated block per skill — mono skill name as h2 in the group hue,
 muted text, the demo inside the block of the skill it shows, mono link
 `Read the SKILL.md →` to the skill on GitHub (rules: `Read the rule →`) — then the approved
 page-level article link where §5-§10 defines one, then the closing "Keep going" footer: two §2b
-cards in compact form, plus an `All six groups →` link. Block copy (file names mono, bold as
+cards in compact form, plus an `All groups →` link and an `Every skill and rule →` link. Block copy (file names mono, bold as
 marked):
 
 - Page titles (2026-08-01, "Task workflow skills" is Francesco's wording, the rest drafted):
   Task workflow skills · PR review assistants · Fresh eyes review · Context hygiene skills ·
-  Skills & docs authoring · Conversational language.
+  Skills & docs authoring · Talking to humans.
 - /task-workflow, under the flow strip: Each phase runs in a fresh session and hands over a file,
   not chat history, so the context stays sharp.
 
@@ -625,24 +746,92 @@ demo renders muted.
     2. create a new UserExportService
 ✻ Settling the remaining decisions…
 ⏺ Saved 1234-users.PLAN.md
-⏺ Next: /clear, then "Execute 1234-users.PLAN.md"
+⏺ Next: /clear, then "Execute the plan 1234-users.PLAN.md"
 ```
 
-- Execute the plan (non-skill block: neutral-foreground mono title, no GitHub link): The **Act**
-  phase needs no skill at all. Open a fresh session and ask the agent to execute the plan:
-  everything it needs is in **PLAN.md**. Ask it to run your project's checks too, so it verifies
-  its own work. Demo:
+- harden-artifact (added 2026-10-10; links: the default Read the SKILL.md → to GitHub, plus How the fresh
+  eyes review works → to /fresh-eyes-review/, same tab; anchor #harden-artifact): An optional
+  check between a document and the phase that builds on it. Run it on a **REQUIREMENTS.md** or a
+  **PLAN.md** in a fresh session, not the one that wrote it: a sub-agent with a clean context
+  checks it against the ticket, the code and the related tickets, and your session tries to
+  disprove each finding. You decide the ones that survive, one at a time, each with a
+  recommendation: fix, dismiss or defer. When the document is ready, you get the commands that
+  start the next phase. **/refine-ticket** (mono) and **/create-implementation-plan** (mono) both
+  offer it when they finish. Demo:
 
 ```
-> Execute 1234-users.PLAN.md, then make sure all checks pass
+> /harden-artifact 1234-users.PLAN.md
+✻ Reviewing the plan in a clean context against ticket and code…
+⏺ 2 findings. Challenged them: 1 disproved, 1 proven.
+⏺ No step excludes deleted users, which the requirements demand
+  (1234-users.REQUIREMENTS.md:41 "deleted users are excluded")
+  ❯ 1. Fix it in the plan (recommended)
+    2. Dismiss
+    3. Defer
+> 1
+✻ Round 2: a new reviewer on the fixed plan…
+⏺ No new findings. Ready for the next phase, in a fresh session:
+⏺ (muted) claude --name execute-plan-1234-users "Execute the plan
+  1234-users.PLAN.md"
+⏺ (muted) claude --name split-plan-tasks-1234-users "/split-plan-tasks
+  1234-users.PLAN.md"
+```
+
+- Execute the plan (non-skill block: neutral-foreground mono title, no GitHub link): two
+  paragraphs: (1) You can run the **Act** phase without a skill. Open a fresh session and ask the
+  agent to execute the plan: everything it needs is in **PLAN.md**. Ask it to run your project's
+  checks too, so it verifies its own work. (2) Prefer to review the work in small steps instead
+  of all at once? **/split-plan-tasks** (mono) and **/execute-plan-tasks** (mono) below split the
+  plan into tasks and run them one at a time. Demo:
+
+```
+> Execute the plan 1234-users.PLAN.md and run all the checks
 ✻ Executing step 4/6: wire the export button…
 ⏺ All 6 steps done. Lint, tests and build passing.
 ```
 
-- fresh-eyes-review cross-link on /task-workflow (pink title, no GitHub link, no demo; internal
-  link `See the fresh eyes review →` to `/fresh-eyes-review/`, same tab): First step of
-  **Consolidate**: before handing over, let a sub-agent with a clean context review the
-  changeset. It catches what the session that wrote the code misses.
+- split-plan-tasks (added 2026-10-10): Breaks the plan into small tasks you can review and commit
+  on their own, each one leaving the project building and its tests passing. Tasks are grouped so
+  that each group makes one PR, and they're ordered so you get something to click or run as early
+  as the plan allows. You approve the breakdown, then it's added to the end of **PLAN.md** as a
+  checklist. Nothing else in the plan changes. Demo:
+
+```
+> /split-plan-tasks 1234-users.PLAN.md
+✻ Reading the plan and working out the split…
+⏺ 5 tasks in 2 groups, each group one PR. Group 1 ships the CSV export
+  end to end, so you can try it right away.
+⏺ One boundary to settle: where does the audit log entry go?
+  ❯ 1. In the second PR, keeps the first one small (recommended)
+    2. With the export, in the first PR
+> 1
+⏺ Append this breakdown to 1234-users.PLAN.md?
+> y
+⏺ Task list added at the end of 1234-users.PLAN.md, the rest untouched
+⏺ (muted) Next: /clear, then /execute-plan-tasks 1234-users.PLAN.md
+```
+
+- execute-plan-tasks (added 2026-10-10): Runs one task of that checklist, then stops: it
+  implements the task, runs your project's checks and ticks it off in **PLAN.md**, so you review
+  every task before the next one starts. You get a commit subject and the command for the next
+  task; it never commits for you. It also tells you when a group is ready to become a PR. Demo:
+
+```
+> /execute-plan-tasks 1234-users.PLAN.md
+⏺ Task 1.3: wire the export button. 1.1 and 1.2 are ticked.
+✻ Implementing task 1.3, then running the checks…
+⏺ Done: 3 files changed, lint, tests and build passing. Ticked 1.3 in
+  1234-users.PLAN.md
+⏺ (green) Commit once reviewed: feat(users): wire the export button
+⏺ Group 1 is complete: ready for a PR
+⏺ (muted) Next: /clear, then /execute-plan-tasks 1234-users.PLAN.md 2.1
+```
+
+- self-review cross-link on /task-workflow (pink title, no GitHub link, no demo; `id="consolidate"`;
+  internal link `See self-review on the fresh eyes page →` to `/fresh-eyes-review/#self-review`,
+  same tab): First step of **Consolidate**: before handing over, run **/self-review** (mono) on
+  your branch. A sub-agent with a clean context checks your changes as a maintainer would, you
+  settle each finding, and a short report goes into the PR.
 - handover: Closes the task. Give it a ticket id, or nothing at all, and it finds the task's
   planning files, gathers the decisions made along the way, from the ticket to the session
   itself, matches the plan against the actual diff and writes a **HANDOVER.md**: a paste-ready
@@ -663,20 +852,10 @@ demo renders muted.
 ⏺ Saved 1234-users.HANDOVER.md, paste-ready as your PR description
 ```
 
-- Extra workflow skills, a plain section after handover (sans-serif h2 like the page intro
-  heading, muted intro): Not part of the main flow, but handy when the task calls for them.
-- create-manual-test-instructions (under Extra workflow skills, "Optional last step:" prefix
-  dropped): Turns a ticket or its requirements into a concise **MANUAL-TEST.md** a non-author
-  can follow: what changed, how to get there, before vs after, and what to verify. Demo:
-
-```
-> /create-manual-test-instructions 1234-users.REQUIREMENTS.md
-✻ Reading the requirements and the code they cite…
-⏺ Saved 1234-users.MANUAL-TEST.md, followable by someone unfamiliar
-  with the ticket
-```
-
-- review-ticket (under Extra workflow skills): A triage glance before anyone picks a ticket up:
+- Before you pick the ticket up, a plain section after handover (sans-serif h2 like the page intro
+  heading, muted intro, added 2026-10-10): Two checks before you start: is the ticket ready, and do you
+  understand it well enough to build it.
+- review-ticket (under Before you pick the ticket up): A triage glance before anyone picks a ticket up:
   compares it against the codebase and reports whether it's ready, plus the questions worth
   asking whoever owns the requirements. Each question survived an adversarial hunt for its answer
   across code, tracker, designs and docs, so you're never asked what the sources could have
@@ -695,7 +874,7 @@ demo renders muted.
 ⏺ (muted) Next: /verify-understanding 1234-users.TICKET-REVIEW.md
 ```
 
-- verify-understanding (under Extra workflow skills, added 2026-10-09): The other skills write
+- verify-understanding (under Before you pick the ticket up, added 2026-10-09): The other skills write
   files for the next agent session. This one is for you. Run it on the **TICKET-REVIEW.md**,
   right after the review or days later just before you start coding. It asks you to explain the
   feature in your own words: who uses it, what they see and do, why it exists, and what each
@@ -718,7 +897,21 @@ demo renders muted.
 ⏺ (muted) Next: /refine-ticket 1234-users.TICKET.md
 ```
 
-- check-ticket-implementation (under Extra workflow skills, added 2026-08-07), two paragraphs:
+- Along the way, a plain section after verify-understanding (same shape, added 2026-10-10): For when
+  the task calls for them: test steps for QA once the requirements are set, a check of how much
+  is already built, a grilling for a shaky plan, a prompt that hands the work to a fresh session.
+- create-manual-test-instructions (under Along the way, "Optional last step:" prefix
+  dropped): Turns a ticket or its requirements into a concise **MANUAL-TEST.md** a non-author
+  can follow: what changed, how to get there, before vs after, and what to verify. Demo:
+
+```
+> /create-manual-test-instructions 1234-users.REQUIREMENTS.md
+✻ Reading the requirements and the code they cite…
+⏺ Saved 1234-users.MANUAL-TEST.md, followable by someone unfamiliar
+  with the ticket
+```
+
+- check-ticket-implementation (under Along the way, added 2026-08-07), two paragraphs:
   (1) Answers one question: how much of this ticket is already built? It splits the ticket into
   individual requirements and judges each one against the code, so the verdict lands per
   requirement instead of on the ticket as a whole: done, partially done, not done, or not
@@ -739,7 +932,7 @@ demo renders muted.
 ⏺ Saved 1234-users.TICKET-STATUS.md
 ```
 
-- grill-me (under Extra workflow skills, added 2026-10-09, no demo; block link
+- grill-me (under Along the way, added 2026-10-09, no demo; block link
   `target="_blank"`: [See the original by Matt Pocock →](https://github.com/mattpocock/skills)):
   The interview that refine-ticket and create-implementation-plan run, on its own. Bring any
   plan, design or idea and say **grill me** (mono): the agent asks one question at a time, each
@@ -750,12 +943,23 @@ demo renders muted.
   small edit: it words its questions with
   [/explain-in-simple-language](https://github.com/eai-org/agent-toolkit/blob/main/skills/explain-in-simple-language/SKILL.md),
   so they are easy to follow.
-- prepare-prompt (under Extra workflow skills, added 2026-10-09, no demo): Every phase above
+- prepare-prompt (under Along the way, added 2026-10-09, no demo): Every phase above
   ends with a ready command for the next session. For anything else there's this skill: when a
   fresh session should continue the work, check it, or pick up what was left open, it writes
   the prompt to paste there. It keeps only what the next session can't find on its own, points
   at files instead of pasting them, and checks every path and command it prints. Asking a new
   session to check the work? It leaves out its own conclusions, so they can't steer the check.
+- **plans-directory** (rule, added 2026-10-10, no demo), the last block on the page, after
+  prepare-prompt and before the page-level article link: Opt-in rule for where planning
+  documents go: one folder per task in the project's planning directory, with file names that
+  say what each file is. The default is **.agents/plans/** (mono), so every planning file the
+  demos on this page save, like **1234-users.TICKET.md** (mono) or **1234-users.HANDOVER.md**
+  (mono), lands in **.agents/plans/1234-users/** (mono). Most skills on this page already save
+  their files this way, and with the rule installed, **/fetch-ticket** (mono) no longer has to
+  ask you where your plans live. The agent also follows it for any other planning document it
+  writes, like a design note or an investigation. If your project already has a planning
+  directory of its own, that one wins. `./install-opinionated-rules.sh` installs it along with
+  all the other rules, or you can pick only the ones you want.
 - /fresh-eyes-review: full copy and demo script in §7.
 - /context-hygiene intro, two paragraphs: (1) AI agents work at their best when the context
   window is lean. Reasoning is sharpest in the first part of the window and degrades well
@@ -772,7 +976,7 @@ demo renders muted.
   (`target="_blank"`): [Read more about memory-doctor →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257)
 - /skills-docs-authoring (reworked 2026-08-02): full copy in the rewritten §9. Layout
   deviations: the page-level article link sits in the intro as a more-link line, not a closing
-  block, and a compact rules subsection (h2, muted intro, three rule bullets with per-rule
+  block, and a compact rules subsection (h2, muted intro, four rule bullets with per-rule
   GitHub links) sits before the Keep-going footer.
 
 ## 15. About page (added 2026-08-03)
@@ -797,3 +1001,62 @@ demo renders muted.
   agent-toolkit is completely free software, released under the MIT license. Link (mono blue,
   to the repo): Browse the source on GitHub →
 - No demos, no Keep-going footer.
+
+## 16. Skills and rules catalogue (2026-10-10)
+
+- Page `/skills/`, title `Skills and rules · agent-toolkit`; meta description `Every skill and rule in agent-toolkit on one page, grouped the way the site groups them, each linking to its source on GitHub.`
+- h1 `Skills and rules`, h2 `Every skill and rule, on one page`; intro (muted): Looking for one by name? This is everything the toolkit ships, grouped the way the pages group them. Pick a name to jump to its page, or open its file on GitHub. The list is rebuilt from the toolkit repo every night.
+- One section per group: hue kicker, h2 linking the group page, rows, `Open /<slug> →`.
+- "Also in the toolkit" (only when non-empty), intro: The SKILL.md says what each one does.
+- Rules section (`#rules`), pink kicker `Opinionated rules`, no h2; intro: Opt-in and installed separately: get them all with `./install-opinionated-rules.sh` (code chip) or pick only the ones you want. The use-my-mothertongue snippet row comes last.
+- Rows: name link, muted line, `Read the SKILL.md →` / `Read the rule →` only for names placed on a group page. Lines are in `src/data/catalogue.ts`; a name with none shows its frontmatter description, sanitized (run-nx-checks has a chip and an inline-code command, see its row below).
+
+Skill lines:
+
+| skill | line |
+|---|---|
+| agentify-project | gives a project a lean, agent-neutral setup: a short AGENTS.md index, shared skills and gitignore hygiene, re-runnable as an audit |
+| attach-to-ticket | saves a screenshot or file you paste, or one you give by path or link, next to the ticket file and references it there, like an attachment the fetch could not download |
+| check-ticket-implementation | checks how much of a ticket is already built, marking each requirement done, partial, not done or not verifiable in a TICKET-STATUS.md |
+| compact-docs-writer | writes or rewrites a doc to carry every rule and intent in the least text possible |
+| compact-skill-creator | creates or edits skills, keeping them lean and effective |
+| context-checkup | audits what auto-loads into a session before you type and suggests what to trim |
+| create-implementation-plan | defines the HOW: settles the technical decisions with you and writes a PLAN.md a fresh session can execute |
+| create-manual-test-instructions | turns a ticket or its requirements into a MANUAL-TEST.md a non-author can follow |
+| execute-plan-tasks | runs one task of the PLAN.md checklist, then stops: it implements the task, runs your project's checks and ticks it off, so you review every task before the next one starts |
+| explain-in-simple-language | rewords answers, recaps and questions to you, and documents a teammate reads, so they are understood on the first read |
+| fetch-pr-review | collects the comments reviewers left on your PR into a PR-REVIEW.md, ready to address or push back on |
+| fetch-ticket | downloads a ticket from Jira, GitHub, Azure DevOps or similar into a self-contained TICKET.md, with its attachments and a list of the tickets it links |
+| fresh-eyes-review | a sub-agent with a clean context reviews a changeset and reports back what the session that wrote it misses |
+| grill-me | interviews you about any plan, design or idea, one question at a time, each with a recommended answer, until every branch is settled |
+| handover | packages a finished change as a paste-ready PR description: what it does and why, the decisions worth knowing, where to look |
+| harden-artifact | checks a REQUIREMENTS.md or PLAN.md against the ticket, the code and the related tickets in a fresh session, and you decide each finding that survives |
+| maintainer-review | reviews someone else's PR as the maintainer deciding whether it merges: every comment walked, every claim verified, nothing posted without your go-ahead |
+| memory-doctor | cleans up the memory your agent keeps accumulating on its own, moving what matters to the right place |
+| prepare-prompt | writes the prompt that hands this session's work to a fresh session, as short as the next session allows |
+| refine-pr-review | goes through a fetched review with you, comment by comment, drafting the replies and turning the accepted changes into a REQUIREMENTS.md |
+| refine-ticket | defines the WHAT: checks the ticket, or a raw idea, against the codebase, settles the open decisions with you and saves a REQUIREMENTS.md |
+| review-code-assistant | prepares your review of a PR or branch: concise comments with file and line, nothing posted |
+| review-ticket | triages a ticket before anyone picks it up: a verdict, a feature walkthrough and the questions worth raising, saved in a TICKET-REVIEW.md |
+| run-nx-checks | formats, lints, tests and builds the projects your change affects, fixes what needs no judgment call and reports the rest. Not on Nx? Leave it out with `./install.sh --exclude run-nx-checks` (chip: Nx workspaces only) |
+| self-improve | captures a lesson into the skill, doc or check that should have prevented the mistake, so it doesn't repeat |
+| self-review | checks your branch before you ask anyone to review it: a sub-agent with a clean context reviews it the way a maintainer would, you go through each finding, and a short SELF-REVIEW.md goes into the PR |
+| split-plan-tasks | breaks the plan into small tasks you can review and commit on their own, in groups that each make one PR, added to the end of PLAN.md as a checklist once you approve |
+| use-conversational-language | the voice for texts that should read as if a person typed them: PR comments, replies, commit messages, code comments |
+| verify-understanding | a teach-back chat over a TICKET-REVIEW.md: you explain the feature in your own words, the agent probes and corrects |
+
+Rule lines:
+
+| rule | line |
+|---|---|
+| compact-governing-docs | every edit to a skill or governing doc goes through the compaction skills first |
+| git-read-only-by-default | no commits, pushes or resets unless you asked for them |
+| no-ai-attribution | your work stays yours: no AI co-author, no "generated with" footer |
+| no-nonsense-comments | only comments a future reader with zero context still needs |
+| plans-directory | where planning documents go: one folder per task in the project's planning directory, .agents/plans/ by default |
+| read-other-repos-governing-docs | before the agent edits another repo, it reads and follows that repo's AGENTS.md or CLAUDE.md, since those load on their own only in the project you're working in |
+| self-contained-docs | planning docs, and prompts that hand work to a fresh session, carry everything that session needs and nothing more |
+| self-improve-on-correction | when you correct the agent on something a doc governs, it offers to capture the lesson with /self-improve |
+| write-realistic-texts | texts other people read get the conversational voice, and you see the wording before anything is posted |
+| write-simple-explanations | applies explain-in-simple-language whenever the agent asks you something, explains, recaps or writes a document a person reads |
+| use-my-mothertongue | a copy-paste snippet, not a file: your agent talks to you in your own language, while everything it writes into the project stays in English |

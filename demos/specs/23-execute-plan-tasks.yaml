@@ -1,0 +1,14 @@
+cols: 72
+rows: 12
+seed: 23-execute-plan-tasks
+events:
+  - input: 1234-users.PLAN.md
+    skill: /execute-plan-tasks
+  - output: 'Task 1.3: wire the export button. 1.1 and 1.2 are ticked.'
+  - spinner: Implementing task 1.3, then running the checks…
+  - output: 'Done: 3 files changed, lint, tests and build passing. Ticked 1.3 in 1234-users.PLAN.md'
+  - output: 'Commit once reviewed: feat(users): wire the export button'
+    color: green
+  - output: 'Group 1 is complete: ready for a PR'
+  - output: 'Next: /clear, then /execute-plan-tasks 1234-users.PLAN.md 2.1'
+    color: muted

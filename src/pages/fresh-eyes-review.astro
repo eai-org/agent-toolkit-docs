@@ -5,6 +5,7 @@ import SkillBlock from '../components/SkillBlock.astro';
 import FreshEyesFlow from '../components/FreshEyesFlow.astro';
 import DemoPlayer from '../components/DemoPlayer.astro';
 import KeepGoing from '../components/KeepGoing.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <Base
   title="Fresh eyes review · agent-toolkit"
@@ -25,7 +26,7 @@ import KeepGoing from '../components/KeepGoing.astro';
     </p>
     <FreshEyesFlow />
   </PageHeader>
-  <SkillBlock name="fresh-eyes-review" color="orange">
+  <SkillBlock name="fresh-eyes-review" color="pink">
     <p class="text-muted mb-3">
       Run it from your main session and tell it what to review: it can be a branch, a commit,
       a git diff, a couple of files, even a document (for example a PLAN.md). Or just invoke
@@ -54,6 +55,30 @@ import KeepGoing from '../components/KeepGoing.astro';
     </p>
     <DemoPlayer cast="04-fresh-eyes" cols={72} rows={26} label="fresh-eyes-review reviewing a named branch in a clean context and judging the findings" />
   </SkillBlock>
+  <SkillBlock name="self-review" color="pink" id="self-review">
+    <p class="text-muted mb-3">
+      Run <b class="sk">/self-review</b> on your branch before you ask anyone to review it. A
+      sub-agent with a clean context checks the changes the way a maintainer would: would anything
+      here block the merge? It also checks them against your project's own docs (contributing
+      guide, code style) and looks for leftovers like debug prints and stray TODOs. It gets the
+      branch and a short summary of the goal, not the plan or notes behind it.
+    </p>
+    <p class="text-muted mb-3">
+      Then you go through the findings one at a time, each with a recommended answer: fix it,
+      dismiss it with a reason a maintainer can follow, defer it to a follow-up, or just discuss it.
+      A fix gets a new round that checks the fix and what it touches, not the whole branch again.
+    </p>
+    <p class="text-muted mb-4">
+      It all ends up in a short <b class="sk">SELF-REVIEW.md</b> you paste into the PR, so whoever
+      reviews your PR sees at a glance that the work was checked. Nothing is committed or pushed
+      for you, and the PR description itself is a job for
+      <a class="more-link" href={`${base}/task-workflow/#handover`}>/handover</a>. Someone else's PR?
+      That is what
+      <a class="more-link" href={`${base}/pr-review-assistants/#maintainer-review`}>/maintainer-review</a>
+      is for.
+    </p>
+    <DemoPlayer cast="25-self-review" cols={72} rows={29} label="self-review walking two findings on a branch, then saving the report for the PR" />
+  </SkillBlock>
   <section class="px-6">
     <div class="max-w-page mx-auto border-t border-border py-10">
       <h2 class="text-2xl font-bold mb-3">More than a code reviewer</h2>
@@ -65,13 +90,12 @@ import KeepGoing from '../components/KeepGoing.astro';
       </p>
       <p class="text-muted">
         Other skills use <b class="sk">/fresh-eyes-review</b> as a building block.
-        <a class="more-link" target="_blank" rel="noopener"
-          href="https://github.com/eai-org/agent-toolkit/blob/main/skills/self-review/SKILL.md">/self-review</a> runs it on your branch before you open a PR,
-        <a class="more-link" target="_blank" rel="noopener"
-          href="https://github.com/eai-org/agent-toolkit/blob/main/skills/harden-artifact/SKILL.md">/harden-artifact</a> runs it on a REQUIREMENTS.md or PLAN.md against its
+        <a class="more-link" href="#self-review">/self-review</a> runs it on your branch before you open a PR,
+        <a class="more-link"
+          href={`${base}/task-workflow/#harden-artifact`}>/harden-artifact</a> runs it on a REQUIREMENTS.md or PLAN.md against its
         ticket, and
-        <a class="more-link" target="_blank" rel="noopener"
-          href="https://github.com/eai-org/agent-toolkit/blob/main/skills/maintainer-review/SKILL.md">/maintainer-review</a> uses it to double check its own findings on someone
+        <a class="more-link"
+          href={`${base}/pr-review-assistants/#maintainer-review`}>/maintainer-review</a> uses it to double check its own findings on someone
         else's PR, even when it found nothing. They pass in the changes, the goal and the review
         instructions themselves, so the review starts without asking you to confirm the prompt.
         Works with any agent that can spawn sub-agents. If yours can't, the review runs in the same

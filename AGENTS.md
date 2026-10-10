@@ -17,7 +17,15 @@
 - Demos are generated: edit `demos/specs/*.yaml`, never a `.cast` file. `npm run build` compiles
   them (plus `llms.txt` and the social card) before `astro build`.
 - No binaries or build output in git.
-- `npm test` runs the cast compiler tests and, if `dist/` exists, the page content checks.
+- Group page membership lives in the `skills` and `rules` arrays of `src/data/groups.ts` (GitHub-linked
+  blocks and rule bullets, page order). The card count, the page tests' link and block-count checks
+  derive from them, the cast total from `demos/specs`; `casts`, `articles`, `internalLinkLabels`
+  and `noSkillLinks` in `tests/page.test.ts` stay hand-edited.
+- `/skills/` is generated from the toolkit checkout (read only through `src/lib/toolkit.ts`); only the row lines in `src/data/catalogue.ts` are hand-written.
+- `npm test` runs the cast compiler tests and, if `dist/` exists, the page content checks. The
+  toolkit is read at `TOOLKIT_DIR` (default `../agent-toolkit`): `tests/groups.test.ts` runs without
+  `dist/` and skips only when `TOOLKIT_DIR` is unset and `../agent-toolkit` is absent (its href check
+  also needs `dist/`); `tests/catalogue.test.ts` always runs its sanitizer and line-rule tests, its drift checks follow the same skip rule; `tests/llms.test.ts` runs only with `dist/llms.txt` and then needs the toolkit, and so do the page checks when `dist/` exists (the catalogue block reads it).
 - Every PR gets a Cloudflare Pages preview (`.github/workflows/preview.yml`), built with
   `SITE_BASE=/` (previews serve at a domain root): keep paths on `import.meta.env.BASE_URL`,
   never hardcode the base. Needs repo secrets `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`,

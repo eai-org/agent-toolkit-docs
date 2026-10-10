@@ -1,6 +1,9 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, test } from 'vitest';
+import { CATALOGUE_DESCRIPTION, SNIPPET, catalogueLine } from '../src/data/catalogue';
+import { CHAIN_ROWS, chainTarget } from '../src/data/chain';
 import { GROUPS, siblingsOf } from '../src/data/groups';
+import { GITHUB_BLOB, readToolkit } from '../src/lib/toolkit';
 
 // per AGENTS.md the page checks only run when a build is present
 const d = existsSync('dist/index.html') ? describe : describe.skip;
@@ -32,6 +35,15 @@ const HANDOVER_ARTICLE =
 const GRILL_ME_SOURCE = 'https://github.com/mattpocock/skills';
 const VOICE_ARTICLE =
   'https://medium.com/engineering-in-the-age-of-ai/how-to-use-ai-to-generate-texts-that-sound-like-a-human-would-actually-write-them-c7eef78e0b42';
+const MOTHERTONGUE_DOC =
+  'https://github.com/eai-org/agent-toolkit/blob/main/docs/use-my-mothertongue-rule.md';
+const AGENTWHEEL_DOC =
+  'https://github.com/eai-org/agent-toolkit/blob/main/docs/install-with-agentwheel.md';
+const SKILLSSH_DOC =
+  'https://github.com/eai-org/agent-toolkit/blob/main/docs/install-skills.md#install-via-skillssh';
+const PLUGIN_DOC =
+  'https://github.com/eai-org/agent-toolkit/blob/main/docs/install-skills.md#install-via-claude-code-plugin-marketplace';
+const README_INSTALL = 'https://github.com/eai-org/agent-toolkit#how-to-install-the-skills';
 
 // titles carry the entity encoding of the built HTML
 const groupPages = [
@@ -46,31 +58,20 @@ const groupPages = [
       '08-fetch-ticket.cast',
       '02-refine-ticket.cast',
       '09-create-plan.cast',
+      '24-harden-artifact.cast',
       '10-execute-plan.cast',
+      '22-split-plan-tasks.cast',
+      '23-execute-plan-tasks.cast',
       '11-handover.cast',
-      '12-manual-test.cast',
       '13-review-ticket.cast',
       '21-verify-understanding.cast',
+      '12-manual-test.cast',
       '18-check-ticket.cast',
     ],
     emDashes: 0,
-    skills: [
-      'fetch-ticket',
-      'attach-to-ticket',
-      'refine-ticket',
-      'create-implementation-plan',
-      'handover',
-      'create-manual-test-instructions',
-      'review-ticket',
-      'verify-understanding',
-      'check-ticket-implementation',
-      'grill-me',
-      'prepare-prompt',
-    ],
-    rules: [],
     articles: [WORKFLOW_ARTICLE, RPA_ARTICLE, HANDOVER_ARTICLE, GRILL_ME_SOURCE],
-    internalLinkLabels: ['See the fresh eyes review'],
-    noSkillLinks: ['fresh-eyes-review'],
+    internalLinkLabels: ['See self-review on the fresh eyes page', 'How the fresh eyes review works'],
+    noSkillLinks: ['fresh-eyes-review', 'self-review'],
   },
   {
     slug: 'pr-review-assistants',
@@ -81,8 +82,6 @@ const groupPages = [
     heading: 'Help on both sides of the code review',
     casts: ['03-pr-review.cast', '17-review-code-assistant.cast', '20-maintainer-review.cast'],
     emDashes: 0,
-    skills: ['fetch-pr-review', 'refine-pr-review', 'review-code-assistant', 'maintainer-review'],
-    rules: [],
     articles: [PR_REVIEW_ARTICLE],
     internalLinkLabels: [],
   },
@@ -93,12 +92,11 @@ const groupPages = [
       "An AI agent reviewing its own code will tell you everything looks fine, while a fresh session finds the real problems. One command spawns a reviewing session with a clean context: it sees the changes but never the author's reasoning, and catches what the author can't.",
     pageTitle: 'Fresh eyes review',
     heading: 'Let a sub-agent review the code',
-    casts: ['04-fresh-eyes.cast'],
+    casts: ['04-fresh-eyes.cast', '25-self-review.cast'],
     emDashes: 0,
-    skills: ['fresh-eyes-review', 'self-review', 'harden-artifact', 'maintainer-review'],
-    rules: [],
     articles: [FRESH_EYES_ARTICLE],
     internalLinkLabels: [],
+    noSkillLinks: ['harden-artifact', 'maintainer-review'],
   },
   {
     slug: 'context-hygiene',
@@ -109,8 +107,6 @@ const groupPages = [
     heading: 'Your context is often cluttered before you even type',
     casts: ['05-context-checkup.cast', '16-memory-doctor.cast', '19-agentify-project.cast'],
     emDashes: 0,
-    skills: ['context-checkup', 'memory-doctor', 'agentify-project'],
-    rules: [],
     articles: [CONTEXT_ARTICLE, MEMORY_ARTICLE],
     internalLinkLabels: [],
   },
@@ -123,29 +119,31 @@ const groupPages = [
     heading: 'Create and continuously improve the skills and docs your agents rely on',
     casts: ['14-compact-doc.cast', '15-create-skill.cast', '06-self-improve.cast'],
     emDashes: 0,
-    skills: ['compact-docs-writer', 'compact-skill-creator', 'self-improve'],
-    rules: ['compact-governing-docs', 'self-contained-docs', 'self-improve-on-correction'],
     articles: [AUTHORING_ARTICLE],
     internalLinkLabels: ['Read more about this approach'],
   },
   {
-    slug: 'conversational-language',
-    title: 'Conversational language · agent-toolkit',
-    description: 'Texts that sound like a real human typed them, not sophisticated AI prose.',
-    pageTitle: 'Conversational language',
-    heading: 'Texts that sound like a real human typed them',
-    casts: ['07-explain-refactor.cast'],
+    slug: 'talking-to-humans',
+    title: 'Talking to humans · agent-toolkit',
+    description:
+      'Texts that sound like you typed them, and explanations people understand on the first read, even in a second language.',
+    pageTitle: 'Talking to humans',
+    heading: 'Texts that sound like you, explanations you understand',
+    casts: ['07-explain-refactor.cast', '26-explain-simple.cast'],
     emDashes: 2,
-    skills: ['use-conversational-language'],
-    rules: ['write-realistic-texts', 'no-nonsense-comments'],
-    articles: [VOICE_ARTICLE],
+    articles: [VOICE_ARTICLE, MOTHERTONGUE_DOC],
     internalLinkLabels: [],
   },
 ];
 
-d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading, casts: pageCasts, emDashes, skills, rules, articles, internalLinkLabels = [], noSkillLinks = [] }) => {
+d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading, casts: pageCasts, emDashes, articles, internalLinkLabels = [], noSkillLinks = [] }) => {
   const doc = () => read(`dist/${slug}/index.html`);
   const url = () => `https://eai-org.github.io${baseFrom()}/${slug}/`;
+  const group = () => {
+    const found = GROUPS.find((g) => g.slug === slug);
+    if (!found) throw new Error(`unknown group: ${slug}`);
+    return found;
+  };
 
   test('carries its title and meta description', () => {
     expect(doc()).toContain(`<title>${title}</title>`);
@@ -183,12 +181,12 @@ d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading
   });
 
   test('has a block per skill, each linking its SKILL.md on GitHub', () => {
-    for (const skill of skills) {
+    for (const skill of group().skills) {
       expect(doc(), skill).toContain(
         `href="https://github.com/eai-org/agent-toolkit/blob/main/skills/${skill}/SKILL.md"`,
       );
     }
-    for (const rule of rules) {
+    for (const rule of group().rules) {
       expect(doc(), rule).toContain(
         `href="https://github.com/eai-org/agent-toolkit/blob/main/rules/${rule}.md"`,
       );
@@ -203,6 +201,19 @@ d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading
     }
   });
 
+  test('Keep going links the full catalogue', () => {
+    const html = doc();
+    const keep = html.slice(html.indexOf('Keep going</div>'));
+    const section = keep.slice(0, keep.indexOf('</section>'));
+    expect(section).toContain('Every skill and rule');
+    expect(section).toContain(`href="${baseFrom()}/skills/"`);
+  });
+
+  test('has exactly as many Read links as its group lists', () => {
+    expect((doc().match(/Read the SKILL\.md/g) ?? []).length).toBe(group().skills.length);
+    expect((doc().match(/Read the rule/g) ?? []).length).toBe(group().rules.length);
+  });
+
   test('links to its articles only where there are any', () => {
     if (articles.length === 0) expect(doc()).not.toContain('medium.com');
     for (const article of articles) expect(doc()).toContain(`href="${article}"`);
@@ -215,11 +226,35 @@ d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading
   });
 });
 
+d('cross-page block links', () => {
+  test('fresh-eyes-review links harden-artifact to its block on task-workflow', () => {
+    expect(read('dist/fresh-eyes-review/index.html')).toContain(
+      `href="${baseFrom()}/task-workflow/#harden-artifact"`,
+    );
+    const workflow = read('dist/task-workflow/index.html');
+    expect(workflow).toContain('id="harden-artifact"');
+    expect(workflow).not.toContain('id="Execute the plan"');
+    expect(workflow).not.toContain('id="fresh-eyes-review"');
+  });
+
+  test('self-review, maintainer-review and handover cross-links reach their blocks', () => {
+    const b = baseFrom();
+    const tw = read('dist/task-workflow/index.html');
+    const fe = read('dist/fresh-eyes-review/index.html');
+    expect(tw).toContain(`href="${b}/fresh-eyes-review/#self-review"`);
+    expect(tw).not.toContain('id="self-review"');
+    expect(fe).toContain('href="#self-review"');
+    expect(fe).toContain(`href="${b}/pr-review-assistants/#maintainer-review"`);
+    expect(fe).toContain(`href="${b}/task-workflow/#handover"`);
+  });
+});
+
 d('homepage', () => {
   const ORDER = [
     'Give us a star on GitHub',
     'Different projects, same repetitive tasks',
     'Several groups of skills',
+    'One routine, from ticket to pull request',
     'Core ideas behind every skill',
     'A toolkit, not a framework',
     'Opinionated rules',
@@ -239,6 +274,46 @@ d('homepage', () => {
     }
   });
 
+  test('skills chain chips link to a block that exists', () => {
+    const html = read('dist/index.html');
+    for (const row of CHAIN_ROWS) {
+      for (const node of row.nodes) {
+        const t = chainTarget(node);
+        expect(html, t.text).toContain(`href="${baseFrom()}/${t.slug}/#${t.anchor}"`);
+        expect(read(`dist/${t.slug}/index.html`), t.text).toContain(`id="${t.anchor}"`);
+      }
+    }
+  });
+
+  test('skills chain section carries its copy and nothing else', () => {
+    const full = read('dist/index.html');
+    const start = full.indexOf('id="skills-chain"');
+    const html = full.slice(start, full.indexOf('Core ideas behind every skill')).replace(/\s+/g, ' ');
+    expect(html).toContain('class="kicker text-purple">How they fit together<');
+    expect(html).toContain("Follow them in this order, and skip the steps a small task doesn't need.");
+    for (const row of CHAIN_ROWS) {
+      expect(html, row.label).toContain(row.label);
+      if (row.tail) {
+        expect(html, row.tail.text).toContain(row.tail.text);
+        expect(html, row.tail.command).toContain(row.tail.command);
+      }
+    }
+    expect(html).toContain('href="https://github.com/eai-org/agent-toolkit/tree/main#artifact-relationships"');
+    expect(html).toContain('target="_blank" rel="noopener"');
+    expect(html).toContain('See how the skills connect, on GitHub &rarr;');
+
+    let pos = -1;
+    const nodes = CHAIN_ROWS.flatMap((r) => r.nodes);
+    for (const node of nodes) {
+      const t = chainTarget(node);
+      const next = html.indexOf(`href="${baseFrom()}/${t.slug}/#${t.anchor}"`);
+      expect(next, t.text).toBeGreaterThan(pos);
+      pos = next;
+    }
+    expect(html.match(/class="chip/g)?.length).toBe(nodes.length);
+    expect(html).not.toMatch(/<svg|<script|class="[^"]*\b(stage|grid)\b/);
+  });
+
   test('carries exactly one demo, the hero', () => {
     expect(casts(read('dist/index.html'))).toEqual(['01-hero-voice.cast']);
   });
@@ -251,6 +326,11 @@ d('homepage', () => {
     }
   });
 
+  test('every card shows its derived count', () => {
+    const html = read('dist/index.html');
+    for (const group of GROUPS) expect(html, group.slug).toContain(`>${group.count}</span>`);
+  });
+
   test('the two article links moved to their group pages', () => {
     const html = read('dist/index.html');
     expect(html).not.toContain('Read more about the task workflow');
@@ -258,14 +338,57 @@ d('homepage', () => {
     expect(html).not.toContain(WORKFLOW_ARTICLE);
   });
 
-  test('the rules block still links to the GitHub rules list', () => {
-    expect(read('dist/index.html')).toContain('https://github.com/eai-org/agent-toolkit/tree/main#rules');
+  test('the rules block links the full list on /skills/', () => {
+    const html = read('dist/index.html');
+    const href = `href="${baseFrom()}/skills/#rules"`;
+    expect(html).toContain(href);
+    const tag = html.slice(html.lastIndexOf('<a', html.indexOf(href)), html.indexOf('>', html.indexOf(href)));
+    expect(tag).not.toContain('target=');
+    expect(html).not.toContain('tree/main#rules');
+  });
+
+  test('whats-inside points to the catalogue', () => {
+    const html = read('dist/index.html');
+    const from = html.slice(html.indexOf('id="whats-inside"'));
+    const section = from.slice(0, from.indexOf('</section>'));
+    expect(section).toContain('Looking for one skill by name?');
+    expect(section).toContain('Every skill and rule');
+    expect(section).toContain(`href="${baseFrom()}/skills/"`);
   });
 
   test('the rules block links the mothertongue rule', () => {
     expect(read('dist/index.html')).toContain(
       'href="https://github.com/eai-org/agent-toolkit/blob/main/docs/use-my-mothertongue-rule.md"',
     );
+  });
+
+  const heroSlice = () => {
+    const html = read('dist/index.html');
+    const start = html.indexOf('id="install"');
+    return html.slice(start, html.indexOf('Give us a star on GitHub', start));
+  };
+
+  test('the hero keeps the install anchor', () => {
+    expect(read('dist/index.html')).toContain('id="install"');
+  });
+
+  test('the hero discloses auto-update and links the other install channels', () => {
+    const hero = heroSlice();
+    for (const url of [AGENTWHEEL_DOC, SKILLSSH_DOC, PLUGIN_DOC, README_INSTALL]) {
+      expect(hero).toContain(`href="${url}"`);
+    }
+    expect(hero).toContain('--no-auto-update');
+    expect(hero.split('Other ways to install').length - 1).toBe(1);
+    expect(hero).not.toContain('Other ways to install &rarr;');
+    expect(hero).not.toContain('Other ways to install →');
+    expect(hero).not.toContain('target=');
+  });
+
+  test('the rules block links agentwheel', () => {
+    const tag = read('dist/index.html').match(/<a [^>]*>\s*Install skills and rules together with agentwheel/);
+    expect(tag).not.toBeNull();
+    expect(tag![0]).toContain(`href="${AGENTWHEEL_DOC}"`);
+    expect(tag![0]).toContain('target="_blank"');
   });
 
   test('no em dashes left on the homepage', () => {
@@ -309,6 +432,7 @@ d('site-wide', () => {
   const PAGES = [
     'dist/index.html',
     'dist/about/index.html',
+    'dist/skills/index.html',
     ...GROUPS.map((g) => `dist/${g.slug}/index.html`),
   ];
 
@@ -316,14 +440,15 @@ d('site-wide', () => {
     for (const p of PAGES) expect(existsSync(p), p).toBe(true);
   });
 
-  test('all twenty-one casts play, each on exactly one page', () => {
+  test('all casts play, each on exactly one page', () => {
     const seen = new Map<string, string[]>();
     for (const p of PAGES) {
       for (const m of new Set(casts(read(p)))) {
         seen.set(m, [...(seen.get(m) ?? []), p]);
       }
     }
-    expect(seen.size).toBe(21);
+    const specs = readdirSync('demos/specs').filter((f) => f.endsWith('.yaml'));
+    expect(seen.size).toBe(specs.length);
     for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
   });
 
@@ -351,10 +476,10 @@ d('site-wide', () => {
     for (const p of PAGES) expect(read(p), p).not.toMatch(/[‘’]/);
   });
 
-  test('em dashes only on the conversational page', () => {
+  test('em dashes only on the talking-to-humans page', () => {
     for (const p of PAGES) {
       const count = (read(p).match(/—/g) ?? []).length;
-      expect(count, p).toBe(p.includes('conversational') ? 2 : 0);
+      expect(count, p).toBe(p === 'dist/talking-to-humans/index.html' ? 2 : 0);
     }
   });
 
@@ -364,6 +489,10 @@ d('site-wide', () => {
 
   test('the nav reaches the About page from every page', () => {
     for (const p of PAGES) expect(read(p), p).toContain(`href="${baseFrom()}/about/"`);
+  });
+
+  test('the nav reaches the catalogue from every page', () => {
+    for (const p of PAGES) expect(read(p), p).toContain(`href="${baseFrom()}/skills/"`);
   });
 
   test('every group page keeps going to its two siblings and the full grid', () => {
@@ -379,7 +508,168 @@ d('site-wide', () => {
     }
   });
 
+  test('every fragment link lands on an id, and no page repeats an id', () => {
+    const ids = (html: string) => [...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]);
+    const esc = (x: string) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const pageOf = (path: string) =>
+      path ? `dist/${path.replace(/\/$/, '')}/index.html` : 'dist/index.html';
+    for (const p of PAGES) {
+      const html = read(p);
+      const all = ids(html);
+      const dupes = all.filter((id, i) => all.indexOf(id) !== i);
+      expect(dupes, p).toEqual([]);
+      for (const m of html.matchAll(/href="#([^"]+)"/g)) expect(all, `${p} #${m[1]}`).toContain(m[1]);
+      const internal = new RegExp(`href="${esc(baseFrom())}/([^"#]*)#([^"]+)"`, 'g');
+      for (const m of html.matchAll(internal)) {
+        const target = pageOf(m[1]);
+        expect(existsSync(target), `${p} -> ${target}`).toBe(true);
+        expect(ids(read(target)), `${p} -> ${m[1]}#${m[2]}`).toContain(m[2]);
+      }
+    }
+  });
+
   test('no separator line spans the full viewport width', () => {
     for (const p of PAGES) expect(read(p), p).not.toMatch(/<section[^>]*border-t/);
   });
+});
+
+d('task-workflow structure', () => {
+  const html = () => read('dist/task-workflow/index.html');
+
+  test('the strip boxes link to their phase, in order', () => {
+    const hrefs = [...html().matchAll(/<a\b[^>]*\bclass="stage\b[^>]*>/g)].map(
+      (m) => m[0].match(/href="([^"]*)"/)?.[1],
+    );
+    expect(hrefs).toEqual(['#fetch-ticket', '#refine-ticket', '#create-implementation-plan', '#act', '#consolidate']);
+  });
+
+  test('the extras sit in two sections after handover', () => {
+    const doc = html();
+    const order = [
+      '>handover</h2>',
+      '>Before you pick the ticket up</h2>',
+      '>review-ticket</h2>',
+      '>verify-understanding</h2>',
+      '>Along the way</h2>',
+      '>create-manual-test-instructions</h2>',
+      '>check-ticket-implementation</h2>',
+      '>grill-me</h2>',
+      '>prepare-prompt</h2>',
+      '>plans-directory</h2>',
+      'Read more about the task workflow',
+    ];
+    let pos = -1;
+    for (const s of order) {
+      const next = doc.indexOf(s);
+      expect(next, s).toBeGreaterThan(pos);
+      pos = next;
+    }
+    expect(doc).not.toContain('Extra workflow skills');
+  });
+});
+
+d('old /conversational-language URL', () => {
+  test('redirects to /talking-to-humans/ under the build base', () => {
+    const stub = read('dist/conversational-language/index.html');
+    expect(stub).toContain(`content="0;url=${baseFrom()}/talking-to-humans/"`);
+    expect(stub).toContain(`href="https://eai-org.github.io${baseFrom()}/talking-to-humans/"`);
+  });
+});
+
+d('catalogue page', () => {
+  const doc = () => read('dist/skills/index.html');
+  const escape = (x: string) =>
+    x.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/'/g, '&#39;').replace(/"/g, '&quot;');
+  const names = () => {
+    const { skills, rules } = readToolkit();
+    return { skills, rules };
+  };
+
+  test('carries its title and meta description', () => {
+    expect(doc()).toContain('<title>Skills and rules · agent-toolkit</title>');
+    expect(doc()).toContain(`<meta name="description" content="${CATALOGUE_DESCRIPTION}">`);
+  });
+
+  test('has one h1, the heading and the intro', () => {
+    const headings = [...doc().matchAll(/<h1[^>]*>([^<]*)<\/h1>/g)].map((m) => m[1]);
+    expect(headings).toEqual(['Skills and rules']);
+    expect(doc()).toContain('>Every skill and rule, on one page</h2>');
+    expect(doc()).toContain('Looking for one by name?');
+    expect(casts(doc())).toEqual([]);
+  });
+
+  test('links every skill, rule and the snippet on GitHub', () => {
+    const { skills, rules } = names();
+    for (const s of skills) expect(doc(), s.name).toContain(`href="${GITHUB_BLOB}/skills/${s.name}/SKILL.md"`);
+    for (const r of rules) expect(doc(), r.name).toContain(`href="${GITHUB_BLOB}/rules/${r.name}.md"`);
+    expect(doc()).toContain(`href="${GITHUB_BLOB}/${SNIPPET.path}"`);
+    expect(doc()).toContain('id="rules"');
+  });
+
+  test('links every group and every placed name to its block', () => {
+    const { skills, rules } = names();
+    const known = new Set([...skills, ...rules].map((i) => i.name));
+    for (const g of GROUPS) {
+      expect(doc(), g.slug).toContain(`href="${baseFrom()}/${g.slug}/"`);
+      for (const n of [...g.skills, ...g.rules].filter((x) => known.has(x))) {
+        expect(doc(), n).toContain(`href="${baseFrom()}/${g.slug}/#${n}"`);
+        expect(read(`dist/${g.slug}/index.html`), n).toContain(`id="${n}"`);
+      }
+    }
+  });
+
+  test('shows every name once, rules only in the rules section', () => {
+    const { skills, rules } = names();
+    const html = doc();
+    const rulesAt = html.indexOf('id="rules"');
+    const count = (n: string) => [...html.matchAll(new RegExp(`<b class="sk">${n}</b>`, 'g'))];
+    for (const s of skills) {
+      const found = count(s.name);
+      expect(found, s.name).toHaveLength(1);
+      expect(found[0].index!, s.name).toBeLessThan(rulesAt);
+    }
+    for (const n of [...rules.map((r) => r.name), SNIPPET.name]) {
+      const found = count(n);
+      expect(found, n).toHaveLength(1);
+      expect(found[0].index!, n).toBeGreaterThan(rulesAt);
+    }
+  });
+
+  test('unplaced skills sit under Also in the toolkit', () => {
+    const { skills } = names();
+    const placed = new Set(GROUPS.flatMap((g) => g.skills));
+    const unplaced = skills.filter((s) => !placed.has(s.name));
+    const html = doc();
+    if (!unplaced.length) return expect(html).not.toContain('Also in the toolkit');
+    const from = html.indexOf('Also in the toolkit');
+    const to = html.indexOf('id="rules"');
+    expect(from).toBeGreaterThan(-1);
+    for (const s of unplaced) {
+      const at = html.indexOf(`<b class="sk">${s.name}</b>`);
+      expect(at, s.name).toBeGreaterThan(from);
+      expect(at, s.name).toBeLessThan(to);
+    }
+  });
+
+  test('run-nx-checks row carries its chip and opt-out command', () => {
+    expect(doc()).toContain('Nx workspaces only');
+    expect(doc()).toContain('--exclude run-nx-checks');
+  });
+
+  test('every row shows its line', () => {
+    const { skills, rules } = names();
+    for (const i of [...skills, ...rules]) {
+      expect(doc(), i.name).toContain(escape(catalogueLine(i.name, i.description)));
+    }
+    expect(doc()).toContain(escape(SNIPPET.line));
+  });
+});
+
+describe('skills chain data', () => {
+  test.each(CHAIN_ROWS.flatMap((r) => r.nodes).filter((n): n is string => typeof n === 'string'))(
+    '%s sits in exactly one group',
+    (name) => {
+      expect(GROUPS.filter((g) => g.skills.includes(name)).length, name).toBe(1);
+    },
+  );
 });
