@@ -1,8 +1,8 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, test } from 'vitest';
-import { toolkitDir } from '../scripts/lib/toolkit';
+import { CATALOGUE_DESCRIPTION } from '../src/data/catalogue';
 import { GROUPS } from '../src/data/groups';
+import { readToolkit } from '../src/lib/toolkit';
 
 const GITHUB = 'https://github.com/eai-org/agent-toolkit/blob/main';
 
@@ -12,20 +12,18 @@ const llms = () => readFileSync('dist/llms.txt', 'utf8');
 
 d('llms.txt', () => {
   test('lists every skill', () => {
-    const skills = readdirSync(join(toolkitDir, 'skills')).filter((name) =>
-      existsSync(join(toolkitDir, 'skills', name, 'SKILL.md')),
-    );
+    const { skills } = readToolkit();
     expect(skills.length).toBeGreaterThan(0);
-    for (const name of skills) {
+    for (const { name } of skills) {
       expect(llms(), name).toContain(`- [${name}](${GITHUB}/skills/${name}/SKILL.md)`);
     }
   });
 
   test('lists every rule, plus the mothertongue snippet', () => {
-    const rules = readdirSync(join(toolkitDir, 'rules')).filter((f) => f.endsWith('.md'));
+    const { rules } = readToolkit();
     expect(rules.length).toBeGreaterThan(0);
-    for (const f of rules) {
-      expect(llms(), f).toContain(`- [${f.replace(/\.md$/, '')}](${GITHUB}/rules/${f})`);
+    for (const { name } of rules) {
+      expect(llms(), name).toContain(`- [${name}](${GITHUB}/rules/${name}.md)`);
     }
     expect(llms()).toContain(`${GITHUB}/docs/use-my-mothertongue-rule.md`);
   });
@@ -42,5 +40,15 @@ d('llms.txt', () => {
     for (const slug of [...GROUPS.map((g) => g.slug), 'about']) expect(llms(), slug).toContain(`/${slug}/`);
     const root = llms().match(/\]\((\S+\/)about\/\)/)![1];
     expect(llms(), 'homepage').toContain(`](${root}):`);
+  });
+
+  test('lists the skills and rules page before the About entry, after the groups', () => {
+    const pages = llms().slice(llms().indexOf('## Pages'));
+    const root = llms().match(/\]\((\S+\/)about\/\)/)![1];
+    const entry = `- [Skills and rules](${root}skills/): ${CATALOGUE_DESCRIPTION}`;
+    const at = pages.indexOf(entry);
+    expect(at).toBeGreaterThan(-1);
+    expect(at).toBeGreaterThan(pages.indexOf(`/${GROUPS.at(-1)!.slug}/)`));
+    expect(at).toBeLessThan(pages.indexOf('- [About us]('));
   });
 });

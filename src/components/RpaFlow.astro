@@ -1,11 +1,11 @@
-<div class="grid items-stretch gap-1.5 my-4 md:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr]">
-  <div class="stage border-border"><b class="text-muted">Ticket</b><span>download <b class="file">TICKET.md</b> from your tracking board or create it manually</span></div>
+<div class="grid items-stretch gap-1.5 my-4 lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr_auto_1fr]">
+  <a href="#fetch-ticket" class="stage border-border no-underline"><b class="text-muted">Ticket</b><span>download <b class="file">TICKET.md</b> from your tracking board or create it manually</span></a>
   <span class="arrow">&rarr;</span>
-  <div class="stage border-green"><b class="text-green">Refine</b><span>defines the <b>WHAT</b> and outputs <b class="file">REQUIREMENTS.md</b></span></div>
+  <a href="#refine-ticket" class="stage border-green no-underline"><b class="text-green">Refine</b><span>defines the <b>WHAT</b> and outputs <b class="file">REQUIREMENTS.md</b></span></a>
   <span class="arrow">&rarr;</span>
-  <div class="stage border-blue"><b class="text-blue">Plan</b><span>defines the <b>HOW</b> and outputs <b class="file">PLAN.md</b> with the implementation steps</span></div>
+  <a href="#create-implementation-plan" class="stage border-blue no-underline"><b class="text-blue">Plan</b><span>defines the <b>HOW</b> and outputs <b class="file">PLAN.md</b>. Optional: <b class="file">/harden-artifact</b> checks it with fresh eyes</span></a>
   <span class="arrow">&rarr;</span>
-  <div class="stage border-orange"><b class="text-orange">Act</b><span>executes the plan, writing code and running checks</span></div>
+  <a href="#act" class="stage border-orange no-underline"><b class="text-orange">Act</b><span>executes the plan, writing code and running checks. Or task by task: <b class="file">/split-plan-tasks</b>, then <b class="file">/execute-plan-tasks</b></span></a>
   <span class="arrow">&rarr;</span>
-  <div class="stage border-purple"><b class="text-purple">Consolidate</b><span>stabilizes the work: review with fresh eyes, then hand over the knowledge in <b class="file">HANDOVER.md</b></span></div>
+  <a href="#consolidate" class="stage border-purple no-underline"><b class="text-purple">Consolidate</b><span>stabilizes the work: review it with fresh eyes using <b class="file">/self-review</b>, then hand over the knowledge in <b class="file">HANDOVER.md</b></span></a>
 </div>

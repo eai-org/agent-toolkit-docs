@@ -12,5 +12,5 @@ events:
       - text: create a new UserExportService
   - spinner: Settling the remaining decisions…
   - output: Saved 1234-users.PLAN.md
-  - output: 'Next: /clear, then "Execute 1234-users.PLAN.md"'
+  - output: 'Next: /clear, then "Execute the plan 1234-users.PLAN.md"'
     color: muted

@@ -1,0 +1,19 @@
+cols: 72
+rows: 20
+seed: 22-split-plan-tasks
+events:
+  - input: 1234-users.PLAN.md
+    skill: /split-plan-tasks
+  - spinner: Reading the plan and working out the split…
+  - output: '5 tasks in 2 groups, each group one PR. Group 1 ships the CSV export end to end, so you can try it right away.'
+  - output: 'One boundary to settle: where does the audit log entry go?'
+  - options:
+      - text: In the second PR, keeps the first one small
+        recommended: true
+      - text: With the export, in the first PR
+  - input: '1'
+  - output: Append this breakdown to 1234-users.PLAN.md?
+  - input: y
+  - output: Task list added at the end of 1234-users.PLAN.md, the rest untouched
+  - output: 'Next: /clear, then /execute-plan-tasks 1234-users.PLAN.md'
+    color: muted

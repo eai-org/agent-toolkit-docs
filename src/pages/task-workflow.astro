@@ -66,19 +66,58 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </p>
     <DemoPlayer cast="09-create-plan" cols={72} rows={12} label="create-implementation-plan asking where the serializer should live" />
   </SkillBlock>
-  <SkillBlock name="Execute the plan" color="text" github={false}>
+  <SkillBlock name="harden-artifact" color="green" id="harden-artifact"
+    link={`${base}/fresh-eyes-review/`} linkLabel="How the fresh eyes review works">
     <p class="text-muted mb-4">
-      The <b>Act</b> phase needs no skill at all. Open a fresh session and ask the agent to
+      An optional check between a document and the phase that builds on it. Run it on a
+      <b class="sk">REQUIREMENTS.md</b> or a <b class="sk">PLAN.md</b> in a fresh session, not
+      the one that wrote it: a sub-agent with a clean context checks it against the ticket, the
+      code and the related tickets, and your session tries to disprove each finding. You decide
+      the ones that survive, one at a time, each with a recommendation: fix, dismiss or defer.
+      When the document is ready, you get the commands that start the next phase.
+      <b class="sk">/refine-ticket</b> and <b class="sk">/create-implementation-plan</b> both
+      offer it when they finish.
+    </p>
+    <DemoPlayer cast="24-harden-artifact" cols={72} rows={21} label="harden-artifact fixing a proven gap in the plan, then handing off the next phase" />
+  </SkillBlock>
+  <SkillBlock name="Execute the plan" color="text" github={false} id="act">
+    <p class="text-muted mb-3">
+      You can run the <b>Act</b> phase without a skill. Open a fresh session and ask the agent to
       execute the plan: everything it needs is in <b class="sk">PLAN.md</b>. Ask it to run your
       project's checks too, so it verifies its own work.
     </p>
+    <p class="text-muted mb-4">
+      Prefer to review the work in small steps instead of all at once?
+      <b class="sk">/split-plan-tasks</b> and <b class="sk">/execute-plan-tasks</b> below split
+      the plan into tasks and run them one at a time.
+    </p>
     <DemoPlayer cast="10-execute-plan" cols={72} rows={7} label="a plain prompt executing the plan and running the checks" />
   </SkillBlock>
-  <SkillBlock name="fresh-eyes-review" color="pink" github={false}
-    link={`${base}/fresh-eyes-review/`} linkLabel="See the fresh eyes review">
+  <SkillBlock name="split-plan-tasks" color="green">
+    <p class="text-muted mb-4">
+      Breaks the plan into small tasks you can review and commit on their own, each one leaving
+      the project building and its tests passing. Tasks are grouped so that each group makes one
+      PR, and they're ordered so you get something to click or run as early as the plan allows.
+      You approve the breakdown, then it's added to the end of <b class="sk">PLAN.md</b> as a
+      checklist. Nothing else in the plan changes.
+    </p>
+    <DemoPlayer cast="22-split-plan-tasks" cols={72} rows={20} label="split-plan-tasks settling a group boundary, then appending the task list to the plan once approved" />
+  </SkillBlock>
+  <SkillBlock name="execute-plan-tasks" color="green">
+    <p class="text-muted mb-4">
+      Runs one task of that checklist, then stops: it implements the task, runs your project's
+      checks and ticks it off in <b class="sk">PLAN.md</b>, so you review every task before the
+      next one starts. You get a commit subject and the command for the next task; it never
+      commits for you. It also tells you when a group is ready to become a PR.
+    </p>
+    <DemoPlayer cast="23-execute-plan-tasks" cols={72} rows={12} label="execute-plan-tasks finishing one task, ticking it off and handing over the next" />
+  </SkillBlock>
+  <SkillBlock name="self-review" color="pink" github={false} id="consolidate"
+    link={`${base}/fresh-eyes-review/#self-review`} linkLabel="See self-review on the fresh eyes page">
     <p class="text-muted">
-      First step of <b>Consolidate</b>: before handing over, let a sub-agent with a clean context
-      review the changeset. It catches what the session that wrote the code misses.
+      First step of <b>Consolidate</b>: before handing over, run <b class="sk">/self-review</b>
+      on your branch. A sub-agent with a clean context checks your changes as a maintainer would,
+      you settle each finding, and a short report goes into the PR.
     </p>
   </SkillBlock>
   <SkillBlock name="handover" color="green"
@@ -96,17 +135,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </SkillBlock>
   <section class="px-6">
     <div class="max-w-page mx-auto border-t border-border py-10">
-      <h2 class="text-2xl font-bold mb-3">Extra workflow skills</h2>
-      <p class="text-muted">Not part of the main flow, but handy when the task calls for them.</p>
+      <h2 class="text-2xl font-bold mb-3">Before you pick the ticket up</h2>
+      <p class="text-muted">Two checks before you start: is the ticket ready, and do you understand it well enough to build it.</p>
     </div>
   </section>
-  <SkillBlock name="create-manual-test-instructions" color="green">
-    <p class="text-muted mb-4">
-      Turns a ticket or its requirements into a concise <b class="sk">MANUAL-TEST.md</b> a
-      non-author can follow: what changed, how to get there, before vs after, and what to verify.
-    </p>
-    <DemoPlayer cast="12-manual-test" cols={72} rows={8} label="create-manual-test-instructions saving a manual test file" />
-  </SkillBlock>
   <SkillBlock name="review-ticket" color="green">
     <p class="text-muted mb-4">
       A triage glance before anyone picks a ticket up: compares it against the codebase and
@@ -131,6 +163,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       point.
     </p>
     <DemoPlayer cast="21-verify-understanding" cols={72} rows={19} label="verify-understanding correcting a teach-back from the ticket review" />
+  </SkillBlock>
+  <section class="px-6">
+    <div class="max-w-page mx-auto border-t border-border py-10">
+      <h2 class="text-2xl font-bold mb-3">Along the way</h2>
+      <p class="text-muted">For when the task calls for them: test steps for QA once the requirements are set, a check of how much is already built, a grilling for a shaky plan, a prompt that hands the work to a fresh session.</p>
+    </div>
+  </section>
+  <SkillBlock name="create-manual-test-instructions" color="green">
+    <p class="text-muted mb-4">
+      Turns a ticket or its requirements into a concise <b class="sk">MANUAL-TEST.md</b> a
+      non-author can follow: what changed, how to get there, before vs after, and what to verify.
+    </p>
+    <DemoPlayer cast="12-manual-test" cols={72} rows={8} label="create-manual-test-instructions saving a manual test file" />
   </SkillBlock>
   <SkillBlock name="check-ticket-implementation" color="green">
     <p class="text-muted mb-3">
@@ -175,6 +220,21 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       find on its own, points at files instead of pasting them, and checks every path and command
       it prints. Asking a new session to check the work? It leaves out its own conclusions, so
       they can't steer the check.
+    </p>
+  </SkillBlock>
+  <SkillBlock name="plans-directory" color="green" rule>
+    <p class="text-muted">
+      Opt-in rule for where planning documents go: one folder per task in the project's planning
+      directory, with file names that say what each file is. The default is
+      <b class="sk">.agents/plans/</b>, so every planning file the demos on this page save, like
+      <b class="sk">1234-users.TICKET.md</b> or <b class="sk">1234-users.HANDOVER.md</b>, lands in
+      <b class="sk">.agents/plans/1234-users/</b>. Most skills on this page already save their
+      files this way, and with the rule installed, <b class="sk">/fetch-ticket</b> no longer has
+      to ask you where your plans live. The agent also follows it for any other planning document
+      it writes, like a design note or an investigation. If your project already has a planning
+      directory of its own, that one wins.
+      <code class="font-mono text-[12px] bg-panel2 border border-border rounded px-1.5 whitespace-nowrap">./install-opinionated-rules.sh</code>
+      installs it along with all the other rules, or you can pick only the ones you want.
     </p>
   </SkillBlock>
   <section class="px-6">

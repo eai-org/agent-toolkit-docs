@@ -1,0 +1,32 @@
+cols: 72
+rows: 29
+seed: 25-self-review
+events:
+  - input: ''
+    skill: /self-review
+  - output: 'Goal: export users as CSV, without deleted users'
+    color: muted
+  - spinner: Reviewing 1234-users against main in a clean context…
+  - output: '2 findings. One at a time:'
+  - output: '1 · src/users/exporter.ts:44 a leftover console.log dumps every row'
+  - options:
+      - text: Fix it
+        recommended: true
+      - text: Dismiss
+      - text: Defer
+      - text: Discuss
+  - input: '1'
+  - output: "2 · src/users/exporter.ts:12 the empty-list guard repeats the controller's check at export.controller.ts:30"
+  - options:
+      - text: 'Dismiss: the nightly job calls it too, unguarded'
+        recommended: true
+      - text: Fix it
+      - text: Defer
+      - text: Discuss
+  - input: '1'
+  - spinner: Round 2, checking the fix and what it touches…
+  - output: 'Round 2 clean. Saved 1234-users.SELF-REVIEW.md: 1 fixed, 1 dismissed'
+  - output: Commit the fix, then run /self-review again to stamp the report
+    color: muted
+  - output: Run your checks, then paste the report into the PR. Never commit it.
+    color: muted

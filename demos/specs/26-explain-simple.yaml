@@ -1,0 +1,12 @@
+cols: 72
+rows: 14
+seed: 26-explain-simple
+events:
+  - input: Why do we pass the index here?
+  - output: 'The class serves both directions, and the index only matters in one of them.'
+    color: pink
+  - input: Why do we pass the index here?
+    skill: /explain-in-simple-language
+  - spinner: Rewording for the first read…
+  - output: 'The class does two jobs: reading the file the user uploads and writing the one they download. The index only matters for the reading job.'
+    color: green

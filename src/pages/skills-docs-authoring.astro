@@ -43,8 +43,8 @@ import KeepGoing from '../components/KeepGoing.astro';
       When the agent makes a mistake or doesn't behave the way you want, this skill captures the
       lesson as a diff to the skill or doc that should have prevented it. You approve where it
       lands, and the mistake doesn't repeat. Other skills feed it too: memory-doctor moves stray
-      memories into the right doc through it, and refine-pr-review hands it the lessons from a PR
-      review.
+      memories into the right doc through it, and refine-pr-review, self-review and
+      harden-artifact hand it the lessons from a review.
     </p>
     <DemoPlayer cast="06-self-improve" cols={72} rows={14} label="self-improve capturing a lesson as a doc diff" />
   </SkillBlock>
@@ -52,18 +52,22 @@ import KeepGoing from '../components/KeepGoing.astro';
     <div class="max-w-page mx-auto border-t border-border py-10">
       <h2 class="text-2xl font-bold mb-3">Opinionated rules that support this approach</h2>
       <p class="text-muted">
-        Optional and not installed by default: three rules that support this authoring approach.
+        Optional and not installed by default: four rules that support this authoring approach.
       </p>
       <ul class="bullets my-4">
-        <li><b class="sk">compact-governing-docs</b>
+        <li id="compact-governing-docs"><b class="sk">compact-governing-docs</b>
           <span class="text-muted">every edit to a skill or governing doc goes through the compaction skills first.</span>
           <a class="more-link" target="_blank" rel="noopener"
             href="https://github.com/eai-org/agent-toolkit/blob/main/rules/compact-governing-docs.md">Read the rule &rarr;</a></li>
-        <li><b class="sk">self-contained-docs</b>
+        <li id="read-other-repos-governing-docs"><b class="sk">read-other-repos-governing-docs</b>
+          <span class="text-muted">governing docs load on their own only in the project you're working in, so before the agent edits another repo, like the one your skills live in, it reads and follows that repo's <b class="sk">AGENTS.md</b> or <b class="sk">CLAUDE.md</b>.</span>
+          <a class="more-link" target="_blank" rel="noopener"
+            href="https://github.com/eai-org/agent-toolkit/blob/main/rules/read-other-repos-governing-docs.md">Read the rule &rarr;</a></li>
+        <li id="self-contained-docs"><b class="sk">self-contained-docs</b>
           <span class="text-muted">planning docs, and prompts that hand work to a fresh session, carry everything that session needs and nothing more. Prompts are written with <b class="sk">/prepare-prompt</b>.</span>
           <a class="more-link" target="_blank" rel="noopener"
             href="https://github.com/eai-org/agent-toolkit/blob/main/rules/self-contained-docs.md">Read the rule &rarr;</a></li>
-        <li><b class="sk">self-improve-on-correction</b>
+        <li id="self-improve-on-correction"><b class="sk">self-improve-on-correction</b>
           <span class="text-muted">when you correct the agent on something a doc governs, it offers to capture the lesson with /self-improve.</span>
           <a class="more-link" target="_blank" rel="noopener"
             href="https://github.com/eai-org/agent-toolkit/blob/main/rules/self-improve-on-correction.md">Read the rule &rarr;</a></li>
