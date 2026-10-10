@@ -51,7 +51,7 @@ const install = [
   '## Install',
   '```sh\n' + CLONE + '\n```',
   'Rules are opt-in: `./install-opinionated-rules.sh` installs them all, or pick only the ones you want.',
-  `- [Install the skills](${GITHUB}/docs/install-skills.md)\n- [Install with agentwheel](${GITHUB}/docs/install-with-agentwheel.md)`,
+  `- [Install the skills](${GITHUB}/docs/install-skills.md)\n- [Install the rules](${GITHUB}/docs/install-rules.md)\n- [Install with agentwheel](${GITHUB}/docs/install-with-agentwheel.md)`,
 ].join('\n\n');
 
 const pages = [
