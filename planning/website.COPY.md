@@ -350,34 +350,6 @@ only; do not reword it without asking.
 ## 8. Context & memory hygiene (blue)
 
 - Heading: Your context is often cluttered before you even type
-- **agentify-project** (added 2026-10-09, first block, no article link): Gets a project ready
-  for a team where everyone may use a different agent. It audits the current setup, then moves
-  it step by step to one shared, lean structure: a short AGENTS.md linking to detail docs that
-  load only when needed, a CLAUDE.md that points to it, skills every agent can find, and the
-  right gitignore entries. Run **/agentify-project audit** (mono) any time to see what drifted.
-  Each step waits for your approval, and it never commits. Demo (runs the full mode; the real
-  menu is multi-select, rendered single-select with All):
-
-```
-> /agentify-project
-✻ Auditing the agent setup…
-⏺ CLAUDE.md is 180 lines and there is no AGENTS.md. What should I fix?
-  ❯ 1. All (recommended)
-    2. Entry files: AGENTS.md plus a CLAUDE.md pointer
-    3. Slim AGENTS.md into linked docs
-    4. Gitignore hygiene
-> 1
-⏺ Step 1: rename CLAUDE.md to AGENTS.md and turn CLAUDE.md into a
-  pointer to it. Apply?
-> y
-⏺ Step 2: move 4 sections into docs/, linked from AGENTS.md. Apply?
-> y
-⏺ Step 3: add the agent entries to .gitignore. Apply?
-> y
-⏺ Done. All steps applied, every reference checked.
-⏺ (muted) Next: /memory-doctor, then /context-checkup
-```
-
 - **context-checkup**: Audits everything that auto-loads at startup: the governing-doc chain,
   skill descriptions, MCP servers, memory. It measures each source instead of guessing, ranks
   the trims by payoff and keeps every change reversible. Nothing is touched without your
@@ -413,6 +385,34 @@ only; do not reword it without asking.
     2. Archive it
     3. Keep it
     4. Something else
+```
+
+- **agentify-project** (added 2026-10-09, last block, no article link): Gets a project ready
+  for a team where everyone may use a different agent. It audits the current setup, then moves
+  it step by step to one shared, lean structure: a short AGENTS.md linking to detail docs that
+  load only when needed, a CLAUDE.md that points to it, skills every agent can find, and the
+  right gitignore entries. Run **/agentify-project audit** (mono) any time to see what drifted.
+  Each step waits for your approval, and it never commits. Demo (runs the full mode; the real
+  menu is multi-select, rendered single-select with All):
+
+```
+> /agentify-project
+✻ Auditing the agent setup…
+⏺ CLAUDE.md is 180 lines and there is no AGENTS.md. What should I fix?
+  ❯ 1. All (recommended)
+    2. Entry files: AGENTS.md plus a CLAUDE.md pointer
+    3. Slim AGENTS.md into linked docs
+    4. Gitignore hygiene
+> 1
+⏺ Step 1: rename CLAUDE.md to AGENTS.md and turn CLAUDE.md into a
+  pointer to it. Apply?
+> y
+⏺ Step 2: move 4 sections into docs/, linked from AGENTS.md. Apply?
+> y
+⏺ Step 3: add the agent entries to .gitignore. Apply?
+> y
+⏺ Done. All steps applied, every reference checked.
+⏺ (muted) Next: /memory-doctor, then /context-checkup
 ```
 
 - Page `/context-hygiene` — title `Context hygiene · agent-toolkit`; meta description `Give your
@@ -745,6 +745,11 @@ demo renders muted.
   plan, design or idea and say **grill me** (mono): the agent asks one question at a time, each
   with its recommended answer, until every branch is settled. What the code can answer, it looks
   up instead of asking you. Want a REQUIREMENTS.md at the end? Use refine-ticket instead.
+  Second paragraph (credit, both links `target="_blank"`): This skill was originally created by
+  [Matt Pocock](https://github.com/mattpocock). We made it available in this toolkit with one
+  small edit: it words its questions with
+  [/explain-in-simple-language](https://github.com/eai-org/agent-toolkit/blob/main/skills/explain-in-simple-language/SKILL.md),
+  so they are easy to follow.
 - prepare-prompt (under Extra workflow skills, added 2026-10-09, no demo): Every phase above
   ends with a ready command for the next session. For anything else there's this skill: when a
   fresh session should continue the work, check it, or pick up what was left open, it writes
@@ -757,12 +762,12 @@ demo renders muted.
   before the hard limit, so every token you load has to earn its place. The smaller the
   context, the sharper the agent. (2) Much of that context is spent before you even type:
   governing docs, skills, MCP servers and auto-memory all load at startup. Run these three
-  skills from time to time to keep it in check: one gives your project a lean setup to start
-  from, one measures what loads and trims it, and one clears out what your agent saved on its
-  own.
-- agentify-project is the first block on /context-hygiene: copy and demo script in §8.
+  skills from time to time to keep it in check: one measures what loads and trims it, one
+  clears out what your agent saved on its own, and one gives your project a lean setup to start
+  from.
+- agentify-project is the last block on /context-hygiene: copy and demo script in §8.
 - context-checkup block link (`target="_blank"`): [Read more about the context window →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-context-window-sharp-7255d83a8949)
-- memory-doctor: full description and third demo script in §8 (shipped 2026-08-02), demo label
+- memory-doctor: full description and second demo script in §8 (shipped 2026-08-02), demo label
   `memory-doctor relocating a block`. Block link
   (`target="_blank"`): [Read more about memory-doctor →](https://medium.com/engineering-in-the-age-of-ai/keep-your-ai-agents-memory-clean-and-organized-with-memory-doctor-a79f7174f257)
 - /skills-docs-authoring (reworked 2026-08-02): full copy in the rewritten §9. Layout

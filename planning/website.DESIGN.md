@@ -188,7 +188,7 @@ out in `website.COPY.md`.
 15. compact-skill-creator trigger-type intake, then the drafted skill (spec `15-create-skill`) —
     /skills-docs-authoring.
 16. memory-doctor relocating one block into its doc, four options ending in "Something else"
-    (spec `16-memory-doctor`) — /context-hygiene, third demo on that page.
+    (spec `16-memory-doctor`) — /context-hygiene, second demo on that page.
 17. review-code-assistant surfacing one grounded finding as three outputs: the heading line, the
     expected-vs-actual explanation and the green paste-ready suggested comment (spec
     `17-review-code-assistant`, added 2026-08-06) — /pr-review-assistants, second
@@ -199,7 +199,7 @@ out in `website.COPY.md`.
 19. agentify-project audit, the multi-select menu rendered single-select with All
     recommended, each of the three steps proposed and approved, the run confirmed, then the
     memory-doctor and context-checkup hand-off (spec `19-agentify-project`, added 2026-10-09) —
-    /context-hygiene, first demo on that page.
+    /context-hygiene, last demo on that page.
 20. maintainer-review verdict, one blocking finding, one walked comment answered but still
     applying, then the recommended next action (spec `20-maintainer-review`, added 2026-10-09) —
     /pr-review-assistants, third demo on that page.

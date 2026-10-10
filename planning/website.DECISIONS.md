@@ -52,7 +52,7 @@ Pages as planned for the expansion:
 | `/pr-review-assistants` | Incoming PR (fetch-pr-review, refine-pr-review); reviewing others' code (review-code-assistant); deciding the merge (maintainer-review) |
 | `/fresh-eyes-review` | fresh-eyes-review — separate concept: validating your own work with a clean context |
 | `/conversational-language` | use-conversational-language (+ write-realistic-texts and no-nonsense-comments rules). Proven crowd favorite |
-| `/context-hygiene` | agentify-project, context-checkup, memory-doctor |
+| `/context-hygiene` | context-checkup, memory-doctor, agentify-project |
 | `/skills-docs-authoring` | compact-skill-creator, compact-docs-writer, self-improve |
 | `/rules` | Opt-in rules, clearly framed as opt-in. Adapted pattern: links go to rule files (rules have no SKILL.md); the demo shows a rule steering behavior, e.g. git-read-only-by-default declining an unrequested push and asking for explicit confirmation |
 | catalog page | Full skill/rule reference, generated at build time from SKILL.md frontmatter and rule files — cannot drift from the repo |
