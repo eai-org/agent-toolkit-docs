@@ -1,19 +1,17 @@
 cols: 72
-rows: 20
+rows: 14
 seed: 22-split-plan-tasks
 events:
   - input: 1234-users.PLAN.md
     skill: /split-plan-tasks
   - spinner: Reading the plan and working out the split…
-  - output: '5 tasks in 2 groups, each group one PR. Group 1 ships the CSV export end to end, so you can try it right away.'
-  - output: 'One boundary to settle: where does the audit log entry go?'
+  - output: '6 steps into 4 tasks in 2 groups. Group 1 ships the export endpoint, so you can call it right away'
+  - output: Does the CSV format option get its own task?
   - options:
-      - text: In the second PR, keeps the first one small
+      - text: no, it lands with the export endpoint
         recommended: true
-      - text: With the export, in the first PR
-  - input: '1'
-  - output: Append this breakdown to 1234-users.PLAN.md?
-  - input: y
-  - output: Task list added at the end of 1234-users.PLAN.md, the rest untouched
+      - text: yes, a task of its own
+  - spinner: Appending the task list to the plan…
+  - output: Added 4 tasks in 2 groups to 1234-users.PLAN.md
   - output: 'Next: /clear, then /execute-plan-tasks 1234-users.PLAN.md'
     color: muted

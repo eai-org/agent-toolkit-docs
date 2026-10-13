@@ -59,19 +59,19 @@ const groupPages = [
       '02-refine-ticket.cast',
       '09-create-plan.cast',
       '24-harden-artifact.cast',
-      '10-execute-plan.cast',
       '22-split-plan-tasks.cast',
+      '10-execute-plan.cast',
       '23-execute-plan-tasks.cast',
       '11-handover.cast',
+      '12-manual-test.cast',
       '13-review-ticket.cast',
       '21-verify-understanding.cast',
-      '12-manual-test.cast',
       '18-check-ticket.cast',
     ],
     emDashes: 0,
     articles: [WORKFLOW_ARTICLE, RPA_ARTICLE, HANDOVER_ARTICLE, GRILL_ME_SOURCE],
-    internalLinkLabels: ['See self-review on the fresh eyes page', 'How the fresh eyes review works'],
-    noSkillLinks: ['fresh-eyes-review', 'self-review'],
+    internalLinkLabels: ['See the fresh eyes review', 'How the fresh eyes review works'],
+    noSkillLinks: ['fresh-eyes-review'],
   },
   {
     slug: 'pr-review-assistants',
@@ -231,21 +231,48 @@ d('cross-page block links', () => {
     expect(read('dist/fresh-eyes-review/index.html')).toContain(
       `href="${baseFrom()}/task-workflow/#harden-artifact"`,
     );
-    const workflow = read('dist/task-workflow/index.html');
-    expect(workflow).toContain('id="harden-artifact"');
-    expect(workflow).not.toContain('id="Execute the plan"');
-    expect(workflow).not.toContain('id="fresh-eyes-review"');
+    expect(read('dist/task-workflow/index.html')).toContain('id="harden-artifact"');
   });
 
   test('self-review, maintainer-review and handover cross-links reach their blocks', () => {
     const b = baseFrom();
-    const tw = read('dist/task-workflow/index.html');
     const fe = read('dist/fresh-eyes-review/index.html');
-    expect(tw).toContain(`href="${b}/fresh-eyes-review/#self-review"`);
-    expect(tw).not.toContain('id="self-review"');
     expect(fe).toContain('href="#self-review"');
     expect(fe).toContain(`href="${b}/pr-review-assistants/#maintainer-review"`);
     expect(fe).toContain(`href="${b}/task-workflow/#handover"`);
+  });
+});
+
+d('task-workflow phases', () => {
+  const doc = () => read('dist/task-workflow/index.html');
+  // the phase headings and the blocks under them, in page order; every id is a jump-list target
+  const ORDER = [
+    'ticket', 'fetch-ticket', 'attach-to-ticket',
+    'refine', 'refine-ticket',
+    'plan', 'create-implementation-plan', 'harden-artifact', 'split-plan-tasks',
+    'act', 'execute-the-plan', 'execute-plan-tasks',
+    'consolidate', 'fresh-eyes-review', 'handover',
+    'extra', 'create-manual-test-instructions', 'review-ticket', 'verify-understanding',
+    'check-ticket-implementation', 'grill-me', 'prepare-prompt', 'plans-directory',
+  ];
+
+  test('every phase and block has an anchor, in flow order', () => {
+    let pos = -1;
+    for (const id of ORDER) {
+      const next = doc().indexOf(`<section id="${id}"`);
+      expect(next, id).toBeGreaterThan(pos);
+      pos = next;
+    }
+  });
+
+  test('the jump list reaches every anchor', () => {
+    for (const id of ORDER) expect(doc(), id).toContain(`href="#${id}"`);
+  });
+
+  test('skill names nest under the phase headings as h3', () => {
+    expect(doc()).toMatch(/<h2[^>]*>Decide how to build it<\/h2>/);
+    expect(doc()).toMatch(/<h3[^>]*>split-plan-tasks<\/h3>/);
+    expect(doc()).not.toMatch(/<h2[^>]*>[a-z-]+<\/h2>/);
   });
 });
 
@@ -540,31 +567,7 @@ d('task-workflow structure', () => {
     const hrefs = [...html().matchAll(/<a\b[^>]*\bclass="stage\b[^>]*>/g)].map(
       (m) => m[0].match(/href="([^"]*)"/)?.[1],
     );
-    expect(hrefs).toEqual(['#fetch-ticket', '#refine-ticket', '#create-implementation-plan', '#act', '#consolidate']);
-  });
-
-  test('the extras sit in two sections after handover', () => {
-    const doc = html();
-    const order = [
-      '>handover</h2>',
-      '>Before you pick the ticket up</h2>',
-      '>review-ticket</h2>',
-      '>verify-understanding</h2>',
-      '>Along the way</h2>',
-      '>create-manual-test-instructions</h2>',
-      '>check-ticket-implementation</h2>',
-      '>grill-me</h2>',
-      '>prepare-prompt</h2>',
-      '>plans-directory</h2>',
-      'Read more about the task workflow',
-    ];
-    let pos = -1;
-    for (const s of order) {
-      const next = doc.indexOf(s);
-      expect(next, s).toBeGreaterThan(pos);
-      pos = next;
-    }
-    expect(doc).not.toContain('Extra workflow skills');
+    expect(hrefs).toEqual(['#ticket', '#refine', '#plan', '#act', '#consolidate']);
   });
 });
 

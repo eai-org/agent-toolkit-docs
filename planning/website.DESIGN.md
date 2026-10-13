@@ -73,6 +73,8 @@ Demos depict a Claude Code-like agent app, never a bash shell (no `$` prompts):
   shrink to 12-13px, the page gutter is 1rem, the back arrow hides, GitHub is the 16px Lucide icon
   (`aria-label="GitHub"`) and `About us` reads `About`, so the bar fits 360px in one row.
 - Motion: per DECISIONS — demo players only, plus CSS blinking cursor after the hero h1.
+- Anchors: `html { scroll-padding-top: 4rem }`, so an in-page target stops below the sticky nav
+  (2026-10-13).
 
 ## Homepage (approved skeleton; final copy in `website.COPY.md`)
 
@@ -115,25 +117,33 @@ standard shell as (expansion built 2026-08-01, block copy draft in `website.COPY
 3. Intro section, borderless: the block heading demoted to h2, intro line(s); /task-workflow
    keeps the flow strip, whose boxes link to their phase (see its deviations).
 4. One hairline-separated block per skill (`SkillBlock.astro`, py-10 vs the sections' py-14):
-   mono skill name as h2 in the group hue, 1-3 muted lines, the demo inside the block of the
+   mono skill name as h2 in the group hue (h3 on /task-workflow, under its phase h2s), 1-3
+   muted lines, the demo inside the block of the
    skill it shows, mono `Read the SKILL.md →` link to GitHub (rules: `Read the rule →`), plus the
    per-block article links COPY §14 defines. No icons yet (open item). Each block's `<section>`
-   carries an anchor id: the `id` prop when passed, else the block `name` on blocks that link
-   GitHub (rule blocks included); a `github={false}` block gets none unless passed one. A global
-   `[id] { scroll-margin-top: 4rem }` in `global.css` keeps every anchor jump below the sticky nav;
-   no per-component scroll margin.
+   carries its slugged `name` as anchor id (`lib/slug.ts`).
 5. Page-level article link where the copy defines one, as a slim closing block.
 6. "Keep going" footer (`KeepGoing.astro`): the next two groups in order, wrapping, as compact
    2-col cards (kicker + one-line title, long titles swapped for their short stand-in), plus an
    `All groups →` link to the homepage grid and an `Every skill and rule →` link to `/skills/`.
 
-/task-workflow deviations (RPAC revamp 2026-08-02): a five-stage flow strip (Consolidate added,
-purple); a non-skill block "Execute the plan" (neutral-foreground mono title, no GitHub link); an
-internal cross-link block for self-review, the first Consolidate step (pink title, `BASE_URL`-based link to
-`/fresh-eyes-review/#self-review`, no demo); two extras subsections after handover, "Before you pick the ticket up" and "Along the way" (sans-serif h2 + muted
-intro each, like the page intro heading); the flow strip is the page's map (added 2026-10-10): each box is a same-page link (`<a class="stage">`, existing look, `panel2` background on hover through an unlayered `a.stage:hover` rule, the global focus outline, no smooth scroll) to `#fetch-ticket`, `#refine-ticket`, `#create-implementation-plan`, `#act`, `#consolidate`; commands and file names in a box are mono `<b class="file">`; horizontal with arrows from `lg` (1024px), stacked full width without arrows below `lg` (phones and tablets); "Execute the plan" carries `id="act"` and the Consolidate cross-link `id="consolidate"`; the harden-artifact block (added 2026-10-10) is the first block with
-both its GitHub link and an internal link (`How the fresh eyes review works →` to
-`/fresh-eyes-review/`, same tab).
+/task-workflow deviations (RPAC revamp 2026-08-02, phases 2026-10-13): a five-stage flow strip
+(Consolidate added, purple), the page's map (added 2026-10-10): each box is a same-page link
+(`<a class="stage">`, existing look, `panel2` background on hover through an unlayered
+`a.stage:hover` rule, the global focus outline, no smooth scroll) to its phase heading, `#ticket`,
+`#refine`, `#plan`, `#act`, `#consolidate`; commands and file names in a box are mono
+`<b class="file">`; horizontal with arrows from `lg` (1024px), stacked full width without arrows
+below `lg` (phones and tablets); under it a jump list (muted `On this page` lead, a row per phase:
+mono uppercase phase link in the stage hue, then `bg-panel2` bordered mono chips linking each
+block's anchor); the blocks grouped under phase headings (`PhaseHeading.astro`: kicker in the
+stage hue + sans h2, border-t py-10 like a block, `id` per phase; skill names demoted to h3,
+every `SkillBlock` carrying `id` = its slugged name, so `#fetch-ticket` works on every group
+page); a non-skill block "Execute the plan" (neutral-foreground mono title, no GitHub link); an
+internal cross-link block for fresh-eyes-review (pink title, `BASE_URL`-based link to
+`/fresh-eyes-review/`, no demo); "Extra workflow skills" is the last phase heading (kicker `Any
+time`, muted), the plans-directory rule block its last block; the harden-artifact block (added
+2026-10-10, under Plan) is the first block with both its GitHub link and an internal link
+(`How the fresh eyes review works →` to `/fresh-eyes-review/`, same tab).
 
 /skills-docs-authoring deviations (2026-08-02; each rule bullet carries `id="<rule-name>"`): the page-level article link renders in the intro
 as a more-link line instead of a closing block, and a compact rules subsection sits before the
@@ -199,12 +209,12 @@ out in `website.COPY.md`.
 8. fetch-ticket saving a ticket into a self-contained file, then the next-step hand-off —
    /task-workflow.
 9. create-implementation-plan asking where the serializer should live, then the save and the
-   next-step hand-off — /task-workflow.
+   next-step hand-off, execute or split (2026-10-13) — /task-workflow.
 10. plain-prompt plan execution running the checks (no skill invoked) — /task-workflow.
 11. handover saving a paste-ready PR description — /task-workflow.
-12. create-manual-test-instructions saving a manual test file — /task-workflow, under Along the way.
+12. create-manual-test-instructions saving a manual test file — /task-workflow, under Extra workflow skills.
 13. review-ticket delivering its triage verdict, closing on the muted `/verify-understanding`
-    hand-off — /task-workflow, under Before you pick the ticket up.
+    hand-off — /task-workflow, under Extra workflow skills.
 14. compact-docs-writer minimal rewrite diff with a measured word delta (spec `14-compact-doc`) —
     /skills-docs-authoring.
 15. compact-skill-creator trigger-type intake, then the drafted skill (spec `15-create-skill`) —
@@ -217,7 +227,7 @@ out in `website.COPY.md`.
     demo on that page.
 18. check-ticket-implementation reporting the tally, the requirements needing attention and one
     partial block with its evidence ref (spec `18-check-ticket`, added 2026-08-07) —
-    /task-workflow, under Along the way. Only demo carrying status emoji.
+    /task-workflow, under Extra workflow skills. Only demo carrying status emoji.
 19. agentify-project audit, the multi-select menu rendered single-select with All
     recommended, each of the three steps proposed and approved, the run confirmed, then the
     memory-doctor and context-checkup hand-off (spec `19-agentify-project`, added 2026-10-09) —
@@ -228,19 +238,16 @@ out in `website.COPY.md`.
 21. verify-understanding teach-back: the developer explains the 1234-users export, is
     corrected from the review, and gets the open question to raise with the PO, then the
     refine-ticket hand-off (spec `21-verify-understanding`, added 2026-10-09) — /task-workflow,
-    under Before you pick the ticket up.
-22. split-plan-tasks splitting the 1234-users plan into 5 tasks in 2 PR-sized groups, one
-    boundary question (where the audit log entry goes) answered with the typed 1, the approval
-    question answered y, then the task list appended to the plan and the muted
-    execute-plan-tasks hand-off (spec `22-split-plan-tasks`, added 2026-10-10) — /task-workflow,
-    after Execute the plan.
-23. execute-plan-tasks running task 1.3 (wire the export button), checks passing and the task
-    ticked, the green commit subject, the group-complete line, then the muted hand-off to task
-    2.1 (spec `23-execute-plan-tasks`, added 2026-10-10) — /task-workflow, after
-    split-plan-tasks.
+    under Extra workflow skills.
+22. split-plan-tasks settling one task boundary, then appending the task list and the
+    execute-plan-tasks hand-off (spec `22-split-plan-tasks`, added 2026-10-13) — /task-workflow,
+    under Plan.
+23. execute-plan-tasks picking the first task, implementing and verifying it, ticking it off,
+    then the commit subject and the next-task hand-off (spec `23-execute-plan-tasks`, added
+    2026-10-13) — /task-workflow, under Act.
 24. harden-artifact on the 1234-users plan: one proven finding fixed, a clean second round, then
     the two launch commands for the next phase (spec `24-harden-artifact`, added 2026-10-10) —
-    /task-workflow, after create-implementation-plan.
+    /task-workflow, under Plan.
 25. self-review with no argument on the 1234-users branch: the goal it judges against, two
     findings walked one at a time, a leftover fixed and a redundancy dismissed with a reason, a
     round 2 on the fix, the saved report and the commit, stamp, checks and paste reminders (spec

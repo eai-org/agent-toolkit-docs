@@ -1,4 +1,5 @@
 ---
+import { slug } from '../lib/slug';
 interface Props {
   name: string;
   color: 'green' | 'blue' | 'orange' | 'purple' | 'pink' | 'text';
@@ -8,9 +9,10 @@ interface Props {
   linkLabel?: string;
   article?: string;
   articleLabel?: string;
-  id?: string;
+  /** 3 on a page that groups its blocks under h2 phase headings */
+  level?: 2 | 3;
 }
-const { name, color, rule = false, github = true, link, linkLabel, article, articleLabel, id } =
+const { name, color, rule = false, github = true, link, linkLabel, article, articleLabel, level = 2 } =
   Astro.props;
 const repo = 'https://github.com/eai-org/agent-toolkit/blob/main';
 const githubHref = rule ? `${repo}/rules/${name}.md` : `${repo}/skills/${name}/SKILL.md`;
@@ -18,11 +20,12 @@ const nameColor = {
   green: 'text-green', blue: 'text-blue', orange: 'text-orange',
   purple: 'text-purple', pink: 'text-pink', text: 'text-text',
 }[color];
-const anchor = id ?? (github ? name : undefined);
+const Heading = `h${level}` as 'h2' | 'h3';
+// the id makes every block linkable, from a page's jump list or a shared URL
 ---
-<section id={anchor} class="px-6">
+<section id={slug(name)} class="px-6">
   <div class="max-w-page mx-auto border-t border-border py-10">
-    <h2 class:list={['font-mono text-lg font-bold mb-3', nameColor]}>{name}</h2>
+    <Heading class:list={['font-mono text-lg font-bold mb-3', nameColor]}>{name}</Heading>
     <slot />
     {(github || link || article) && (
       <p class="mt-4 flex flex-wrap gap-x-6 gap-y-1">

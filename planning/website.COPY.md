@@ -154,10 +154,8 @@ The card count is derived from the page's `skills` and `rules` arrays in `src/da
      Refine, Plan, Act, Consolidate. Misunderstandings surface in a reviewable document before
      any code is written, and a failed attempt costs a retry from the last file, not the whole
      task.
-- Flow: five equal-size stage boxes (stretch grid, arrows between), same-page links to the first
-  block of their phase (Ticket to fetch-ticket, Refine to refine-ticket, Plan to
-  create-implementation-plan, Act to Execute the plan, Consolidate to the Consolidate
-  cross-link). Bold marks: WHAT, HOW, file names and commands (file names and commands also mono).
+- Flow: five equal-size stage boxes (stretch grid, arrows between), same-page links to their
+  phase heading (`#ticket`, `#refine`, `#plan`, `#act`, `#consolidate`). Bold marks: WHAT, HOW, file names and commands (file names and commands also mono).
   - **Ticket** (muted border): download **TICKET.md** from your tracking board or create it
     manually
   - **Refine** (green): defines the **WHAT** and outputs **REQUIREMENTS.md**
@@ -166,6 +164,16 @@ The card count is derived from the page's `skills` and `rules` arrays in `src/da
     **/split-plan-tasks**, then **/execute-plan-tasks**
   - **Consolidate** (purple): stabilizes the work: review it with fresh eyes using
     **/self-review**, then hand over the knowledge in **HANDOVER.md**
+- Jump list (2026-10-13), after the flow-strip line: muted lead `On this page`, then a row per
+  phase: the phase name as a mono uppercase link to its heading, in the stage hue (Ticket and
+  Any time muted), followed by a mono chip per block linking its anchor (`#fetch-ticket`; the
+  non-skill block is `#execute-the-plan`).
+- Phase headings (2026-10-13; kicker in the stage hue + sans h2, the skill names under them
+  demoted to h3): Ticket / Start from the ticket · Refine / Agree on what to build · Plan /
+  Decide how to build it · Act / Build it, muted line: Run the whole plan with a plain prompt,
+  or one task at a time when you split it. · Consolidate / Review and hand over · Any time /
+  Extra workflow skills, muted line: Not part of the main flow, but handy when the task calls
+  for them.
 - Demo scripts live with their block copy in §14.
 - Page `/task-workflow` — title `Task workflow · agent-toolkit`; meta description `Refine, plan,
   act, consolidate: turn a ticket into requirements, a plan, then reviewed code, with a clean
@@ -685,8 +693,8 @@ No credits section. The page ends with the feedback block, then the mono footer:
 
 Each group page opens with a big centered mono h1 title (titles below; no kicker), then the
 §5-§10 block heading demoted to h2 with its intro (/task-workflow keeps the flow strip, whose boxes link to their phase), then
-one hairline-separated block per skill — mono skill name as h2 in the group hue,
-muted text, the demo inside the block of the skill it shows, mono link
+one hairline-separated block per skill — mono skill name as h2 in the group hue (h3 on
+/task-workflow, under its phase h2s), muted text, the demo inside the block of the skill it shows, mono link
 `Read the SKILL.md →` to the skill on GitHub (rules: `Read the rule →`) — then the approved
 page-level article link where §5-§10 defines one, then the closing "Keep going" footer: two §2b
 cards in compact form, plus an `All groups →` link and an `Every skill and rule →` link. Block copy (file names mono, bold as
@@ -746,10 +754,10 @@ demo renders muted.
     2. create a new UserExportService
 ✻ Settling the remaining decisions…
 ⏺ Saved 1234-users.PLAN.md
-⏺ Next: /clear, then "Execute the plan 1234-users.PLAN.md"
+⏺ Next: /clear, then "Execute 1234-users.PLAN.md" or /split-plan-tasks 1234-users.PLAN.md
 ```
 
-- harden-artifact (added 2026-10-10; links: the default Read the SKILL.md → to GitHub, plus How the fresh
+- harden-artifact (under Plan, added 2026-10-10; links: the default Read the SKILL.md → to GitHub, plus How the fresh
   eyes review works → to /fresh-eyes-review/, same tab; anchor #harden-artifact): An optional
   check between a document and the phase that builds on it. Run it on a **REQUIREMENTS.md** or a
   **PLAN.md** in a fresh session, not the one that wrote it: a sub-agent with a clean context
@@ -777,12 +785,30 @@ demo renders muted.
   1234-users.PLAN.md"
 ```
 
-- Execute the plan (non-skill block: neutral-foreground mono title, no GitHub link): two
-  paragraphs: (1) You can run the **Act** phase without a skill. Open a fresh session and ask the
-  agent to execute the plan: everything it needs is in **PLAN.md**. Ask it to run your project's
-  checks too, so it verifies its own work. (2) Prefer to review the work in small steps instead
-  of all at once? **/split-plan-tasks** (mono) and **/execute-plan-tasks** (mono) below split the
-  plan into tasks and run them one at a time. Demo:
+- split-plan-tasks (added 2026-10-13): A plan that lands in one sweep is hard to review. Give
+  this skill the **PLAN.md** and it splits the steps into small tasks, each one leaving the
+  project building and its tests passing, grouped into PR-sized batches. The first batch gives
+  you something to click or run as early as the plan allows. You approve the breakdown, then it
+  appends the task list to the plan, with a done check and a suggested commit subject per task.
+  The plan's own text stays as it was. Demo:
+
+```
+> /split-plan-tasks 1234-users.PLAN.md
+✻ Reading the plan and working out the split…
+⏺ 6 steps into 4 tasks in 2 groups. Group 1 ships the export endpoint,
+  so you can call it right away
+⏺ Does the CSV format option get its own task?
+  ❯ 1. no, it lands with the export endpoint (recommended)
+    2. yes, a task of its own
+✻ Appending the task list to the plan…
+⏺ Added 4 tasks in 2 groups to 1234-users.PLAN.md
+⏺ (muted) Next: /clear, then /execute-plan-tasks 1234-users.PLAN.md
+```
+
+- Execute the plan (non-skill block: neutral-foreground mono title, no GitHub link; first
+  sentence reworded 2026-10-13): Running the whole plan needs no skill at all. Open a fresh
+  session and ask the agent to execute the plan: everything it needs is in **PLAN.md**. Ask it
+  to run your project's checks too, so it verifies its own work. Demo:
 
 ```
 > Execute the plan 1234-users.PLAN.md and run all the checks
@@ -790,48 +816,29 @@ demo renders muted.
 ⏺ All 6 steps done. Lint, tests and build passing.
 ```
 
-- split-plan-tasks (added 2026-10-10): Breaks the plan into small tasks you can review and commit
-  on their own, each one leaving the project building and its tests passing. Tasks are grouped so
-  that each group makes one PR, and they're ordered so you get something to click or run as early
-  as the plan allows. You approve the breakdown, then it's added to the end of **PLAN.md** as a
-  checklist. Nothing else in the plan changes. Demo:
-
-```
-> /split-plan-tasks 1234-users.PLAN.md
-✻ Reading the plan and working out the split…
-⏺ 5 tasks in 2 groups, each group one PR. Group 1 ships the CSV export
-  end to end, so you can try it right away.
-⏺ One boundary to settle: where does the audit log entry go?
-  ❯ 1. In the second PR, keeps the first one small (recommended)
-    2. With the export, in the first PR
-> 1
-⏺ Append this breakdown to 1234-users.PLAN.md?
-> y
-⏺ Task list added at the end of 1234-users.PLAN.md, the rest untouched
-⏺ (muted) Next: /clear, then /execute-plan-tasks 1234-users.PLAN.md
-```
-
-- execute-plan-tasks (added 2026-10-10): Runs one task of that checklist, then stops: it
-  implements the task, runs your project's checks and ticks it off in **PLAN.md**, so you review
-  every task before the next one starts. You get a commit subject and the command for the next
-  task; it never commits for you. It also tells you when a group is ready to become a PR. Demo:
+- execute-plan-tasks (added 2026-10-13): Split the plan into tasks? Then run this instead, one
+  task per fresh session. It implements that task and nothing beyond it, runs the task's done
+  check and your project's checks, ticks the task off in **PLAN.md** and stops, so you review
+  and commit before the next one. A deviation from the plan it had to settle on the way goes
+  into a **DECISIONS.md** next to the plan, with its why. Every run ends with the command for
+  the next task, and tells you when a group is complete and ready to become a PR. It never
+  commits or pushes. Demo:
 
 ```
 > /execute-plan-tasks 1234-users.PLAN.md
-⏺ Task 1.3: wire the export button. 1.1 and 1.2 are ticked.
-✻ Implementing task 1.3, then running the checks…
-⏺ Done: 3 files changed, lint, tests and build passing. Ticked 1.3 in
-  1234-users.PLAN.md
-⏺ (green) Commit once reviewed: feat(users): wire the export button
-⏺ Group 1 is complete: ready for a PR
-⏺ (muted) Next: /clear, then /execute-plan-tasks 1234-users.PLAN.md 2.1
+⏺ Task 1.1: add the export endpoint. Steps 2 and 3, satisfies AC-1
+✻ Implementing the endpoint…
+✻ Running the done check, lint and tests…
+⏺ Ticked 1.1 in 1234-users.PLAN.md. Touched export.controller.ts and
+  export.service.ts
+⏺ Commit once reviewed: feat(users): add the CSV export endpoint
+⏺ (muted) Next: /clear, then /execute-plan-tasks 1234-users.PLAN.md 1.2
 ```
 
-- self-review cross-link on /task-workflow (pink title, no GitHub link, no demo; `id="consolidate"`;
-  internal link `See self-review on the fresh eyes page →` to `/fresh-eyes-review/#self-review`,
-  same tab): First step of **Consolidate**: before handing over, run **/self-review** (mono) on
-  your branch. A sub-agent with a clean context checks your changes as a maintainer would, you
-  settle each finding, and a short report goes into the PR.
+- fresh-eyes-review cross-link on /task-workflow (pink title, no GitHub link, no demo; internal
+  link `See the fresh eyes review →` to `/fresh-eyes-review/`, same tab): First step of
+  **Consolidate**: before handing over, let a sub-agent with a clean context review the
+  changeset. It catches what the session that wrote the code misses.
 - handover: Closes the task. Give it a ticket id, or nothing at all, and it finds the task's
   planning files, gathers the decisions made along the way, from the ticket to the session
   itself, matches the plan against the actual diff and writes a **HANDOVER.md**: a paste-ready
@@ -852,10 +859,19 @@ demo renders muted.
 ⏺ Saved 1234-users.HANDOVER.md, paste-ready as your PR description
 ```
 
-- Before you pick the ticket up, a plain section after handover (sans-serif h2 like the page intro
-  heading, muted intro, added 2026-10-10): Two checks before you start: is the ticket ready, and do you
-  understand it well enough to build it.
-- review-ticket (under Before you pick the ticket up): A triage glance before anyone picks a ticket up:
+- Extra workflow skills: the last phase heading (kicker `Any time`), copy in §5.
+- create-manual-test-instructions (under Extra workflow skills, "Optional last step:" prefix
+  dropped): Turns a ticket or its requirements into a concise **MANUAL-TEST.md** a non-author
+  can follow: what changed, how to get there, before vs after, and what to verify. Demo:
+
+```
+> /create-manual-test-instructions 1234-users.REQUIREMENTS.md
+✻ Reading the requirements and the code they cite…
+⏺ Saved 1234-users.MANUAL-TEST.md, followable by someone unfamiliar
+  with the ticket
+```
+
+- review-ticket (under Extra workflow skills): A triage glance before anyone picks a ticket up:
   compares it against the codebase and reports whether it's ready, plus the questions worth
   asking whoever owns the requirements. Each question survived an adversarial hunt for its answer
   across code, tracker, designs and docs, so you're never asked what the sources could have
@@ -874,7 +890,7 @@ demo renders muted.
 ⏺ (muted) Next: /verify-understanding 1234-users.TICKET-REVIEW.md
 ```
 
-- verify-understanding (under Before you pick the ticket up, added 2026-10-09): The other skills write
+- verify-understanding (under Extra workflow skills, added 2026-10-09): The other skills write
   files for the next agent session. This one is for you. Run it on the **TICKET-REVIEW.md**,
   right after the review or days later just before you start coding. It asks you to explain the
   feature in your own words: who uses it, what they see and do, why it exists, and what each
@@ -897,21 +913,7 @@ demo renders muted.
 ⏺ (muted) Next: /refine-ticket 1234-users.TICKET.md
 ```
 
-- Along the way, a plain section after verify-understanding (same shape, added 2026-10-10): For when
-  the task calls for them: test steps for QA once the requirements are set, a check of how much
-  is already built, a grilling for a shaky plan, a prompt that hands the work to a fresh session.
-- create-manual-test-instructions (under Along the way, "Optional last step:" prefix
-  dropped): Turns a ticket or its requirements into a concise **MANUAL-TEST.md** a non-author
-  can follow: what changed, how to get there, before vs after, and what to verify. Demo:
-
-```
-> /create-manual-test-instructions 1234-users.REQUIREMENTS.md
-✻ Reading the requirements and the code they cite…
-⏺ Saved 1234-users.MANUAL-TEST.md, followable by someone unfamiliar
-  with the ticket
-```
-
-- check-ticket-implementation (under Along the way, added 2026-08-07), two paragraphs:
+- check-ticket-implementation (under Extra workflow skills, added 2026-08-07), two paragraphs:
   (1) Answers one question: how much of this ticket is already built? It splits the ticket into
   individual requirements and judges each one against the code, so the verdict lands per
   requirement instead of on the ticket as a whole: done, partially done, not done, or not
@@ -932,7 +934,7 @@ demo renders muted.
 ⏺ Saved 1234-users.TICKET-STATUS.md
 ```
 
-- grill-me (under Along the way, added 2026-10-09, no demo; block link
+- grill-me (under Extra workflow skills, added 2026-10-09, no demo; block link
   `target="_blank"`: [See the original by Matt Pocock →](https://github.com/mattpocock/skills)):
   The interview that refine-ticket and create-implementation-plan run, on its own. Bring any
   plan, design or idea and say **grill me** (mono): the agent asks one question at a time, each
@@ -943,7 +945,7 @@ demo renders muted.
   small edit: it words its questions with
   [/explain-in-simple-language](https://github.com/eai-org/agent-toolkit/blob/main/skills/explain-in-simple-language/SKILL.md),
   so they are easy to follow.
-- prepare-prompt (under Along the way, added 2026-10-09, no demo): Every phase above
+- prepare-prompt (under Extra workflow skills, added 2026-10-09, no demo): Every phase above
   ends with a ready command for the next session. For anything else there's this skill: when a
   fresh session should continue the work, check it, or pick up what was left open, it writes
   the prompt to paste there. It keeps only what the next session can't find on its own, points

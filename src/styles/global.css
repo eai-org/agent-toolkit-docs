@@ -33,7 +33,6 @@
 
 body { @apply bg-bg text-text font-sans; }
 :focus-visible { outline: 2px solid var(--color-green); outline-offset: 2px; }
-[id] { scroll-margin-top: 4rem; }
 
 .kicker { @apply font-mono text-[11px] font-bold uppercase tracking-[0.18em] mb-2; }
 .bullets { @apply list-disc pl-5 space-y-1.5; }
@@ -63,3 +62,6 @@ a.stage:hover { @apply bg-panel2; }
   --term-color-background: var(--color-panel);
   --term-color-foreground: var(--color-text);
 }
+
+/* in-page anchors stop below the sticky nav instead of sliding under it */
+html { scroll-padding-top: 4rem; }

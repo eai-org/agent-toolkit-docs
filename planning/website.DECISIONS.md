@@ -32,8 +32,8 @@ demos (template in `website.DESIGN.md`, copy in `website.COPY.md` §14) and end 
 `/pr-review-assistants`
 covers the three §6 skills plus maintainer-review (added 2026-10-09; decided the same
 day, it stays there for good). The ticket-review skills went to
-`/task-workflow` instead: review-ticket (2026-08-05) under "Before you pick the ticket up" and
-check-ticket-implementation (2026-08-07) under "Along the way", both closer to a developer's own task than to
+`/task-workflow` instead: review-ticket (2026-08-05) and
+check-ticket-implementation (2026-08-07), under "Extra workflow skills", both closer to a developer's own task than to
 reviewing a PR. The catalogue shipped at `/skills/` (2026-10-10); `/rules` and `/core-concepts` stay deferred, kept here as the plan
 for that expansion. Approved block order and copy: `website.COPY.md`; skeleton:
 `website.DESIGN.md`.
@@ -63,7 +63,7 @@ Pages as planned for the expansion:
 | Page | Content | Skill blocks | Rule blocks |
 |---|---|---|---|
 | `/core-concepts` | The five pillars, marketing style: icons + short texts. NOT a render of `docs/core-philosophy.md` (that doc is agent-facing source material informing the copy; llms.txt opens with it, followed by a generated skills, rules, install and pages index). The deck shows only four principles — it predates pillar 5 (generic beats specific); core-philosophy.md is the authority: five pillars | none | none |
-| `/task-workflow` | RPAC flagship. Includes the Refine/Plan/Act flow diagram from the deck. | fetch-ticket, attach-to-ticket, refine-ticket, create-implementation-plan, harden-artifact (2026-10-07), split-plan-tasks (2026-10-07), execute-plan-tasks (2026-10-07: with split-plan-tasks, the step-by-step Act option; the plain "Execute the plan" prompt stays the default Act path), handover; Before you pick the ticket up: review-ticket (2026-08-05), verify-understanding (2026-10-09); Along the way: create-manual-test-instructions, check-ticket-implementation (2026-08-07), grill-me, prepare-prompt. Not blocks: "Execute the plan", the self-review cross-link | plans-directory (2026-10-09), at the bottom after the last "Along the way" block |
+| `/task-workflow` | RPAC flagship, blocks grouped under phase headings with a jump list (2026-10-13). Includes the Refine/Plan/Act flow diagram from the deck. | Ticket: fetch-ticket, attach-to-ticket; Refine: refine-ticket; Plan: create-implementation-plan, harden-artifact (2026-10-07), split-plan-tasks (2026-10-07); Act: execute-plan-tasks (2026-10-07: with split-plan-tasks, the step-by-step Act option; the plain "Execute the plan" prompt stays the default Act path); Consolidate: handover; Extra workflow skills: create-manual-test-instructions, review-ticket (2026-08-05), verify-understanding (2026-10-09), check-ticket-implementation (2026-08-07), grill-me, prepare-prompt. Not blocks: "Execute the plan", the cross-link to /fresh-eyes-review | plans-directory (2026-10-09), last under Extra workflow skills |
 | `/pr-review-assistants` | Incoming PR, reviewing others' code, deciding the merge | fetch-pr-review, refine-pr-review, review-code-assistant, maintainer-review (2026-10-09) | none |
 | `/fresh-eyes-review` | Separate concept: validating your own work with a clean context | fresh-eyes-review, self-review (2026-10-09) | none |
 | `/talking-to-humans` (redirect from `/conversational-language`, 2026-10-09) | Proven crowd favorite | use-conversational-language, explain-in-simple-language | write-realistic-texts, no-nonsense-comments, write-simple-explanations |
@@ -73,7 +73,7 @@ Pages as planned for the expansion:
 | `/skills/` (catalogue) | Every skill and rule on one page. Names, links and placement come from the toolkit files and the `GROUPS` arrays at every build; lines are hand-written in `src/data/catalogue.ts`, with the sanitized frontmatter description as fallback | none | none |
 | no group page | Not on any group page | run-nx-checks: catalogue row in "Also in the toolkit", tagged "Nx workspaces only", off the group pages since 2026-07-28, catalogue home decided 2026-10-09 | git-read-only-by-default, no-ai-attribution: homepage Rules examples and the `/skills/#rules` list (2026-10-10); use-my-mothertongue snippet (`docs/use-my-mothertongue-rule.md`, not a rule file): homepage Rules line and the `/skills/#rules` snippet row |
 
-Dates mark when a placement was decided. The "Before you pick the ticket up" and "Along the way" members follow the page order. "Rule blocks" covers rule bullets with a `Read the rule` link.
+Dates mark when a placement was decided. Members are listed in page order. "Rule blocks" covers rule bullets with a `Read the rule` link.
 
 run-nx-checks is the one stack-specific skill (Nx workspaces). Decision 2026-10-10: it appears
 only as a row tagged "Nx workspaces only" in the catalogue's "Also in the toolkit" section, and in
@@ -174,7 +174,7 @@ Settled in the 2026-07-26 design session:
   agent-TUI demo players in the flow. Approved 2026-07-27; copy approved the same day in
   `website.COPY.md`.
 - Fresh-eyes hue (2026-10-10): pink, on its card, on both skill blocks of /fresh-eyes-review and on
-  the self-review cross-link of /task-workflow, so the card never sits right under the orange PR
+  the fresh-eyes-review cross-link of /task-workflow, so the card never sits right under the orange PR
   reviews card in one color on phones. The orange and pink boxes of the fresh-eyes flow diagram
   are session roles, not the group hue.
 

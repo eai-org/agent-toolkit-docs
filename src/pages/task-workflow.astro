@@ -1,11 +1,26 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
+import PhaseHeading from '../components/PhaseHeading.astro';
 import SkillBlock from '../components/SkillBlock.astro';
 import RpaFlow from '../components/RpaFlow.astro';
 import DemoPlayer from '../components/DemoPlayer.astro';
 import KeepGoing from '../components/KeepGoing.astro';
+import { slug } from '../lib/slug';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+// the jump list under the flow strip: one row per phase heading below, a chip per block in it
+const PHASES = [
+  { id: 'ticket', label: 'Ticket', hue: 'text-muted', blocks: ['fetch-ticket', 'attach-to-ticket'] },
+  { id: 'refine', label: 'Refine', hue: 'text-green', blocks: ['refine-ticket'] },
+  { id: 'plan', label: 'Plan', hue: 'text-blue', blocks: ['create-implementation-plan', 'harden-artifact', 'split-plan-tasks'] },
+  { id: 'act', label: 'Act', hue: 'text-orange', blocks: ['Execute the plan', 'execute-plan-tasks'] },
+  { id: 'consolidate', label: 'Consolidate', hue: 'text-purple', blocks: ['fresh-eyes-review', 'handover'] },
+  {
+    id: 'extra', label: 'Any time', hue: 'text-muted',
+    blocks: ['create-manual-test-instructions', 'review-ticket', 'verify-understanding',
+      'check-ticket-implementation', 'grill-me', 'prepare-prompt', 'plans-directory'],
+  },
+];
 ---
 <Base
   title="Task workflow · agent-toolkit"
@@ -30,8 +45,28 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       Each phase runs in a fresh session and hands over a file, not chat history, so the context
       stays sharp.
     </p>
+    <nav aria-label="Skills on this page" class="mt-8">
+      <div class="text-muted text-[13px] mb-3">On this page</div>
+      <div class="grid gap-x-6 gap-y-2.5 md:grid-cols-[auto_1fr] items-baseline">
+        {PHASES.map((phase) => (
+          <>
+            <a href={`#${phase.id}`}
+              class:list={['font-mono text-[11px] font-bold uppercase tracking-[0.18em] no-underline hover:underline', phase.hue]}>
+              {phase.label}</a>
+            <div class="flex flex-wrap gap-1.5">
+              {phase.blocks.map((name) => (
+                <a href={`#${slug(name)}`}
+                  class="bg-panel2 border border-border rounded-md px-2.5 py-0.5 font-mono text-[12px] text-text no-underline hover:border-muted">
+                  {name}</a>
+              ))}
+            </div>
+          </>
+        ))}
+      </div>
+    </nav>
   </PageHeader>
-  <SkillBlock name="fetch-ticket" color="green">
+  <PhaseHeading id="ticket" kicker="Ticket" color="muted" heading="Start from the ticket" />
+  <SkillBlock name="fetch-ticket" color="green" level={3}>
     <p class="text-muted mb-4">
       Every task starts with a ticket. This skill downloads it from Jira, GitHub, Azure DevOps or
       similar into a self-contained <b class="sk">TICKET.md</b>, attachments and linked tickets
@@ -40,7 +75,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </p>
     <DemoPlayer cast="08-fetch-ticket" cols={72} rows={9} label="fetch-ticket downloading a ticket into a self-contained file" />
   </SkillBlock>
-  <SkillBlock name="attach-to-ticket" color="green">
+  <SkillBlock name="attach-to-ticket" color="green" level={3}>
     <p class="text-muted">
       Some attachments never make it through the fetch: a screenshot from a chat, a file behind a
       login. Paste it, or give its path or link, and the agent saves it next to
@@ -49,7 +84,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       only touches your local files: your tracker stays untouched.
     </p>
   </SkillBlock>
-  <SkillBlock name="refine-ticket" color="green">
+  <PhaseHeading id="refine" kicker="Refine" color="green" heading="Agree on what to build" />
+  <SkillBlock name="refine-ticket" color="green" level={3}>
     <p class="text-muted mb-4">
       Defines the <b>WHAT</b>. The agent checks the ticket against the actual codebase and
       interviews you, one question at a time, each with a recommended answer. No silent
@@ -58,15 +94,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </p>
     <DemoPlayer cast="02-refine-ticket" cols={72} rows={13} label="refine-ticket asking a grilling question" />
   </SkillBlock>
-  <SkillBlock name="create-implementation-plan" color="green">
+  <PhaseHeading id="plan" kicker="Plan" color="blue" heading="Decide how to build it" />
+  <SkillBlock name="create-implementation-plan" color="green" level={3}>
     <p class="text-muted mb-4">
       Defines the <b>HOW</b>. The agent studies the code, settles the technical decisions with you
       and writes a self-contained <b class="sk">PLAN.md</b> that a fresh session can execute step
       by step.
     </p>
-    <DemoPlayer cast="09-create-plan" cols={72} rows={12} label="create-implementation-plan asking where the serializer should live" />
+    <DemoPlayer cast="09-create-plan" cols={72} rows={13} label="create-implementation-plan asking where the serializer should live" />
   </SkillBlock>
-  <SkillBlock name="harden-artifact" color="green" id="harden-artifact"
+  <SkillBlock name="harden-artifact" color="green" level={3}
     link={`${base}/fresh-eyes-review/`} linkLabel="How the fresh eyes review works">
     <p class="text-muted mb-4">
       An optional check between a document and the phase that builds on it. Run it on a
@@ -80,47 +117,51 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </p>
     <DemoPlayer cast="24-harden-artifact" cols={72} rows={21} label="harden-artifact fixing a proven gap in the plan, then handing off the next phase" />
   </SkillBlock>
-  <SkillBlock name="Execute the plan" color="text" github={false} id="act">
-    <p class="text-muted mb-3">
-      You can run the <b>Act</b> phase without a skill. Open a fresh session and ask the agent to
+  <SkillBlock name="split-plan-tasks" color="green" level={3}>
+    <p class="text-muted mb-4">
+      A plan that lands in one sweep is hard to review. Give this skill the
+      <b class="sk">PLAN.md</b> and it splits the steps into small tasks, each one leaving the
+      project building and its tests passing, grouped into PR-sized batches. The first batch gives
+      you something to click or run as early as the plan allows. You approve the breakdown, then
+      it appends the task list to the plan, with a done check and a suggested commit subject per
+      task. The plan's own text stays as it was.
+    </p>
+    <DemoPlayer cast="22-split-plan-tasks" cols={72} rows={14} label="split-plan-tasks settling a task boundary, then appending the task list to the plan" />
+  </SkillBlock>
+  <PhaseHeading id="act" kicker="Act" color="orange" heading="Build it">
+    <p class="text-muted mt-3">
+      Run the whole plan with a plain prompt, or one task at a time when you split it.
+    </p>
+  </PhaseHeading>
+  <SkillBlock name="Execute the plan" color="text" github={false} level={3}>
+    <p class="text-muted mb-4">
+      Running the whole plan needs no skill at all. Open a fresh session and ask the agent to
       execute the plan: everything it needs is in <b class="sk">PLAN.md</b>. Ask it to run your
       project's checks too, so it verifies its own work.
     </p>
-    <p class="text-muted mb-4">
-      Prefer to review the work in small steps instead of all at once?
-      <b class="sk">/split-plan-tasks</b> and <b class="sk">/execute-plan-tasks</b> below split
-      the plan into tasks and run them one at a time.
-    </p>
     <DemoPlayer cast="10-execute-plan" cols={72} rows={7} label="a plain prompt executing the plan and running the checks" />
   </SkillBlock>
-  <SkillBlock name="split-plan-tasks" color="green">
+  <SkillBlock name="execute-plan-tasks" color="green" level={3}>
     <p class="text-muted mb-4">
-      Breaks the plan into small tasks you can review and commit on their own, each one leaving
-      the project building and its tests passing. Tasks are grouped so that each group makes one
-      PR, and they're ordered so you get something to click or run as early as the plan allows.
-      You approve the breakdown, then it's added to the end of <b class="sk">PLAN.md</b> as a
-      checklist. Nothing else in the plan changes.
+      Split the plan into tasks? Then run this instead, one task per fresh session. It implements
+      that task and nothing beyond it, runs the task's done check and your project's checks, ticks
+      the task off in <b class="sk">PLAN.md</b> and stops, so you review and commit before the
+      next one. A deviation from the plan it had to settle on the way goes into a
+      <b class="sk">DECISIONS.md</b> next to the plan, with its why. Every run ends with the command
+      for the next task, and tells you when a group is complete and ready to become a PR. It never
+      commits or pushes.
     </p>
-    <DemoPlayer cast="22-split-plan-tasks" cols={72} rows={20} label="split-plan-tasks settling a group boundary, then appending the task list to the plan once approved" />
+    <DemoPlayer cast="23-execute-plan-tasks" cols={72} rows={12} label="execute-plan-tasks implementing one task, ticking it off and handing off the next" />
   </SkillBlock>
-  <SkillBlock name="execute-plan-tasks" color="green">
-    <p class="text-muted mb-4">
-      Runs one task of that checklist, then stops: it implements the task, runs your project's
-      checks and ticks it off in <b class="sk">PLAN.md</b>, so you review every task before the
-      next one starts. You get a commit subject and the command for the next task; it never
-      commits for you. It also tells you when a group is ready to become a PR.
-    </p>
-    <DemoPlayer cast="23-execute-plan-tasks" cols={72} rows={12} label="execute-plan-tasks finishing one task, ticking it off and handing over the next" />
-  </SkillBlock>
-  <SkillBlock name="self-review" color="pink" github={false} id="consolidate"
-    link={`${base}/fresh-eyes-review/#self-review`} linkLabel="See self-review on the fresh eyes page">
+  <PhaseHeading id="consolidate" kicker="Consolidate" color="purple" heading="Review and hand over" />
+  <SkillBlock name="fresh-eyes-review" color="pink" github={false} level={3}
+    link={`${base}/fresh-eyes-review/`} linkLabel="See the fresh eyes review">
     <p class="text-muted">
-      First step of <b>Consolidate</b>: before handing over, run <b class="sk">/self-review</b>
-      on your branch. A sub-agent with a clean context checks your changes as a maintainer would,
-      you settle each finding, and a short report goes into the PR.
+      First step of <b>Consolidate</b>: before handing over, let a sub-agent with a clean context
+      review the changeset. It catches what the session that wrote the code misses.
     </p>
   </SkillBlock>
-  <SkillBlock name="handover" color="green"
+  <SkillBlock name="handover" color="green" level={3}
     article="https://medium.com/engineering-in-the-age-of-ai/the-missing-step-in-agentic-coding-the-handover-d1963c3d2c1d"
     articleLabel="Read more about handover">
     <p class="text-muted mb-4">
@@ -133,13 +174,17 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </p>
     <DemoPlayer cast="11-handover" cols={72} rows={14} label="handover flagging an unexplained deviation, then saving a paste-ready PR description" />
   </SkillBlock>
-  <section class="px-6">
-    <div class="max-w-page mx-auto border-t border-border py-10">
-      <h2 class="text-2xl font-bold mb-3">Before you pick the ticket up</h2>
-      <p class="text-muted">Two checks before you start: is the ticket ready, and do you understand it well enough to build it.</p>
-    </div>
-  </section>
-  <SkillBlock name="review-ticket" color="green">
+  <PhaseHeading id="extra" kicker="Any time" color="muted" heading="Extra workflow skills">
+    <p class="text-muted mt-3">Not part of the main flow, but handy when the task calls for them.</p>
+  </PhaseHeading>
+  <SkillBlock name="create-manual-test-instructions" color="green" level={3}>
+    <p class="text-muted mb-4">
+      Turns a ticket or its requirements into a concise <b class="sk">MANUAL-TEST.md</b> a
+      non-author can follow: what changed, how to get there, before vs after, and what to verify.
+    </p>
+    <DemoPlayer cast="12-manual-test" cols={72} rows={8} label="create-manual-test-instructions saving a manual test file" />
+  </SkillBlock>
+  <SkillBlock name="review-ticket" color="green" level={3}>
     <p class="text-muted mb-4">
       A triage glance before anyone picks a ticket up: compares it against the codebase and
       reports whether it's ready, plus the questions worth asking whoever owns the requirements.
@@ -151,7 +196,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </p>
     <DemoPlayer cast="13-review-ticket" cols={72} rows={11} label="review-ticket delivering its triage verdict" />
   </SkillBlock>
-  <SkillBlock name="verify-understanding" color="green">
+  <SkillBlock name="verify-understanding" color="green" level={3}>
     <p class="text-muted mb-4">
       The other skills write files for the next agent session. This one is for you. Run it on the
       <b class="sk">TICKET-REVIEW.md</b>, right after the review or days later just before you
@@ -164,20 +209,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </p>
     <DemoPlayer cast="21-verify-understanding" cols={72} rows={19} label="verify-understanding correcting a teach-back from the ticket review" />
   </SkillBlock>
-  <section class="px-6">
-    <div class="max-w-page mx-auto border-t border-border py-10">
-      <h2 class="text-2xl font-bold mb-3">Along the way</h2>
-      <p class="text-muted">For when the task calls for them: test steps for QA once the requirements are set, a check of how much is already built, a grilling for a shaky plan, a prompt that hands the work to a fresh session.</p>
-    </div>
-  </section>
-  <SkillBlock name="create-manual-test-instructions" color="green">
-    <p class="text-muted mb-4">
-      Turns a ticket or its requirements into a concise <b class="sk">MANUAL-TEST.md</b> a
-      non-author can follow: what changed, how to get there, before vs after, and what to verify.
-    </p>
-    <DemoPlayer cast="12-manual-test" cols={72} rows={8} label="create-manual-test-instructions saving a manual test file" />
-  </SkillBlock>
-  <SkillBlock name="check-ticket-implementation" color="green">
+  <SkillBlock name="check-ticket-implementation" color="green" level={3}>
     <p class="text-muted mb-3">
       Answers one question: how much of this ticket is already built? It splits the ticket into
       individual requirements and judges each one against the code, so the verdict lands per
@@ -194,7 +226,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </p>
     <DemoPlayer cast="18-check-ticket" cols={72} rows={12} label="check-ticket-implementation reporting a verdict per requirement" />
   </SkillBlock>
-  <SkillBlock name="grill-me" color="green" article="https://github.com/mattpocock/skills"
+  <SkillBlock name="grill-me" color="green" level={3} article="https://github.com/mattpocock/skills"
     articleLabel="See the original by Matt Pocock">
     <p class="text-muted mb-3">
       The interview that refine-ticket and create-implementation-plan run, on its own. Bring any
@@ -212,7 +244,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       so they are easy to follow.
     </p>
   </SkillBlock>
-  <SkillBlock name="prepare-prompt" color="green">
+  <SkillBlock name="prepare-prompt" color="green" level={3}>
     <p class="text-muted">
       Every phase above ends with a ready command for the next session. For anything else there's
       this skill: when a fresh session should continue the work, check it, or pick up what was
@@ -222,7 +254,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       they can't steer the check.
     </p>
   </SkillBlock>
-  <SkillBlock name="plans-directory" color="green" rule>
+  <SkillBlock name="plans-directory" color="green" rule level={3}>
     <p class="text-muted">
       Opt-in rule for where planning documents go: one folder per task in the project's planning
       directory, with file names that say what each file is. The default is
