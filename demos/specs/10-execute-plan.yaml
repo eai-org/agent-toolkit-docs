@@ -2,6 +2,6 @@ cols: 72
 rows: 7
 seed: 10-execute-plan
 events:
-  - input: Execute 1234-users.PLAN.md, then make sure all checks pass
+  - input: Execute the plan 1234-users.PLAN.md and run all the checks
   - spinner: 'Executing step 4/6: wire the export button…'
   - output: All 6 steps done. Lint, tests and build passing.

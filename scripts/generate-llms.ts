@@ -1,8 +1,8 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { parse } from 'yaml';
 import { GROUPS } from '../src/data/groups';
-import { toolkitDir } from './lib/toolkit';
+import { CATALOGUE_DESCRIPTION, CATALOGUE_TITLE, SNIPPET } from '../src/data/catalogue';
+import { toolkitDir, readToolkit } from '../src/lib/toolkit';
 
 const GITHUB = 'https://github.com/eai-org/agent-toolkit/blob/main';
 const SITE = 'https://eai-org.github.io';
@@ -15,36 +15,21 @@ if (!existsSync(src)) {
   process.exit(1);
 }
 
-function description(path: string): string {
-  const fm = readFileSync(path, 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  const desc = fm && parse(fm[1])?.description;
-  if (!desc) throw new Error(`no frontmatter description in ${path}`);
-  return String(desc).trim();
-}
-
 const philosophy = readFileSync(src, 'utf8')
   .replace(/\]\(\.\.\//g, `](${GITHUB}/`)
   .replace(/\]\(\.\//g, `](${GITHUB}/docs/`)
   .trimEnd();
 
-// a local checkout can carry harness-created dirs under skills/ with no SKILL.md
-const skills = readdirSync(join(toolkitDir, 'skills'))
-  .filter((name) => existsSync(join(toolkitDir, 'skills', name, 'SKILL.md')))
-  .sort()
-  .map((name) => {
-    const desc = description(join(toolkitDir, 'skills', name, 'SKILL.md'));
-    return `- [${name}](${GITHUB}/skills/${name}/SKILL.md): ${desc}`;
-  });
+const toolkit = readToolkit();
+const skills = toolkit.skills.map(
+  ({ name, description }) => `- [${name}](${GITHUB}/skills/${name}/SKILL.md): ${description}`,
+);
 
-const rules = readdirSync(join(toolkitDir, 'rules'))
-  .filter((f) => f.endsWith('.md'))
-  .sort()
-  .map((f) => {
-    const name = f.replace(/\.md$/, '');
-    return `- [${name}](${GITHUB}/rules/${f}): ${description(join(toolkitDir, 'rules', f))}`;
-  });
+const rules = toolkit.rules.map(
+  ({ name, description }) => `- [${name}](${GITHUB}/rules/${name}.md): ${description}`,
+);
 rules.push(
-  `- [use-my-mothertongue](${GITHUB}/docs/use-my-mothertongue-rule.md): Copy-paste snippet, not a file: your agent talks to you in your own language, while everything it writes into the project stays in English.`,
+  `- [${SNIPPET.name}](${GITHUB}/${SNIPPET.path}): ${SNIPPET.line[0].toUpperCase()}${SNIPPET.line.slice(1)}.`,
 );
 
 const install = [
@@ -57,6 +42,7 @@ const install = [
 const pages = [
   `- [agent-toolkit](${SITE}${BASE}/): Minimalistic skills and rules for AI coding agents that assist your daily work in any software engineering project`,
   ...GROUPS.map((g) => `- [${g.title}](${SITE}${BASE}/${g.slug}/): ${g.line}`),
+  `- [${CATALOGUE_TITLE}](${SITE}${BASE}/skills/): ${CATALOGUE_DESCRIPTION}`,
   `- [About us](${SITE}${BASE}/about/)`,
 ];
 

@@ -1,0 +1,44 @@
+---
+import Section from '../Section.astro';
+import { CHAIN_ROWS, chainTarget } from '../../data/chain';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const hueClass = {
+  green: 'text-green', blue: 'text-blue', orange: 'text-orange',
+  purple: 'text-purple', pink: 'text-pink', text: 'text-text',
+};
+const flex = 'flex flex-wrap items-center gap-x-1.5 gap-y-2';
+---
+<Section kicker="How they fit together" color="purple" heading="One routine, from ticket to pull request" id="skills-chain">
+  <p class="text-muted">Follow them in this order, and skip the steps a small task doesn't need.</p>
+  <div class="mt-6 flex flex-col gap-3">
+    {CHAIN_ROWS.map((row, i) => {
+      const inline = row.kind === 'option';
+      const gap = row.kind === 'satellite' && CHAIN_ROWS[i - 1]?.kind !== 'satellite' ? 'mt-4' : '';
+      const chips = row.nodes.map((node, j) => {
+        const t = chainTarget(node);
+        return (
+          <>
+            {j > 0 && <span class="text-muted" aria-hidden="true">&rarr;</span>}
+            <a class:list={['chip font-mono text-[12px] font-bold no-underline', hueClass[t.hue]]} href={`${base}/${t.slug}/#${t.anchor}`}>{t.text}</a>
+          </>
+        );
+      });
+      return (
+        <div class:list={[gap, inline ? flex : 'flex flex-col gap-2']}>
+          {inline ? <span class="text-muted text-[13px]">{row.label}</span> : <div class="text-muted text-[13px]">{row.label}</div>}
+          {inline ? chips : (
+            <div class={flex}>
+              {chips}
+              {row.tail && (
+                <span class="text-muted text-[13.5px]">{row.tail.text} <span class="font-mono">{row.tail.command}</span></span>
+              )}
+            </div>
+          )}
+        </div>
+      );
+    })}
+  </div>
+  <p class="mt-6"><a class="more-link" target="_blank" rel="noopener"
+    href="https://github.com/eai-org/agent-toolkit/tree/main#artifact-relationships">
+    See how the skills connect, on GitHub &rarr;</a></p>
+</Section>
