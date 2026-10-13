@@ -1,5 +1,5 @@
 cols: 72
-rows: 12
+rows: 13
 seed: 09-create-plan
 events:
   - input: 1234-users.REQUIREMENTS.md
@@ -12,5 +12,5 @@ events:
       - text: create a new UserExportService
   - spinner: Settling the remaining decisions…
   - output: Saved 1234-users.PLAN.md
-  - output: 'Next: /clear, then "Execute 1234-users.PLAN.md"'
+  - output: 'Next: /clear, then "Execute 1234-users.PLAN.md" or /split-plan-tasks 1234-users.PLAN.md'
     color: muted

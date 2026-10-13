@@ -46,7 +46,9 @@ const groupPages = [
       '08-fetch-ticket.cast',
       '02-refine-ticket.cast',
       '09-create-plan.cast',
+      '22-split-plan-tasks.cast',
       '10-execute-plan.cast',
+      '23-execute-plan-tasks.cast',
       '11-handover.cast',
       '12-manual-test.cast',
       '13-review-ticket.cast',
@@ -59,6 +61,8 @@ const groupPages = [
       'attach-to-ticket',
       'refine-ticket',
       'create-implementation-plan',
+      'split-plan-tasks',
+      'execute-plan-tasks',
       'handover',
       'create-manual-test-instructions',
       'review-ticket',
@@ -215,6 +219,39 @@ d.each(groupPages)('$slug page', ({ slug, title, description, pageTitle, heading
   });
 });
 
+d('task-workflow phases', () => {
+  const doc = () => read('dist/task-workflow/index.html');
+  // the phase headings and the blocks under them, in page order; every id is a jump-list target
+  const ORDER = [
+    'ticket', 'fetch-ticket', 'attach-to-ticket',
+    'refine', 'refine-ticket',
+    'plan', 'create-implementation-plan', 'split-plan-tasks',
+    'act', 'execute-the-plan', 'execute-plan-tasks',
+    'consolidate', 'fresh-eyes-review', 'handover',
+    'extra', 'create-manual-test-instructions', 'review-ticket', 'verify-understanding',
+    'check-ticket-implementation', 'grill-me', 'prepare-prompt',
+  ];
+
+  test('every phase and block has an anchor, in flow order', () => {
+    let pos = -1;
+    for (const id of ORDER) {
+      const next = doc().indexOf(`<section id="${id}"`);
+      expect(next, id).toBeGreaterThan(pos);
+      pos = next;
+    }
+  });
+
+  test('the jump list reaches every anchor', () => {
+    for (const id of ORDER) expect(doc(), id).toContain(`href="#${id}"`);
+  });
+
+  test('skill names nest under the phase headings as h3', () => {
+    expect(doc()).toMatch(/<h2[^>]*>Decide how to build it<\/h2>/);
+    expect(doc()).toMatch(/<h3[^>]*>split-plan-tasks<\/h3>/);
+    expect(doc()).not.toMatch(/<h2[^>]*>[a-z-]+<\/h2>/);
+  });
+});
+
 d('homepage', () => {
   const ORDER = [
     'Give us a star on GitHub',
@@ -316,14 +353,14 @@ d('site-wide', () => {
     for (const p of PAGES) expect(existsSync(p), p).toBe(true);
   });
 
-  test('all twenty-one casts play, each on exactly one page', () => {
+  test('all twenty-three casts play, each on exactly one page', () => {
     const seen = new Map<string, string[]>();
     for (const p of PAGES) {
       for (const m of new Set(casts(read(p)))) {
         seen.set(m, [...(seen.get(m) ?? []), p]);
       }
     }
-    expect(seen.size).toBe(21);
+    expect(seen.size).toBe(23);
     for (const [cast, pages] of seen) expect(pages, cast).toHaveLength(1);
   });
 

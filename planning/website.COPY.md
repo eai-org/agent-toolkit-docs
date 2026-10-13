@@ -131,6 +131,16 @@ Demo window (traffic-light dots, two exchanges):
   - **Act** (orange): executes the plan, writing code and running checks
   - **Consolidate** (purple): stabilizes the work: review with fresh eyes, then hand over the
     knowledge in **HANDOVER.md**
+- Jump list (2026-10-13), after the flow-strip line: muted lead `On this page`, then a row per
+  phase: the phase name as a mono uppercase link to its heading, in the stage hue (Ticket and
+  Any time muted), followed by a mono chip per block linking its anchor (`#fetch-ticket`; the
+  non-skill block is `#execute-the-plan`).
+- Phase headings (2026-10-13; kicker in the stage hue + sans h2, the skill names under them
+  demoted to h3): Ticket / Start from the ticket · Refine / Agree on what to build · Plan /
+  Decide how to build it · Act / Build it, muted line: Run the whole plan with a plain prompt,
+  or one task at a time when you split it. · Consolidate / Review and hand over · Any time /
+  Extra workflow skills, muted line: Not part of the main flow, but handy when the task calls
+  for them.
 - Demo scripts live with their block copy in §14.
 - Page `/task-workflow` — title `Task workflow · agent-toolkit`; meta description `Refine, plan,
   act, consolidate: turn a ticket into requirements, a plan, then reviewed code, with a clean
@@ -564,8 +574,8 @@ No credits section. The page ends with the feedback block, then the mono footer:
 
 Each group page opens with a big centered mono h1 title (titles below; no kicker), then the
 §5-§10 block heading demoted to h2 with its intro (/task-workflow keeps the flow strip), then
-one hairline-separated block per skill — mono skill name as h2 in the group hue,
-muted text, the demo inside the block of the skill it shows, mono link
+one hairline-separated block per skill — mono skill name as h2 in the group hue (h3 on
+/task-workflow, under its phase h2s), muted text, the demo inside the block of the skill it shows, mono link
 `Read the SKILL.md →` to the skill on GitHub (rules: `Read the rule →`) — then the approved
 page-level article link where §5-§10 defines one, then the closing "Keep going" footer: two §2b
 cards in compact form, plus an `All six groups →` link. Block copy (file names mono, bold as
@@ -625,18 +635,57 @@ demo renders muted.
     2. create a new UserExportService
 ✻ Settling the remaining decisions…
 ⏺ Saved 1234-users.PLAN.md
-⏺ Next: /clear, then "Execute 1234-users.PLAN.md"
+⏺ Next: /clear, then "Execute 1234-users.PLAN.md" or /split-plan-tasks 1234-users.PLAN.md
 ```
 
-- Execute the plan (non-skill block: neutral-foreground mono title, no GitHub link): The **Act**
-  phase needs no skill at all. Open a fresh session and ask the agent to execute the plan:
-  everything it needs is in **PLAN.md**. Ask it to run your project's checks too, so it verifies
-  its own work. Demo:
+- split-plan-tasks (added 2026-10-13): A plan that lands in one sweep is hard to review. Give
+  this skill the **PLAN.md** and it splits the steps into small tasks, each one leaving the
+  project building and its tests passing, grouped into PR-sized batches. The first batch gives
+  you something to click or run as early as the plan allows. You approve the breakdown, then it
+  appends the task list to the plan, with a done check and a suggested commit subject per task.
+  The plan's own text stays as it was. Demo:
+
+```
+> /split-plan-tasks 1234-users.PLAN.md
+✻ Reading the plan and working out the split…
+⏺ 6 steps into 4 tasks in 2 groups. Group 1 ships the export endpoint,
+  so you can call it right away
+⏺ Does the CSV format option get its own task?
+  ❯ 1. no, it lands with the export endpoint (recommended)
+    2. yes, a task of its own
+✻ Appending the task list to the plan…
+⏺ Added 4 tasks in 2 groups to 1234-users.PLAN.md
+⏺ (muted) Next: /clear, then /execute-plan-tasks 1234-users.PLAN.md
+```
+
+- Execute the plan (non-skill block: neutral-foreground mono title, no GitHub link; first
+  sentence reworded 2026-10-13): Running the whole plan needs no skill at all. Open a fresh
+  session and ask the agent to execute the plan: everything it needs is in **PLAN.md**. Ask it
+  to run your project's checks too, so it verifies its own work. Demo:
 
 ```
 > Execute 1234-users.PLAN.md, then make sure all checks pass
 ✻ Executing step 4/6: wire the export button…
 ⏺ All 6 steps done. Lint, tests and build passing.
+```
+
+- execute-plan-tasks (added 2026-10-13): Split the plan into tasks? Then run this instead, one
+  task per fresh session. It implements that task and nothing beyond it, runs the task's done
+  check and your project's checks, ticks the task off in **PLAN.md** and stops, so you review
+  and commit before the next one. A deviation from the plan it had to settle on the way goes
+  into a **DECISIONS.md** next to the plan, with its why. Every run ends with the command for
+  the next task, and tells you when a group is complete and ready to become a PR. It never
+  commits or pushes. Demo:
+
+```
+> /execute-plan-tasks 1234-users.PLAN.md
+⏺ Task 1.1: add the export endpoint. Steps 2 and 3, satisfies AC-1
+✻ Implementing the endpoint…
+✻ Running the done check, lint and tests…
+⏺ Ticked 1.1 in 1234-users.PLAN.md. Touched export.controller.ts and
+  export.service.ts
+⏺ Commit once reviewed: feat(users): add the CSV export endpoint
+⏺ (muted) Next: /clear, then /execute-plan-tasks 1234-users.PLAN.md 1.2
 ```
 
 - fresh-eyes-review cross-link on /task-workflow (pink title, no GitHub link, no demo; internal
@@ -663,8 +712,7 @@ demo renders muted.
 ⏺ Saved 1234-users.HANDOVER.md, paste-ready as your PR description
 ```
 
-- Extra workflow skills, a plain section after handover (sans-serif h2 like the page intro
-  heading, muted intro): Not part of the main flow, but handy when the task calls for them.
+- Extra workflow skills: the last phase heading (kicker `Any time`), copy in §5.
 - create-manual-test-instructions (under Extra workflow skills, "Optional last step:" prefix
   dropped): Turns a ticket or its requirements into a concise **MANUAL-TEST.md** a non-author
   can follow: what changed, how to get there, before vs after, and what to verify. Demo:

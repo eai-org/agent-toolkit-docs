@@ -1,0 +1,13 @@
+cols: 72
+rows: 12
+seed: 23-execute-plan-tasks
+events:
+  - input: 1234-users.PLAN.md
+    skill: /execute-plan-tasks
+  - output: 'Task 1.1: add the export endpoint. Steps 2 and 3, satisfies AC-1'
+  - spinner: Implementing the endpoint…
+  - spinner: Running the done check, lint and tests…
+  - output: Ticked 1.1 in 1234-users.PLAN.md. Touched export.controller.ts and export.service.ts
+  - output: 'Commit once reviewed: feat(users): add the CSV export endpoint'
+  - output: 'Next: /clear, then /execute-plan-tasks 1234-users.PLAN.md 1.2'
+    color: muted

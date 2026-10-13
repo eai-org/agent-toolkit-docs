@@ -69,6 +69,8 @@ Demos depict a Claude Code-like agent app, never a bash shell (no `$` prompts):
   anchoring to the hero install terminal from every page. No page links, nothing else, no
   hamburger, no dropdowns.
 - Motion: per DECISIONS — demo players only, plus CSS blinking cursor after the hero h1.
+- Anchors: `html { scroll-padding-top: 4rem }`, so an in-page target stops below the sticky nav
+  (2026-10-13).
 
 ## Homepage (approved skeleton; final copy in `website.COPY.md`)
 
@@ -104,7 +106,8 @@ standard shell as (expansion built 2026-08-01, block copy draft in `website.COPY
 3. Intro section, borderless: the block heading demoted to h2, intro line(s); /task-workflow
    keeps the flow strip.
 4. One hairline-separated block per skill (`SkillBlock.astro`, py-10 vs the sections' py-14):
-   mono skill name as h2 in the group hue, 1-3 muted lines, the demo inside the block of the
+   mono skill name as h2 in the group hue (h3 on /task-workflow, under its phase h2s), 1-3
+   muted lines, the demo inside the block of the
    skill it shows, mono `Read the SKILL.md →` link to GitHub (rules: `Read the rule →`), plus the
    per-block article links COPY §14 defines. No icons yet (open item).
 5. Page-level article link where the copy defines one, as a slim closing block.
@@ -112,11 +115,16 @@ standard shell as (expansion built 2026-08-01, block copy draft in `website.COPY
    2-col cards (kicker + one-line title, long titles swapped for their short stand-in), plus an
    `All six groups →` link to the homepage grid.
 
-/task-workflow deviations (RPAC revamp 2026-08-02): a five-stage flow strip (Consolidate added,
-purple); a non-skill block "Execute the plan" (neutral-foreground mono title, no GitHub link); an
+/task-workflow deviations (RPAC revamp 2026-08-02, phases 2026-10-13): a five-stage flow strip
+(Consolidate added, purple); under it a jump list (muted `On this page` lead, a row per phase:
+mono uppercase phase link in the stage hue, then `bg-panel2` bordered mono chips linking each
+block's anchor); the blocks grouped under phase headings (`PhaseHeading.astro`: kicker in the
+stage hue + sans h2, border-t py-10 like a block, `id` per phase; skill names demoted to h3,
+every `SkillBlock` carrying `id` = its slugged name, so `#fetch-ticket` works on every group
+page); a non-skill block "Execute the plan" (neutral-foreground mono title, no GitHub link); an
 internal cross-link block for fresh-eyes-review (pink title, `BASE_URL`-based link to
-`/fresh-eyes-review/`, no demo); an "Extra workflow skills" subsection (sans-serif h2 + muted
-intro, like the page intro heading).
+`/fresh-eyes-review/`, no demo); "Extra workflow skills" is the last phase heading (kicker `Any
+time`, muted).
 
 /skills-docs-authoring deviations (2026-08-02): the page-level article link renders in the intro
 as a more-link line instead of a closing block, and a compact rules subsection sits before the
@@ -154,7 +162,7 @@ Keep-going footer. Copy in COPY §15.
 
 ## Demo lineup (v1, one spec file each)
 
-The hero demo lives on the homepage, the other twenty on their group pages; scripts are written
+The hero demo lives on the homepage, the other twenty-two on their group pages; scripts are written
 out in `website.COPY.md`.
 
 1. use-conversational-language two-exchange "draft an answer" — hero.
@@ -177,7 +185,7 @@ out in `website.COPY.md`.
 8. fetch-ticket saving a ticket into a self-contained file, then the next-step hand-off —
    /task-workflow.
 9. create-implementation-plan asking where the serializer should live, then the save and the
-   next-step hand-off — /task-workflow.
+   next-step hand-off, execute or split (2026-10-13) — /task-workflow.
 10. plain-prompt plan execution running the checks (no skill invoked) — /task-workflow.
 11. handover saving a paste-ready PR description — /task-workflow.
 12. create-manual-test-instructions saving a manual test file — /task-workflow.
@@ -207,8 +215,14 @@ out in `website.COPY.md`.
     corrected from the review, and gets the open question to raise with the PO, then the
     refine-ticket hand-off (spec `21-verify-understanding`, added 2026-10-09) — /task-workflow,
     under Extra workflow skills.
+22. split-plan-tasks settling one task boundary, then appending the task list and the
+    execute-plan-tasks hand-off (spec `22-split-plan-tasks`, added 2026-10-13) — /task-workflow,
+    under Plan.
+23. execute-plan-tasks picking the first task, implementing and verifying it, ticking it off,
+    then the commit subject and the next-task hand-off (spec `23-execute-plan-tasks`, added
+    2026-10-13) — /task-workflow, under Act.
 
-The flow demos (2, 3, 8, 9) close with the skill's real hand-off suggestion, rendered muted:
+The flow demos (2, 3, 8, 9, 22, 23) close with the skill's real hand-off suggestion, rendered muted:
 `Next: /clear, then <command for the next phase>`. Demos 13, 19, 20 and 21 also close on a
 muted `Next:` line naming the next step, without the `/clear`.
 

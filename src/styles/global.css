@@ -58,3 +58,6 @@ body { @apply bg-bg text-text font-sans; }
   --term-color-background: var(--color-panel);
   --term-color-foreground: var(--color-text);
 }
+
+/* in-page anchors stop below the sticky nav instead of sliding under it */
+html { scroll-padding-top: 4rem; }

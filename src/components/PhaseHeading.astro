@@ -1,0 +1,20 @@
+---
+// a phase of the workflow: kicker in the flow strip's stage hue, sans h2, optional muted line
+interface Props {
+  id: string;
+  kicker: string;
+  color: 'muted' | 'green' | 'blue' | 'orange' | 'purple';
+  heading: string;
+}
+const { id, kicker, color, heading } = Astro.props;
+const kickerColor = {
+  muted: 'text-muted', green: 'text-green', blue: 'text-blue', orange: 'text-orange', purple: 'text-purple',
+}[color];
+---
+<section id={id} class="px-6">
+  <div class="max-w-page mx-auto border-t border-border py-10">
+    <div class:list={['kicker', kickerColor]}>{kicker}</div>
+    <h2 class="text-2xl font-bold">{heading}</h2>
+    <slot />
+  </div>
+</section>
