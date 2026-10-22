@@ -5,7 +5,7 @@ change syncs here (see AGENTS.md; process changed 2026-08-02, no approval gate s
 approval history: 2026-07-27 copy session including block order; §5-§10 page metadata
 2026-07-31; §5-§8 page URLs and titles 2026-08-01; group cards (§2b), slimmed homepage and the
 four reworked meta descriptions 2026-08-02. `website.DESIGN.md` holds layout/visuals,
-`website.DECISIONS.md` the tech and scope. The site is a homepage overview plus one page per skill group (§5-§10), an About page (§15) and the generated catalogue `/skills/` (§16). Homepage block order: §1 hero, §2 problem, §2b card grid, §2c skills chain, §3 principles, §4 philosophy,
+`website.DECISIONS.md` the tech and scope. The site is a homepage overview plus one page per skill group (§5-§10), an About page (§15) and the generated catalogue `/skills/` (§16). Homepage block order: §1 hero, §2 problem, §2b card grid, §3 principles, §4 philosophy,
 §11 rules, §12 feedback. The §5-§10 blocks and their demos live only on their group pages,
 structured per §14. Bullet items render as the deck pattern:
 **bold lead** followed by a muted detail span (no literal dash between them). Skill names in
@@ -90,25 +90,6 @@ Demo window (traffic-light dots, two exchanges):
 Under the grid (muted): Looking for one skill by name? [Every skill and rule →](`/skills/`)
 
 The card count is derived from the page's `skills` and `rules` arrays in `src/data/groups.ts` as "N skills + M rules" (singular for one, the rules part only when the page has rules).
-
-## 2c. How they fit together (purple)
-
-- Kicker: How they fit together
-- Heading: One routine, from ticket to pull request
-- Muted intro: Follow them in this order, and skip the steps a small task doesn't need.
-- Chips are mono, in the group hue ("Execute the plan" in the text colour), joined by muted →
-  arrows; each is a same-tab link to its block, `/<slug>/#<name>` ("Execute the plan" to
-  `/task-workflow/#act`). Rows:
-  - A task, start to finish: `/fetch-ticket` → `/refine-ticket` → `/create-implementation-plan` →
-    Execute the plan → `/self-review` → `/handover`
-  - Optional check: `/harden-artifact`
-  - Task by task: `/split-plan-tasks` → `/execute-plan-tasks`
-  - Before you pick the ticket up: `/review-ticket` → `/verify-understanding`, then muted, unlinked
-    "then `/refine-ticket`"
-  - When the review comes back: `/fetch-pr-review` → `/refine-pr-review`, then muted, unlinked
-    "then apply the changes, or plan them first with `/create-implementation-plan`"
-- Mono link, new tab: See how the skills connect, on GitHub →
-  (`https://github.com/eai-org/agent-toolkit/tree/main#artifact-relationships`)
 
 ## 3. Principles (green)
 
@@ -675,7 +656,6 @@ only; do not reword it without asking.
   your agent talk to you in your own language, while everything it writes into the project
   stays in English. Link (`target="_blank"`): [Get the use-my-mothertongue rule →](https://github.com/eai-org/agent-toolkit/blob/main/docs/use-my-mothertongue-rule.md)
 - Footer link (same tab): [Check the full list of available rules →](`/skills/#rules`)
-- Second footer link, on its own line (`target="_blank"`, added 2026-10-10): [Install skills and rules together with agentwheel →](https://github.com/eai-org/agent-toolkit/blob/main/docs/install-with-agentwheel.md)
 
 ## 12. Share your feedback (green, centered)
 

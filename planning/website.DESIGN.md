@@ -20,9 +20,7 @@ dense skeleton ("too chaotic — humans are lazy, we need simple, quick, effecti
 - Tokens: colors, `--radius`, spacing per DECISIONS/reference HTML. Font stacks per DECISIONS
   (modern system stacks; mono for display/kickers/terminals/links-as-commands, sans for body).
 - Deck component inventory, reused as-is: kicker (mono, uppercase, tracked, accent-colored), h2,
-  bullet list with `b` + muted detail span, chip (the homepage skills chain reuses it as a link, on
-  `bg-panel` in the light theme so the hue text passes WCAG AA, dark theme unchanged; quiet hover:
-  `a.chip:hover` turns the border muted, no transition; non-link chips unchanged), panel, quote-in-panel, terminal window with
+  bullet list with `b` + muted detail span, chip, panel, quote-in-panel, terminal window with
   traffic-light dots, RPA flow strip.
 - Hue per group, reusing the deck's five accents: workflow green, reviews orange, fresh-eyes
   pink, talking to humans blue, hygiene blue, authoring purple, rules pink. Green doubles as the
@@ -89,18 +87,12 @@ their demos live on the group pages. Block order:
 2. The problem (pink): "Different projects, same repetitive tasks", 3 bullets, quote panel.
 3. What's inside (blue, anchor `#whats-inside`): "Several groups of skills", six group cards in
    a 2-col grid, each linking its group page (copy in `website.COPY.md` §2b), then a muted "Looking for one skill by name?" line with an `Every skill and rule →` link to `/skills/`.
-4. How they fit together (purple, anchor `#skills-chain`): "One routine, from ticket to pull
-   request", muted intro, the main lane with its label above, two option rows with inline labels,
-   two satellite rows with labels above and muted unlinked tails; linked mono chips in the group
-   hue joined by muted → text arrows, rows wrap on phones; a mono new-tab link to the README
-   relationship graph. No demo, no grid, no SVG, no JS (copy in `website.COPY.md` §2c).
-5. Principles (green): six panes in a 2-col grid, three inline Medium links, no footer link.
-6. Philosophy (green): "A toolkit, not a framework", comparison panels, no quote.
-7. Opinionated rules (pink, short: no heading, no demo, a muted use-my-mothertongue line with
-   its GitHub link after the bullets, footer link to `/skills/#rules`, same tab, then a second footer link on its own line to the
-   agentwheel install doc on GitHub, new tab).
-8. Share your feedback (green, centered): kicker + one line + "Open an issue →" (GitHub issues).
-9. Mono footer (`agent-toolkit · MIT`). No standalone install section (hero covers it, nav
+4. Principles (green): six panes in a 2-col grid, three inline Medium links, no footer link.
+5. Philosophy (green): "A toolkit, not a framework", comparison panels, no quote.
+6. Opinionated rules (pink, short: no heading, no demo, a muted use-my-mothertongue line with
+   its GitHub link after the bullets, footer link to `/skills/#rules`, same tab).
+7. Share your feedback (green, centered): kicker + one line + "Open an issue →" (GitHub issues).
+8. Mono footer (`agent-toolkit · MIT`). No standalone install section (hero covers it, nav
    install button anchors to the hero terminal) and no credits section.
 
 Demo players below the hero lazy-load (Lighthouse 95+ budget).

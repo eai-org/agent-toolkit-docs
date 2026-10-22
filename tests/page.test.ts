@@ -1,7 +1,6 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { describe, expect, test } from 'vitest';
 import { CATALOGUE_DESCRIPTION, SNIPPET, catalogueLine } from '../src/data/catalogue';
-import { CHAIN_ROWS, chainTarget } from '../src/data/chain';
 import { GROUPS, siblingsOf } from '../src/data/groups';
 import { GITHUB_BLOB, readToolkit } from '../src/lib/toolkit';
 
@@ -281,7 +280,6 @@ d('homepage', () => {
     'Give us a star on GitHub',
     'Different projects, same repetitive tasks',
     'Several groups of skills',
-    'One routine, from ticket to pull request',
     'Core ideas behind every skill',
     'A toolkit, not a framework',
     'Opinionated rules',
@@ -299,46 +297,6 @@ d('homepage', () => {
       expect(next, s).toBeGreaterThan(pos);
       pos = next;
     }
-  });
-
-  test('skills chain chips link to a block that exists', () => {
-    const html = read('dist/index.html');
-    for (const row of CHAIN_ROWS) {
-      for (const node of row.nodes) {
-        const t = chainTarget(node);
-        expect(html, t.text).toContain(`href="${baseFrom()}/${t.slug}/#${t.anchor}"`);
-        expect(read(`dist/${t.slug}/index.html`), t.text).toContain(`id="${t.anchor}"`);
-      }
-    }
-  });
-
-  test('skills chain section carries its copy and nothing else', () => {
-    const full = read('dist/index.html');
-    const start = full.indexOf('id="skills-chain"');
-    const html = full.slice(start, full.indexOf('Core ideas behind every skill')).replace(/\s+/g, ' ');
-    expect(html).toContain('class="kicker text-purple">How they fit together<');
-    expect(html).toContain("Follow them in this order, and skip the steps a small task doesn't need.");
-    for (const row of CHAIN_ROWS) {
-      expect(html, row.label).toContain(row.label);
-      if (row.tail) {
-        expect(html, row.tail.text).toContain(row.tail.text);
-        expect(html, row.tail.command).toContain(row.tail.command);
-      }
-    }
-    expect(html).toContain('href="https://github.com/eai-org/agent-toolkit/tree/main#artifact-relationships"');
-    expect(html).toContain('target="_blank" rel="noopener"');
-    expect(html).toContain('See how the skills connect, on GitHub &rarr;');
-
-    let pos = -1;
-    const nodes = CHAIN_ROWS.flatMap((r) => r.nodes);
-    for (const node of nodes) {
-      const t = chainTarget(node);
-      const next = html.indexOf(`href="${baseFrom()}/${t.slug}/#${t.anchor}"`);
-      expect(next, t.text).toBeGreaterThan(pos);
-      pos = next;
-    }
-    expect(html.match(/class="chip/g)?.length).toBe(nodes.length);
-    expect(html).not.toMatch(/<svg|<script|class="[^"]*\b(stage|grid)\b/);
   });
 
   test('carries exactly one demo, the hero', () => {
@@ -409,13 +367,6 @@ d('homepage', () => {
     expect(hero).not.toContain('Other ways to install &rarr;');
     expect(hero).not.toContain('Other ways to install →');
     expect(hero).not.toContain('target=');
-  });
-
-  test('the rules block links agentwheel', () => {
-    const tag = read('dist/index.html').match(/<a [^>]*>\s*Install skills and rules together with agentwheel/);
-    expect(tag).not.toBeNull();
-    expect(tag![0]).toContain(`href="${AGENTWHEEL_DOC}"`);
-    expect(tag![0]).toContain('target="_blank"');
   });
 
   test('no em dashes left on the homepage', () => {
@@ -666,13 +617,4 @@ d('catalogue page', () => {
     }
     expect(doc()).toContain(escape(SNIPPET.line));
   });
-});
-
-describe('skills chain data', () => {
-  test.each(CHAIN_ROWS.flatMap((r) => r.nodes).filter((n): n is string => typeof n === 'string'))(
-    '%s sits in exactly one group',
-    (name) => {
-      expect(GROUPS.filter((g) => g.skills.includes(name)).length, name).toBe(1);
-    },
-  );
 });

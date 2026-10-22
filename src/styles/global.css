@@ -40,8 +40,6 @@ body { @apply bg-bg text-text font-sans; }
 .more-link { @apply font-mono text-[13px] text-blue no-underline hover:underline; }
 
 .chip { @apply bg-panel2 border border-border rounded-md px-2.5 py-0.5; }
-#skills-chain .chip { background-color: light-dark(var(--color-panel), var(--color-panel2)); }
-a.chip:hover { @apply border-muted; }
 .cursor { @apply inline-block w-[10px] h-[1em] bg-green align-middle ml-1.5 animate-blink; }
 @keyframes blink { 50% { opacity: 0; } }
 @utility animate-blink { animation: blink 1.1s steps(1) infinite; }

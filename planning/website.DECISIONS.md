@@ -24,7 +24,7 @@ replicates that: short texts, icons, animated terminal demos. Never long prose.
 ## Site structure
 
 Scope update (2026-07-31, final shape after the 2026-08-02 merge): a homepage overview (hero,
-problem, six-card group grid, skills chain, principles, philosophy, rules, feedback) routes into six group
+problem, six-card group grid, principles, philosophy, rules, feedback) routes into six group
 pages — `/task-workflow`, `/pr-review-assistants`, `/fresh-eyes-review`, `/context-hygiene`,
 `/skills-docs-authoring`, `/talking-to-humans` — which carry the per-skill blocks and
 demos (template in `website.DESIGN.md`, copy in `website.COPY.md` §14) and end with a
@@ -38,7 +38,7 @@ reviewing a PR. The catalogue shipped at `/skills/` (2026-10-10); `/rules` and `
 for that expansion. Approved block order and copy: `website.COPY.md`; skeleton:
 `website.DESIGN.md`.
 
-2026-10-10: the homepage skills chain is curated and hand-maintained in `src/data/chain.ts`; its skill chips take page and hue from the `skills` arrays in `src/data/groups.ts`. It is not generated: the toolkit's `openpack.json` carries dependencies, not sequence, and the README relationship graph (34 nodes) is hand-maintained and too large for the homepage, so the section links to it instead.
+2026-10-22: the homepage skills chain ("How they fit together", added 2026-10-10) was removed as too chaotic for the homepage; the sequence lives on `/task-workflow` and in the README relationship graph.
 
 2026-08-03: `/about` added alongside the group pages, linked from the nav on every page. It
 introduces Engineering in the Age of AI (the community behind the toolkit), links its Medium
