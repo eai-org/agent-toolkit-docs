@@ -51,7 +51,9 @@ body { @apply bg-bg text-text font-sans; }
 .stage { @apply flex flex-col bg-panel border-[1.5px] rounded-card px-3 py-2 text-[13px]; }
 .stage > span { @apply text-muted text-[12px] leading-snug mt-1; }
 .stage .file { @apply font-mono text-[11px]; }
-.arrow { @apply text-muted self-center text-sm max-md:hidden; }
+/* unlayered like .stage, a hover: utility would lose to it */
+a.stage:hover { @apply bg-panel2; }
+.arrow { @apply text-muted self-center text-sm max-lg:hidden; }
 
 /* double class beats the player's own .ap-player default, whatever the load order */
 .ap-player.asciinema-player-theme-agent-toolkit {

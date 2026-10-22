@@ -1,0 +1,21 @@
+cols: 72
+rows: 21
+seed: 24-harden-artifact
+events:
+  - input: 1234-users.PLAN.md
+    skill: /harden-artifact
+  - spinner: Reviewing the plan in a clean context against ticket and code…
+  - output: '2 findings. Challenged them: 1 disproved, 1 proven.'
+  - output: 'No step excludes deleted users, which the requirements demand (1234-users.REQUIREMENTS.md:41 "deleted users are excluded")'
+  - options:
+      - text: Fix it in the plan
+        recommended: true
+      - text: Dismiss
+      - text: Defer
+  - input: '1'
+  - spinner: 'Round 2: a new reviewer on the fixed plan…'
+  - output: 'No new findings. Ready for the next phase, in a fresh session:'
+  - output: 'claude --name execute-plan-1234-users "Execute the plan 1234-users.PLAN.md"'
+    color: muted
+  - output: 'claude --name split-plan-tasks-1234-users "/split-plan-tasks 1234-users.PLAN.md"'
+    color: muted

@@ -12,13 +12,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const PHASES = [
   { id: 'ticket', label: 'Ticket', hue: 'text-muted', blocks: ['fetch-ticket', 'attach-to-ticket'] },
   { id: 'refine', label: 'Refine', hue: 'text-green', blocks: ['refine-ticket'] },
-  { id: 'plan', label: 'Plan', hue: 'text-blue', blocks: ['create-implementation-plan', 'split-plan-tasks'] },
+  { id: 'plan', label: 'Plan', hue: 'text-blue', blocks: ['create-implementation-plan', 'harden-artifact', 'split-plan-tasks'] },
   { id: 'act', label: 'Act', hue: 'text-orange', blocks: ['Execute the plan', 'execute-plan-tasks'] },
   { id: 'consolidate', label: 'Consolidate', hue: 'text-purple', blocks: ['fresh-eyes-review', 'handover'] },
   {
     id: 'extra', label: 'Any time', hue: 'text-muted',
     blocks: ['create-manual-test-instructions', 'review-ticket', 'verify-understanding',
-      'check-ticket-implementation', 'grill-me', 'prepare-prompt'],
+      'check-ticket-implementation', 'grill-me', 'prepare-prompt', 'plans-directory'],
   },
 ];
 ---
@@ -102,6 +102,20 @@ const PHASES = [
       by step.
     </p>
     <DemoPlayer cast="09-create-plan" cols={72} rows={13} label="create-implementation-plan asking where the serializer should live" />
+  </SkillBlock>
+  <SkillBlock name="harden-artifact" color="green" level={3}
+    link={`${base}/fresh-eyes-review/`} linkLabel="How the fresh eyes review works">
+    <p class="text-muted mb-4">
+      An optional check between a document and the phase that builds on it. Run it on a
+      <b class="sk">REQUIREMENTS.md</b> or a <b class="sk">PLAN.md</b> in a fresh session, not
+      the one that wrote it: a sub-agent with a clean context checks it against the ticket, the
+      code and the related tickets, and your session tries to disprove each finding. You decide
+      the ones that survive, one at a time, each with a recommendation: fix, dismiss or defer.
+      When the document is ready, you get the commands that start the next phase.
+      <b class="sk">/refine-ticket</b> and <b class="sk">/create-implementation-plan</b> both
+      offer it when they finish.
+    </p>
+    <DemoPlayer cast="24-harden-artifact" cols={72} rows={21} label="harden-artifact fixing a proven gap in the plan, then handing off the next phase" />
   </SkillBlock>
   <SkillBlock name="split-plan-tasks" color="green" level={3}>
     <p class="text-muted mb-4">
@@ -238,6 +252,21 @@ const PHASES = [
       find on its own, points at files instead of pasting them, and checks every path and command
       it prints. Asking a new session to check the work? It leaves out its own conclusions, so
       they can't steer the check.
+    </p>
+  </SkillBlock>
+  <SkillBlock name="plans-directory" color="green" rule level={3}>
+    <p class="text-muted">
+      Opt-in rule for where planning documents go: one folder per task in the project's planning
+      directory, with file names that say what each file is. The default is
+      <b class="sk">.agents/plans/</b>, so every planning file the demos on this page save, like
+      <b class="sk">1234-users.TICKET.md</b> or <b class="sk">1234-users.HANDOVER.md</b>, lands in
+      <b class="sk">.agents/plans/1234-users/</b>. Most skills on this page already save their
+      files this way, and with the rule installed, <b class="sk">/fetch-ticket</b> no longer has
+      to ask you where your plans live. The agent also follows it for any other planning document
+      it writes, like a design note or an investigation. If your project already has a planning
+      directory of its own, that one wins.
+      <code class="font-mono text-[12px] bg-panel2 border border-border rounded px-1.5 whitespace-nowrap">./install-opinionated-rules.sh</code>
+      installs it along with all the other rules, or you can pick only the ones you want.
     </p>
   </SkillBlock>
   <section class="px-6">
