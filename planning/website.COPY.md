@@ -931,8 +931,16 @@ demo renders muted.
   the prompt to paste there. It keeps only what the next session can't find on its own, points
   at files instead of pasting them, and checks every path and command it prints. Asking a new
   session to check the work? It leaves out its own conclusions, so they can't steer the check.
+- ensure-self-contained-doc (under Extra workflow skills, after prepare-prompt, added
+  2026-11-23, no demo): Wrote a **REQUIREMENTS.md**, a **PLAN.md**, a brief or a saved prompt
+  for a fresh session? Before you close the session that wrote it, run
+  **/ensure-self-contained-doc** (mono) on it. A sub-agent with a clean context plans the work
+  from the document alone, without the ticket or notes it was written from, and reports what it
+  had to ask or guess. Your session still knows the answers, so it fills in only what the next
+  session needs and asks you the rest, one question at a time. It never checks whether the
+  document is right: that's **/harden-artifact** (mono), in a fresh session.
 - **plans-directory** (rule, added 2026-10-10, no demo), the last block on the page, after
-  prepare-prompt and before the page-level article link: Opt-in rule for where planning
+  ensure-self-contained-doc and before the page-level article link: Opt-in rule for where planning
   documents go: one folder per task in the project's planning directory, with file names that
   say what each file is. The default is **.agents/plans/** (mono), so every planning file the
   demos on this page save, like **1234-users.TICKET.md** (mono) or **1234-users.HANDOVER.md**
@@ -1005,6 +1013,7 @@ Skill lines:
 | context-checkup | audits what auto-loads into a session before you type and suggests what to trim |
 | create-implementation-plan | defines the HOW: settles the technical decisions with you and writes a PLAN.md a fresh session can execute |
 | create-manual-test-instructions | turns a ticket or its requirements into a MANUAL-TEST.md a non-author can follow |
+| ensure-self-contained-doc | makes sure a document you wrote for a fresh session stands on its own: a sub-agent with a clean context plans the work from it, and the session that wrote it fills the gaps it reports |
 | execute-plan-tasks | runs one task of the PLAN.md checklist, then stops: it implements the task, runs your project's checks and ticks it off, so you review every task before the next one starts |
 | explain-in-simple-language | rewords answers, recaps and questions to you, and documents a teammate reads, so they are understood on the first read |
 | fetch-pr-review | collects the comments reviewers left on your PR into a PR-REVIEW.md, ready to address or push back on |

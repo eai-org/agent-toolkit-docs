@@ -252,7 +252,7 @@ d('task-workflow phases', () => {
     'act', 'execute-the-plan', 'execute-plan-tasks',
     'consolidate', 'fresh-eyes-review', 'handover',
     'extra', 'create-manual-test-instructions', 'review-ticket', 'verify-understanding',
-    'check-ticket-implementation', 'grill-me', 'prepare-prompt', 'plans-directory',
+    'check-ticket-implementation', 'grill-me', 'prepare-prompt', 'ensure-self-contained-doc', 'plans-directory',
   ];
 
   test('every phase and block has an anchor, in flow order', () => {

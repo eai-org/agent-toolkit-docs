@@ -50,6 +50,10 @@ export const CATALOGUE_LINES: Record<string, CatalogueLine> = {
     line: 'turns a ticket or its requirements into a MANUAL-TEST.md a non-author can follow',
     desc: '569b8173',
   },
+  'ensure-self-contained-doc': {
+    line: 'makes sure a document you wrote for a fresh session stands on its own: a sub-agent with a clean context plans the work from it, and the session that wrote it fills the gaps it reports',
+    desc: '75378cf1',
+  },
   'execute-plan-tasks': {
     line: "runs one task of the PLAN.md checklist, then stops: it implements the task, runs your project's checks and ticks it off, so you review every task before the next one starts",
     desc: '366af407',

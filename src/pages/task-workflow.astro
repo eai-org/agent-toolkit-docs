@@ -18,7 +18,7 @@ const PHASES = [
   {
     id: 'extra', label: 'Any time', hue: 'text-muted',
     blocks: ['create-manual-test-instructions', 'review-ticket', 'verify-understanding',
-      'check-ticket-implementation', 'grill-me', 'prepare-prompt', 'plans-directory'],
+      'check-ticket-implementation', 'grill-me', 'prepare-prompt', 'ensure-self-contained-doc', 'plans-directory'],
   },
 ];
 ---
@@ -252,6 +252,18 @@ const PHASES = [
       find on its own, points at files instead of pasting them, and checks every path and command
       it prints. Asking a new session to check the work? It leaves out its own conclusions, so
       they can't steer the check.
+    </p>
+  </SkillBlock>
+  <SkillBlock name="ensure-self-contained-doc" color="green" level={3}>
+    <p class="text-muted">
+      Wrote a <b class="sk">REQUIREMENTS.md</b>, a <b class="sk">PLAN.md</b>, a brief or a saved
+      prompt for a fresh session? Before you close the session that wrote it, run
+      <b class="sk">/ensure-self-contained-doc</b> on it. A sub-agent with a clean context plans
+      the work from the document alone, without the ticket or notes it was written from, and
+      reports what it had to ask or guess. Your session still knows the answers, so it fills in
+      only what the next session needs and asks you the rest, one question at a time. It never
+      checks whether the document is right: that's <b class="sk">/harden-artifact</b>, in a fresh
+      session.
     </p>
   </SkillBlock>
   <SkillBlock name="plans-directory" color="green" rule level={3}>

@@ -45,6 +45,7 @@ const ENTRIES: Omit<Group, 'count'>[] = [
       'check-ticket-implementation',
       'grill-me',
       'prepare-prompt',
+      'ensure-self-contained-doc',
     ],
     rules: ['plans-directory'],
   },
